@@ -1,0 +1,5 @@
+build/
+build_route.log
+fp-info-cache
+*-backups/
+*.kicad_prl

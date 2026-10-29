@@ -1,0 +1,10 @@
+# cargo-embed / probe-rs config. See:
+# https://github.com/probe-rs/probe-rs/blob/master/probe-rs-tools/src/bin/probe-rs/cmd/cargo_embed/config/default.toml
+[default.probe]
+protocol = "Jtag"
+
+[default.general]
+chip = "esp32c6"
+
+[default.rtt]
+enabled = true

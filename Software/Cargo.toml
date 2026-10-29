@@ -1,0 +1,71 @@
+[package]
+name = "compressor-controller"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+
+[[bin]]
+name = "compressor-controller"
+path = "src/main.rs"
+
+[[bin]]
+name = "modbus-diag"
+path = "src/bin/modbus_diag.rs"
+
+[[bin]]
+name = "vfd-run-test"
+path = "src/bin/vfd_run_test.rs"
+
+[dependencies]
+# HAL for the target chip. "unstable" is required for peripheral APIs (ADC,
+# UART, RMT) this project needs that haven't been through the 1.0 stability
+# gate yet. Pinned to ~1.0 (not 1.1) because esp-hal-smartled 0.17 (below)
+# hasn't been bumped past esp-hal ~1.0 yet — bump both together once it is.
+esp-hal = { version = "~1.0", features = ["esp32c6", "unstable", "log-04"] }
+
+# Task scheduler / RTOS layer. Runs the Embassy executor on top of esp-hal's
+# timer + software-interrupt primitives — this is what makes `main` async
+# and lets embassy-executor preempt-free cooperatively schedule tasks
+# (sensor poll, Modbus comms, state machine tick, etc) the way an RTOS would.
+esp-rtos = { version = "0.2", features = ["embassy", "esp32c6", "log-04"] }
+
+embassy-executor = "0.9"
+embassy-time = { version = "0.5", features = ["log"] }
+embassy-sync = "0.7"
+embassy-futures = "0.1"
+static_cell = "2.1"
+libm = "0.2"
+nb = "1"
+embedded-io-async = "0.7"
+
+# Persistent starts/runtime counters — raw reads/writes into the default
+# NVS data partition (found via esp-bootloader-esp-idf's partition table,
+# no custom partitions.csv needed). See CLAUDE.md "Persistence".
+esp-storage = { version = "0.8", features = ["esp32c6"] }
+embedded-storage = "0.3.1"
+
+# Onboard WS2812 RGB LED on GPIO8 (ESP32-C6-DevKitC-1 / DevKitM-1) — used
+# for the blinky smoke test, not part of the compressor control path.
+esp-hal-smartled = { version = "0.17", features = ["esp32c6"] }
+smart-leds = "0.4"
+
+# App image descriptor required by the 2nd-stage bootloader on current
+# esp-hal/esp-bootloader-esp-idf releases.
+esp-bootloader-esp-idf = { version = "0.4", features = ["esp32c6"] }
+
+log = "0.4"
+esp-println = { version = "0.16", features = ["esp32c6", "log-04"] }
+esp-backtrace = { version = "0.18", features = [
+    "esp32c6",
+    "panic-handler",
+    "println",
+] }
+
+[profile.release]
+codegen-units = 1
+opt-level     = "s"
+lto           = "fat"
+debug         = 2
+
+[profile.dev]
+opt-level = "s"

@@ -1,0 +1,3 @@
+# Runtime/user configuration — env vars consumed at build time.
+[env]
+ESP_LOG = "info"

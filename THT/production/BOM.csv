@@ -1,0 +1,39 @@
+Qty,References,Value,Footprint
+1,C1,220uF 50V,CP_Radial_D10.0mm_P5.00mm
+1,C2,100nF 50V,C_Disc_D5.0mm_W2.5mm_P5.00mm
+1,C3,220uF 25V low-ESR,CP_Radial_D8.0mm_P3.50mm
+6,C4 C20 C30 C31 C32 C40,100nF,C_Disc_D5.0mm_W2.5mm_P5.00mm
+2,D1 D2,1N5822,D_DO-201AD_P15.24mm_Horizontal
+3,D3 D4 D5,1N5819,D_DO-41_SOD81_P10.16mm_Horizontal
+1,D20,BAT85,D_DO-35_SOD27_P7.62mm_Horizontal
+1,F1,2A slow 5x20,Fuseholder_Clip-5x20mm_Littelfuse_100_Inline_P20.50x4.60mm_D1.30mm_Horizontal
+1,J1,24V IN,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J2,VALVE1,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J3,VALVE2,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J4,PRESSURE,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J5,NTC1,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J6,NTC2,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J7,NTC3,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+1,J8,RS485,"TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal"
+1,J9,NEXTION,PinHeader_1x04_P2.54mm_Vertical
+1,J11,TEST,PinHeader_1x03_P2.54mm_Vertical
+1,JP1,TERM,PinHeader_1x02_P2.54mm_Vertical
+1,L1,33uH 3A,L_Radial_D12.0mm_P5.00mm_Fastron_11P
+1,LED1,green 3mm,LED_D3.0mm
+2,LED2 LED3,red 3mm,LED_D3.0mm
+2,Q1 Q2,IRLZ34N,TO-220-3_Vertical
+5,R1 R21 R33 R34 R35,1k,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2,R10 R11,100R,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2,R12 R13,100k,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2,R14 R15,4k7,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+1,R20,100R 1%,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+3,R30 R31 R32,10k 1%,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+1,R40,120R,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+1,R42,10k,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+1,U1,ESP32-C6-DevKitC-1,ESP32-C6-DevKitC-1
+1,U2,LM2596T-5.0,TO-220-5_P3.4x3.7mm_StaggerOdd_Lead3.8mm_Vertical
+1,U3,MAX3485CPA,DIP-8_W7.62mm_Socket
+2,U1 (socket),1x16 female header 2.54mm,for the DevKit
+1,U3 (socket),DIP-8 IC socket,for the MAX3485
+1,JP1 (jumper),2.54mm jumper cap,fit = 120R termination on
+1,F1 (fuse),2A slow-blow 5x20mm glass fuse,goes in F1's clips

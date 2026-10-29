@@ -1,0 +1,19 @@
+# Keep compilation settings here; user/runtime env vars in esp-config.toml.
+include = ["esp-config.toml"]
+
+[target.riscv32imac-unknown-none-elf]
+# probe-rs flashes + opens an RTT session in one go. Swap for
+# `espflash flash --monitor --chip esp32c6` if no debug probe is attached
+# and you're flashing over the C6's built-in USB-JTAG/Serial in bootloader
+# mode instead.
+runner = "probe-rs run --chip=esp32c6 --preverify --always-print-stacktrace --no-location"
+
+[build]
+rustflags = [
+    # Required to get usable backtraces out of esp-backtrace on RISC-V.
+    "-C", "force-frame-pointers",
+]
+target = "riscv32imac-unknown-none-elf"
+
+[unstable]
+build-std = ["core"]
