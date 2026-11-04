@@ -219,8 +219,10 @@ pub async fn link_task(uart: Uart<'static, Async>) {
             && dirty
             && let Some(state) = &ui
         {
+            renderer.incomplete = false;
             renderer.render(&mut link, state).await;
-            dirty = false;
+            // Anything the display didn't acknowledge goes again next pass.
+            dirty = renderer.incomplete;
         }
 
         Timer::after_millis(POLL_MS).await;
@@ -299,8 +301,8 @@ impl Parser {
     }
 }
 
-/// What a Nextion return code means, for the log. Codes only come back for
-/// failures at the `bkcmd=2` level set in `Link::init`.
+/// What a Nextion return code means, for the log. Codes come back for
+/// every command at the `bkcmd=3` level set in `Link::init` (0x01 = ok).
 fn code_meaning(code: u8) -> &'static str {
     match code {
         0x00 => "invalid instruction",
@@ -405,6 +407,7 @@ impl Link {
                 log::warn!("nextion: display went to sleep, waking it");
                 self.rebooted = true;
             }
+            Frame::Code(0x01) => {}
             Frame::Code(code) => {
                 log::warn!("nextion: return code {code:#04x} ({})", code_meaning(code))
             }
@@ -446,10 +449,37 @@ impl Link {
         ok
     }
 
+    /// Handles everything already received, so a stale return code can't
+    /// be taken for the answer to the next command.
+    fn drain(&mut self) {
+        while let Some(frame) = self.next_frame() {
+            self.dispatch(frame);
+        }
+    }
+
+    /// Sends a command and waits for the display's return code (bkcmd=3).
+    async fn send_acked(&mut self, cmd: &[u8]) -> bool {
+        self.drain();
+        if !self.send(cmd).await {
+            return false;
+        }
+        match self.await_frame(|f| matches!(f, Frame::Code(_))).await {
+            Some(Frame::Code(0x01)) => true,
+            Some(Frame::Code(_)) => {
+                // dispatch already logged the code itself
+                log::warn!("nextion: rejected: {}", core::str::from_utf8(cmd).unwrap_or("<bin>"));
+                false
+            }
+            _ => {
+                log::warn!("nextion: no ack for: {}", core::str::from_utf8(cmd).unwrap_or("<bin>"));
+                false
+            }
+        }
+    }
+
     /// Is the display answering at the fast baud? Returns its current page.
-    /// The leading terminator discards any half-received command first.
     async fn probe(&mut self) -> Option<u8> {
-        self.send(b"").await;
+        self.drain();
         self.send(b"sendme").await;
         match self.await_frame(|f| matches!(f, Frame::Page(_))).await {
             Some(Frame::Page(page)) => Some(page),
@@ -468,7 +498,6 @@ impl Link {
             Timer::after_millis(5).await;
         }
         self.set_baud(config::NEXTION_BAUD_RATE);
-        while self.next_frame().is_some() {}
     }
 
     /// Asks for the page number at every baud the display supports, boot
@@ -514,7 +543,11 @@ impl Link {
     async fn init(&mut self) {
         self.send(b"").await;
         self.send(b"sleep=0").await;
-        self.send(b"bkcmd=2").await;
+        // Every command is acknowledged from here on: the renderer only
+        // counts a field as shown once the display has said 0x01.
+        self.send(b"bkcmd=3").await;
+        Timer::after_millis(50).await;
+        self.drain();
 
         for (i, name) in BUTTONS.iter().enumerate() {
             let mut cmd = CmdBuf::<32>::new();
@@ -618,8 +651,11 @@ enum Slot {
 const SLOTS: usize = Slot::RunPco2 as usize + 1;
 
 struct Renderer {
-    /// FNV-1a hash of the command last sent per slot; 0 = unknown, send.
+    /// FNV-1a hash of the command last acknowledged per slot; 0 = unknown,
+    /// send.
     sent: [u32; SLOTS],
+    /// Set when a command in the last render wasn't acknowledged.
+    incomplete: bool,
 }
 
 fn fnv1a(bytes: &[u8]) -> u32 {
@@ -632,7 +668,10 @@ fn scaled(value: f32, scale: f32) -> i32 {
 
 impl Renderer {
     fn new() -> Self {
-        Self { sent: [0; SLOTS] }
+        Self {
+            sent: [0; SLOTS],
+            incomplete: false,
+        }
     }
 
     fn invalidate(&mut self) {
@@ -649,7 +688,12 @@ impl Renderer {
         if self.sent[slot as usize] == hash {
             return;
         }
-        self.sent[slot as usize] = if link.send(buf.as_bytes()).await { hash } else { 0 };
+        if link.send_acked(buf.as_bytes()).await {
+            self.sent[slot as usize] = hash;
+        } else {
+            self.sent[slot as usize] = 0;
+            self.incomplete = true;
+        }
     }
 
     async fn render(&mut self, link: &mut Link, s: &UiState) {
@@ -693,20 +737,49 @@ impl Renderer {
         self.emit(link, Slot::StatusPco, format_args!("tStatus.pco={pco}")).await;
 
         // bco2/pco2 are the pressed-state colors.
-        let (txt, bco, bco2, pco) = if s.state == State::Fault {
-            ("RESET", AMBER, AMBER_DARK, BLACK)
-        } else if s.enabled {
-            ("STOP", RED, RED_DARK, WHITE)
-        } else if s.state == State::Stopping {
-            ("STOPPING", GREY, GREY_DARK, WHITE)
-        } else {
-            ("START", GREEN_DARK, GREEN_DARKER, WHITE)
+        let (txt, bco, bco2, pco) = match phase(s) {
+            Phase::Fault => ("RESET", AMBER, AMBER_DARK, BLACK),
+            Phase::Stopping => ("STOPPING", GREY, GREY_DARK, WHITE),
+            Phase::Stopped => ("START", GREEN_DARK, GREEN_DARKER, WHITE),
+            Phase::Standby | Phase::Starting | Phase::Running | Phase::LowDemand => {
+                ("STOP", RED, RED_DARK, WHITE)
+            }
         };
         self.emit(link, Slot::RunTxt, format_args!("bRunState.txt=\"{txt}\"")).await;
         self.emit(link, Slot::RunBco, format_args!("bRunState.bco={bco}")).await;
         self.emit(link, Slot::RunBco2, format_args!("bRunState.bco2={bco2}")).await;
         self.emit(link, Slot::RunPco, format_args!("bRunState.pco={pco}")).await;
         self.emit(link, Slot::RunPco2, format_args!("bRunState.pco2={pco}")).await;
+    }
+}
+
+/// What the operator sees the machine doing. bRunState and tStatus are both
+/// derived from this one value, so they can never disagree — in particular
+/// a STOP press shows as Stopping straight away, before the control loop's
+/// next tick has moved `state` on.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Phase {
+    Fault,
+    Stopped,
+    /// Run requested, waiting for pressure to fall to the restart point.
+    Standby,
+    Starting,
+    Running,
+    LowDemand,
+    Stopping,
+}
+
+fn phase(s: &UiState) -> Phase {
+    match (s.state, s.enabled) {
+        _ if s.fault.is_some() => Phase::Fault,
+        (State::Fault, _) => Phase::Fault,
+        (State::Stopping, _) => Phase::Stopping,
+        (State::Unloading | State::Running | State::UnloadIdle, false) => Phase::Stopping,
+        (State::Idle, false) => Phase::Stopped,
+        (State::Idle, true) => Phase::Standby,
+        (State::Unloading, true) => Phase::Starting,
+        (State::Running, true) => Phase::Running,
+        (State::UnloadIdle, true) => Phase::LowDemand,
     }
 }
 
@@ -758,32 +831,32 @@ fn status_line(s: &UiState, out: &mut CmdBuf<64>) -> (u16, u16) {
         let _ = out.write_str(warning);
         (AMBER, BLACK)
     } else {
-        match (s.state, s.enabled) {
-            (State::Idle, true) => {
+        match phase(s) {
+            Phase::Standby => {
                 let _ = write!(out, "Standby - restart below {:.1} bar", s.restart_below_bar);
                 (BLUE, WHITE)
             }
-            (State::Idle, false) => {
+            Phase::Stopped => {
                 let _ = out.write_str("Stopped");
                 (GREY_DARK, WHITE)
             }
-            (State::Unloading, _) => {
+            Phase::Starting => {
                 let _ = out.write_str("Starting");
                 (GREEN_DARK, WHITE)
             }
-            (State::Running, _) => {
+            Phase::Running => {
                 let _ = out.write_str("Running");
                 (GREEN_DARK, WHITE)
             }
-            (State::UnloadIdle, _) => {
+            Phase::LowDemand => {
                 let _ = out.write_str("Running - low demand");
                 (GREEN_DARK, WHITE)
             }
-            (State::Stopping, _) => {
+            Phase::Stopping => {
                 let _ = out.write_str("Stopping");
                 (BLUE, WHITE)
             }
-            (State::Fault, _) => {
+            Phase::Fault => {
                 let _ = out.write_str("FAULT"); // fault reason always set alongside; belt and braces
                 (RED, WHITE)
             }
