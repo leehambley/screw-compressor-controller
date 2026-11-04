@@ -17,7 +17,9 @@ use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_sync::channel::Channel;
 use embassy_sync::signal::Signal;
 use embassy_time::{Instant, Timer};
-use slint::platform::software_renderer::{MinimalSoftwareWindow, RepaintBufferType, Rgb565Pixel};
+use slint::platform::software_renderer::{
+    MinimalSoftwareWindow, RenderingRotation, RepaintBufferType, Rgb565Pixel,
+};
 use slint::platform::{PointerEventButton, WindowAdapter, WindowEvent};
 use slint::{Color, LogicalPosition, SharedString};
 
@@ -351,12 +353,21 @@ pub async fn task(mut display: Display, mut touch: Gt911) {
             let buf = unsafe {
                 core::slice::from_raw_parts_mut(pixels.as_mut_ptr().cast::<Rgb565Pixel>(), pixels.len())
             };
+            if config::DISPLAY_ROTATE_180 {
+                renderer.set_rendering_rotation(RenderingRotation::Rotate180);
+            }
             let dirty = renderer.render(buf, display::WIDTH);
             let bb = dirty.bounding_box_origin();
             let size = dirty.bounding_box_size();
             if size.height > 0 {
-                let y0 = bb.y.max(0) as usize;
-                display.flush_rows(y0, y0 + size.height as usize);
+                let y0 = (bb.y.max(0) as usize).min(display::HEIGHT);
+                let y1 = (y0 + size.height as usize).min(display::HEIGHT);
+                display.flush_rows(y0, y1);
+                if config::DISPLAY_ROTATE_180 {
+                    // Not sure which frame Slint reports the region in when
+                    // rotated, so write back the mirror rows as well.
+                    display.flush_rows(display::HEIGHT - y1, display::HEIGHT - y0);
+                }
             }
         });
 
@@ -368,6 +379,11 @@ fn pointer(window: &MinimalSoftwareWindow, touching: &mut Option<LogicalPosition
     let button = PointerEventButton::Left;
     match (point, *touching) {
         (Some((x, y)), was) => {
+            let (x, y) = if config::DISPLAY_ROTATE_180 {
+                ((display::WIDTH as u16 - 1).saturating_sub(x), (display::HEIGHT as u16 - 1).saturating_sub(y))
+            } else {
+                (x, y)
+            };
             let position = LogicalPosition::new(x as f32, y as f32);
             let event = if was.is_none() {
                 WindowEvent::PointerPressed { position, button }

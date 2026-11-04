@@ -6,7 +6,7 @@ Original ES3000 board is damaged (blown triac, damaged optocouplers/traces).
 ## Hardware target
 
 - Since 2026-11-04 (branch `s3-port`): **Waveshare ESP32-S3-Touch-LCD-4**
-  (ESP32-S3-WROOM-1-N16R8, 480x480 ST7701S RGB panel, GT911 touch, TCA9554 expander)
+  (ESP32-S3-WROOM-1-N16R8, 480x480 ST7701S RGB panel, GT911 touch, CH32V003 I/O expander at 0x24; board Rev 4.0)
   plus the SMD **piggyback** I/O board in `../Piggyback/` (2x ADS1115,
   PCA9685, watchdog + hardware over-temp interlock). Every S3 GPIO is used by
   the Waveshare board, so the piggyback hangs off its I2C bus; see
@@ -18,7 +18,7 @@ Original ES3000 board is damaged (blown triac, damaged optocouplers/traces).
   then `. ~/export-esp.sh`). If espup fails with a missing liblzma/libiconv,
   run it with `DYLD_LIBRARY_PATH=/opt/homebrew/opt/xz/lib:/opt/homebrew/opt/libiconv/lib`.
 - Flash/log over the Waveshare's USB-C (USB-Serial-JTAG): `cargo run --release`.
-  UART0 (GPIO43/44) is Modbus.
+  UART0 (GPIO44 TX / GPIO43 RX, onboard SP3485) is Modbus.
 
 ## System
 

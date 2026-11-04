@@ -12,13 +12,21 @@ The changes that followed:
 - The status lines back to the S3 (Q5/Q6) are gone. The S3 reads SAFE and TEMP_OK through the ADS1115s.
 - New J11 passes Modbus A/B through to the VFD.
 
-Lee confirmed the onboard MAX13487 (no isolation) and no digital inputs.
+Lee confirmed the onboard RS485 transceiver (no isolation) and no digital inputs.
+
+**Rev 4.0 (current production, checked 2026-11-04):**
+- The transceiver is an SP3485 with RC auto-direction. It is not a MAX13487.
+- UART0 is TX GPIO44 / RX GPIO43.
+- The expander is a CH32V003 at 0x24.
+- H4 is a **3.5 mm 10-pin pluggable screw terminal**, so J2 must mate with that.
+
+Details are in [pin-allocation.md](pin-allocation.md).
 The blocks below still describe the original 8-pin J2. The schematic is authoritative.
 
 ## Decisions (Lee, 2026-11-04)
 
 - The S3 is the only MCU and runs all-Rust Embassy (Xtensa). The C6 and the Nextion are retired.
-- Modbus to the SKI-70 goes through the Waveshare's onboard RS485 transceiver (UART0, GPIO43/44, auto direction, not isolated).
+- Modbus to the SKI-70 goes through the Waveshare's onboard RS485 transceiver (UART0, TX 44 / RX 43, auto direction, not isolated).
   The piggyback has no RS485 parts.
 - The valves are driven by MOSFETs on the piggyback, with the PWM hold kept.
 - Fail-safe: a firmware watchdog **and** a hardware over-temperature cutout.

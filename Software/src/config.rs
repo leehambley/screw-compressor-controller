@@ -154,7 +154,7 @@ pub const PRESSURE_CAL_V_PER_BAR: f32 = 1.6 / 17.0;
 // Pins: see Piggyback/pin-allocation.md and src/board/mod.rs. On the
 // Waveshare ESP32-S3-Touch-LCD-4 every GPIO is used by the board itself; the
 // sensors and valves are on the piggyback, over I2C (GPIO15 SDA / GPIO7 SCL).
-// Modbus is UART0 GPIO43 (TX) / GPIO44 (RX) through the onboard MAX13487.
+// Modbus is UART0 GPIO44 (TX) / GPIO43 (RX) through the onboard SP3485 (Rev 4.0).
 // Confirmed 2026-08-30 (had this backwards before): start-assist /
 // blow-down-to-intake valve. NOT a pressure-regulation valve — recirculates
 // discharge air back to the intake during motor start-up to cut starting
@@ -242,3 +242,11 @@ pub const FAULT_CONFIRM_TICKS: u8 = 3;
 // Nextion component ids are no longer configured here: the link task asks
 // the display for each button's id by name (`get bUnload.id`) every time it
 // (re)connects, so re-ordering components in the Editor can't break input.
+
+/// Waveshare mounts the 4" panel upside down relative to its scan order and
+/// rotates 180 deg in software (V4 demo); touch comes in the panel's frame,
+/// so it is rotated with it. Flip this if the picture is upside down.
+pub const DISPLAY_ROTATE_180: bool = true;
+
+/// Backlight brightness through the CH32 expander's PWM, 0-100 %.
+pub const BACKLIGHT_PCT: u8 = 100;

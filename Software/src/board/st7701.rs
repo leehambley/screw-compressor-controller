@@ -40,12 +40,10 @@ const INIT: &[&[u8]] = &[
     &[0xE5, 0xE4],
     &[0xFF, 0x77, 0x01, 0x00, 0x00, 0x10], // page 0
     &[0xCD, 0x08],
-    // Generic tail, as ESPHome's mipi driver appends it.
+    // Tail as Waveshare's V4 demo sends it (ST7701 "type1").
     &[0xFF, 0x77, 0x01, 0x00, 0x00, 0x00], // leave the command2 pages
-    &[0x36, 0x00], // MADCTL: RGB order, no mirroring
-    &[0xC7, 0x00], // SDIR
-    &[0x3A, 0x66], // COLMOD: 18-bit
     &[0x21],       // INVON
+    &[0x3A, 0x60], // COLMOD: 18-bit RGB interface
 ];
 
 pub struct St7701 {
@@ -59,11 +57,11 @@ impl St7701 {
     pub async fn init(mut self) {
         self.cs.set_high();
         self.sck.set_high(); // mode 3: idle high
-        self.write(&[0x11]); // SLPOUT
-        Timer::after_millis(120).await;
         for cmd in INIT {
             self.write(cmd);
         }
+        self.write(&[0x11]); // SLPOUT
+        Timer::after_millis(120).await;
         self.write(&[0x29]); // DISPON
         Timer::after_millis(20).await;
     }

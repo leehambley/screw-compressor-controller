@@ -7,8 +7,9 @@
 //! involvement. Drawing goes through the data cache, so call `flush_rows`
 //! after each render to write the cache back to PSRAM, where the DMA reads it.
 //!
-//! Timings and pins are ESPHome's tested `WAVESHARE-4-480X480` model: 12 MHz,
-//! clock not inverted, porches 20/10/10 (h) and 10/10/10 (v). UNVERIFIED with
+//! Pins match ESPHome's `WAVESHARE-4-480X480` model and Waveshare's V4 demo.
+//! Porches are the V4 demo's (h: front 10, sync 8, back 50; v: front 10,
+//! sync 8, back 20; syncs idle high), at 12 MHz. UNVERIFIED with
 //! this driver (board not in hand, 2026-11-04). If the picture jitters or
 //! drifts, the PSRAM can't keep up: drop PCLK_MHZ first.
 
@@ -34,11 +35,11 @@ pub const HEIGHT: usize = 480;
 pub const FB_BYTES: usize = WIDTH * HEIGHT * 2;
 
 const PCLK_MHZ: u32 = 12;
-const H_SYNC: usize = 10;
-const H_BACK: usize = 10;
-const H_FRONT: usize = 20;
-const V_SYNC: usize = 10;
-const V_BACK: usize = 10;
+const H_SYNC: usize = 8;
+const H_BACK: usize = 50;
+const H_FRONT: usize = 10;
+const V_SYNC: usize = 8;
+const V_BACK: usize = 20;
 const V_FRONT: usize = 10;
 
 /// Bytes per DMA descriptor: under the 4095 limit, a multiple of the 64-byte

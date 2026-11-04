@@ -36,7 +36,7 @@ use board::display::{self, Display};
 use board::gt911::Gt911;
 use board::pca9685::Pca9685;
 use board::st7701::St7701;
-use board::tca9554::Tca9554;
+use board::ch32_exio::Ch32Exio;
 
 esp_bootloader_esp_idf::esp_app_desc!();
 
@@ -120,7 +120,7 @@ async fn main(spawner: Spawner) {
         ));
     }
 
-    // One I2C bus for everything: touch, expander and RTC on the Waveshare,
+    // One I2C bus for everything: touch, CH32 expander and RTC on the Waveshare,
     // the ADCs and PWM chip on the piggyback (through H4). 100 kHz because
     // the piggyback hangs off a harness.
     let i2c = I2c::new(peripherals.I2C0, I2cConfig::default().with_frequency(Rate::from_khz(100)))
@@ -132,22 +132,19 @@ async fn main(spawner: Spawner) {
     let bus: &'static board::Bus = I2C_BUS.init(embassy_sync::mutex::Mutex::new(i2c));
     let dev = || I2cDevice::new(bus);
 
-    // Panel and touch reset through the TCA9554. GT911 picks address 0x5D
-    // when its INT (GPIO16) is low as reset is released.
-    let mut exio = Tca9554::new(dev(), board::EXIO_INPUTS).await.ok();
-    if exio.is_none() {
-        log::error!("tca9554 not found: no panel reset or backlight");
+    // Panel and touch reset through the CH32 expander, as Waveshare's V4
+    // demo does it but with SYS_EN (the power latch) held high throughout.
+    // GPIO16 is SYS_OUT on Rev 4.0 and is left alone.
+    let mut exio = Ch32Exio::new(dev(), board::EXIO_INPUTS, board::EXIO_SYS_EN | board::EXIO_SD_CS).await.ok();
+    match exio.as_mut() {
+        None => log::error!("ch32 expander not found: no panel reset or backlight"),
+        Some(x) => {
+            x.backlight_pct(0).await;
+            Timer::after_millis(20).await;
+            x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, true).await;
+        }
     }
-    if let Some(x) = exio.as_mut() {
-        x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST | board::EXIO_BL_EN, false).await;
-    }
-    let touch_int = Output::new(peripherals.GPIO16, Level::Low, OutputConfig::default());
-    Timer::after_millis(10).await;
-    if let Some(x) = exio.as_mut() {
-        x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, true).await;
-    }
-    Timer::after_millis(120).await;
-    drop(touch_int); // back to an input
+    Timer::after_millis(200).await;
 
     St7701 {
         cs: Output::new(peripherals.GPIO42, Level::High, OutputConfig::default()),
@@ -181,9 +178,9 @@ async fn main(spawner: Spawner) {
         )
     };
     if let Some(x) = exio.as_mut() {
-        x.set(board::EXIO_BL_EN, true).await; // backlight on
+        x.backlight_pct(config::BACKLIGHT_PCT).await;
     }
-    spawner.spawn(ui::task(display, Gt911::new(dev()))).unwrap();
+    spawner.spawn(ui::task(display, Gt911::new(dev()).await)).unwrap();
 
     // Piggyback. A missing piggyback is logged and shows on the status bar
     // (interlock unreadable); the controller won't run without pressure.
@@ -200,16 +197,17 @@ async fn main(spawner: Spawner) {
     let solenoid_unload = PwmValve::new(outputs::CH_START_ASSIST, "start-assist");
     let solenoid_drain = PwmValve::new(outputs::CH_DRAIN, "drain");
 
-    // Modbus RTU to the SKI-70 through the onboard MAX13487, which switches
-    // direction by itself; A/B leave on H4 and the piggyback passes them to a
-    // terminal. UART0's pins, so the log is on USB-Serial-JTAG.
+    // Modbus RTU to the SKI-70 through the onboard SP3485, whose DE is
+    // switched by an RC timer on TX; A/B leave on H4 and the piggyback passes
+    // them to a terminal. Rev 4.0 schematic: GPIO43 is the transceiver's RO,
+    // GPIO44 its DI. The log is on USB-Serial-JTAG.
     let modbus_uart = Uart::new(
         peripherals.UART0,
         UartConfig::default().with_baudrate(config::MODBUS_BAUD_RATE),
     )
     .unwrap()
-    .with_tx(peripherals.GPIO43)
-    .with_rx(peripherals.GPIO44)
+    .with_tx(peripherals.GPIO44)
+    .with_rx(peripherals.GPIO43)
     .into_async();
 
     let vfd = SkiVfd::new(modbus_uart);
