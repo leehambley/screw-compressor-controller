@@ -132,7 +132,7 @@ PARTS = [
     ("J8", TERM3, "RS485", 12, 95, DOWN, {"1": "RS_A", "2": "RS_B", "3": "GND"}),
 
     # --- Nextion (pin order matches its 4-wire cable: 5V, TX, RX, GND)
-    ("J9", "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", "NEXTION", 95, 70, 0,
+    ("J9", "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical", "JST XH 4P (B4B-XH-A)", 95, 70, 270,
      {"1": "+5V", "2": "NEX_TX", "3": "NEX_RX", "4": "GND"}),
     # --- Test points: 3V3, 5V, GND
     ("J11", "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical", "TEST", 80, 80, 0,
@@ -157,8 +157,8 @@ LABELS = [
     ("NTC3 ROTOR2", 6.5, 67.6, 0, 1.0),
     ("RS485 A    B    GND", 17, 88.7, 0, 1.0),
     ("TERM", 29.3, 94.6, 0, 1.0),
-    ("NEXTION", 88.6, 73.8, 90, 1.0), ("5V", 91.4, 70, 0, 1.0), ("TX", 91.4, 72.54, 0, 1.0),
-    ("RX", 91.4, 75.08, 0, 1.0), ("GND", 91.0, 77.62, 0, 1.0),
+    ("NEXTION", 86.3, 73.75, 90, 1.0), ("5V", 89.3, 70, 0, 1.0), ("TX", 89.3, 72.5, 0, 1.0),
+    ("RX", 89.3, 75, 0, 1.0), ("GND", 88.9, 77.5, 0, 1.0),
     ("3V3", 83.8, 80, 0, 1.0), ("5V", 83.5, 82.54, 0, 1.0), ("GND", 83.8, 85.08, 0, 1.0),
     ("SCREW COMPRESSOR CONTROLLER", 78, 93, 0, 1.0), ("THT rev A", 78, 95.5, 0, 1.0),
 ]

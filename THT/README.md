@@ -40,7 +40,7 @@ $K pcb export drill --format excellon --excellon-separate-th -o production/gerbe
 | Pressure 4–20 mA (GPIO0) | J4, R20 100R shunt, R21 1k + C20 100nF, D20 BAT85 clamp | J4: top = +24 V loop supply, bottom = signal |
 | NTC1 rotor (GPIO1), NTC2 motor (GPIO2), NTC3 rotor 2 (GPIO3) | 10k pull-up, 1k + 100nF each | probes are non-polar |
 | RS485 (GPIO18 DI, GPIO19 RO, GPIO10 DE/RE) | U3 MAX3485 (DIP-8, socketed), R40 120R via JP1, R42 10k RO pull-up | J8: A, B, GND |
-| Nextion (GPIO22 RX, GPIO23 TX) | J9: 5V, TX, RX, GND | matches the Nextion cable order |
+| Nextion (GPIO22 RX, GPIO23 TX) | J9 JST XH 4-pin (B4B-XH-A): 5V, TX, RX, GND | same connector and pin order as the display end |
 
 Bottom layer is an almost unbroken ground plane, top is ground-poured too.
 Valve current returns along the right-hand side to J1; the analog front

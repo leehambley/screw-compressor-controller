@@ -15,7 +15,7 @@ Qty,References,Value,Footprint
 1,J6,NTC2,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
 1,J7,NTC3,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
 1,J8,RS485,"TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal"
-1,J9,NEXTION,PinHeader_1x04_P2.54mm_Vertical
+1,J9,JST XH 4P (B4B-XH-A),JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical
 1,J11,TEST,PinHeader_1x03_P2.54mm_Vertical
 1,JP1,TERM,PinHeader_1x02_P2.54mm_Vertical
 1,L1,33uH 3A,L_Radial_D12.0mm_P5.00mm_Fastron_11P
