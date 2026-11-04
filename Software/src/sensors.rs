@@ -8,7 +8,7 @@
 
 use crate::config::{
     MOTOR_POWER_FACTOR, MOTOR_RATED_HZ, MOTOR_RATED_RPM, MOTOR_RATED_V, NTC_BETA, NTC_PULLUP_OHMS,
-    NTC_REF_OHMS, NTC_SUPPLY_V, PRESSURE_CAL_V_AT_ZERO_BAR, PRESSURE_CAL_V_PER_BAR,
+    NTC_REF_OHMS, PRESSURE_CAL_V_AT_ZERO_BAR, PRESSURE_CAL_V_PER_BAR,
     PRESSURE_SHUNT_OHMS,
 };
 
@@ -58,25 +58,22 @@ pub fn pressure_sensor_fault(raw_voltage: f32) -> bool {
     loop_current_ma(raw_voltage) < 2.0
 }
 
-/// Convert the NTC divider voltage (probe to GND, `NTC_PULLUP_OHMS` from
-/// 3V3 — see config.rs) into a temperature in °C. The 1k series resistor
-/// into the pin carries no current worth counting, so it's ignored.
+/// NTC temperature in °C from the divider's ratio `v / v_supply` (probe to
+/// AGND, `NTC_PULLUP_OHMS` from the same supply the ADC measures).
 ///
 /// NTC_BETA is currently a placeholder (4000.0) — unconfirmed against the
 /// actual probe datasheet. Do not trust shutdown thresholds derived from
 /// this until it's verified.
-pub fn ntc_temp_c(raw_voltage: f32) -> f32 {
-    let r_ntc = NTC_PULLUP_OHMS * raw_voltage / (NTC_SUPPLY_V - raw_voltage);
+pub fn ntc_temp_c(ratio: f32) -> f32 {
+    let r_ntc = NTC_PULLUP_OHMS * ratio / (1.0 - ratio);
     1.0 / (libm::logf(r_ntc / NTC_REF_OHMS) / NTC_BETA + 1.0 / 298.15) - 273.15
 }
 
-/// True if the divider voltage says the probe is open or shorted rather
-/// than reporting a temperature. With the 10k pull-up, room temperature is
-/// already ~3.0V and a 0°C probe ~3.2V, so "open" only starts above that:
-/// 3.25V is roughly -5°C (not a real operating condition for this machine).
-/// Below 0.05V is a probe resistance under ~150Ω, i.e. >250°C or a short.
-pub fn ntc_sensor_fault(raw_voltage: f32) -> bool {
-    !(0.05..=3.25).contains(&raw_voltage)
+/// True if the divider ratio says the probe is open or shorted. With the 33k
+/// pull-up, 0°C reads ~0.91 and -20°C ~0.97; open is 1.0. Below 0.005 is
+/// under ~170Ω, i.e. well past 200°C, or a short.
+pub fn ntc_sensor_fault(ratio: f32) -> bool {
+    !(0.005..=0.97).contains(&ratio)
 }
 
 /// Shaft speed from the VFD's running frequency (2-pole motor, slip

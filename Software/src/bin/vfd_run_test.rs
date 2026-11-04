@@ -19,7 +19,6 @@ mod modbus;
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
 use esp_backtrace as _;
-use esp_hal::interrupt::software::SoftwareInterruptControl;
 use esp_hal::timer::timg::TimerGroup;
 use esp_hal::uart::{Config as UartConfig, Uart};
 use modbus::SkiVfd;
@@ -40,17 +39,16 @@ async fn main(_spawner: Spawner) {
     esp_println::logger::init_logger_from_env();
     let peripherals = esp_hal::init(esp_hal::Config::default());
 
-    let sw_int = SoftwareInterruptControl::new(peripherals.SW_INTERRUPT);
     let timg0 = TimerGroup::new(peripherals.TIMG0);
-    esp_rtos::start(timg0.timer0, sw_int.software_interrupt0);
+    esp_rtos::start(timg0.timer0);
 
     let modbus_uart = Uart::new(
-        peripherals.UART1,
+        peripherals.UART0,
         UartConfig::default().with_baudrate(config::MODBUS_BAUD_RATE),
     )
     .unwrap()
-    .with_tx(peripherals.GPIO18)
-    .with_rx(peripherals.GPIO19)
+    .with_tx(peripherals.GPIO44)
+    .with_rx(peripherals.GPIO43)
     .into_async();
 
     let mut vfd = SkiVfd::new(modbus_uart);

@@ -1,104 +1,92 @@
 #![no_std]
 #![no_main]
 
+extern crate alloc;
+
+mod board;
 mod config;
 mod modbus;
-mod nextion;
+mod outputs;
 mod pid;
 mod sensors;
 mod state_machine;
 mod storage;
+mod ui;
 mod valve;
 
 use embassy_executor::Spawner;
 use embassy_futures::select::{Either, select};
 use embassy_time::{Duration, Instant, Ticker, Timer};
 use esp_backtrace as _;
-use esp_hal::analog::adc::{Adc, AdcCalCurve, AdcConfig, Attenuation};
-use esp_hal::gpio::DriveMode;
-use esp_hal::ledc::channel::{self as ledc_channel, ChannelIFace};
-use esp_hal::ledc::timer::{self as ledc_timer, TimerIFace};
-use esp_hal::ledc::{LSGlobalClkSource, Ledc, LowSpeed};
-use esp_hal::interrupt::software::SoftwareInterruptControl;
-use esp_hal::rmt::{PulseCode, Rmt};
+use esp_hal::gpio::{Level, Output, OutputConfig};
+use esp_hal::i2c::master::{Config as I2cConfig, I2c};
 use esp_hal::time::Rate;
 use esp_hal::timer::timg::TimerGroup;
 use esp_hal::uart::{Config as UartConfig, Uart};
-use esp_hal_smartled::{SmartLedsAdapterAsync, buffer_size_async};
+use embassy_embedded_hal::shared_bus::asynch::i2c::I2cDevice;
 use modbus::SkiVfd;
-use nextion::{UiEvent, UiState};
-use core::sync::atomic::{AtomicBool, Ordering};
-use smart_leds::hsv::{Hsv, hsv2rgb};
-use smart_leds::{RGB8, SmartLedsWriteAsync};
 use static_cell::StaticCell;
 use state_machine::{Controller, FaultReason, State};
 use storage::CounterStore;
+use ui::{UiEvent, UiState};
 use valve::PwmValve;
+
+use board::ads1115::Ads1115;
+use board::ch422g::Ch422g;
+use board::display::{self, Display};
+use board::gt911::Gt911;
+use board::pca9685::Pca9685;
 
 esp_bootloader_esp_idf::esp_app_desc!();
 
-/// Trimmed mean of 32 back-to-back calibrated readings (mV): sorts, drops
-/// the 8 lowest and 8 highest, averages the middle 16. The trim rejects
-/// single-shot glitches the way the old median-of-5 did; averaging what's
-/// left also beats down the sample-to-sample noise, which on the
-/// breadboard was ±25mV (±0.25 bar) and enough to trip the 4mA-floor
-/// sensor-fault check. A macro because spelling out `AdcPin`'s generic
-/// parameters for a helper fn costs more than it saves.
-macro_rules! trimmed_mean_mv {
-    ($adc:expr, $pin:expr) => {{
-        let mut samples = [0u16; 32];
-        for sample in &mut samples {
-            *sample = nb::block!($adc.read_oneshot(&mut $pin)).unwrap();
-        }
-        samples.sort_unstable();
-        let kept = &samples[8..24];
-        kept.iter().map(|&mv| mv as u32).sum::<u32>() as f32 / kept.len() as f32
-    }};
+/// Piggyback ADC channels (see Piggyback/README.md).
+mod adc {
+    // U1 at 0x48
+    pub const PRESSURE_1: u8 = 0;
+    pub const PRESSURE_2: u8 = 1;
+    pub const SUPPLY_HALF: u8 = 2; // 3V3_A / 2
+    pub const SAFE_HALF: u8 = 3; // SAFE / 2
+    // U2 at 0x49
+    pub const NTC_ROTOR: u8 = 0;
+    pub const NTC_ROTOR_2: u8 = 1;
+    pub const NTC_MOTOR: u8 = 2;
+    pub const TEMP_OK_HALF: u8 = 3; // TEMP_OK / 2
+    /// Conversions averaged per reading.
+    pub const SAMPLES: usize = 2;
 }
 
-/// Placeholder periodic task — proves the executor is actually scheduling
-/// more than one task concurrently with `main`. Replace with the real
-/// sensor-poll task (ADC_SAMPLE_MS cadence) once ADC init lands.
-#[embassy_executor::task]
-async fn heartbeat() {
-    loop {
-        log::info!("heartbeat");
-        Timer::after(Duration::from_secs(5)).await;
-    }
+/// One round of piggyback readings.
+struct Readings {
+    pressure_v: Option<f32>,
+    rotor_ratio: Option<f32>,
+    rotor2_ratio: Option<f32>,
+    motor_ratio: Option<f32>,
+    interlock_ok: Option<bool>,
+    hw_temp_ok: Option<bool>,
 }
 
-const LED_BUFFER_LEN: usize = buffer_size_async(1);
-
-/// Mirrors `controller.fault.is_some()` for `led_task`.
-static FAULTED: AtomicBool = AtomicBool::new(false);
-
-/// Onboard WS2812 proof of life: a slow, dim rainbow while all is well,
-/// a red blink while faulted. Its own task so the animation stays smooth
-/// whatever the control loop is waiting on (Modbus timeouts and so on).
-/// The rainbow keeps cycling as long as the executor is alive, so a
-/// frozen colour means a hung firmware.
-#[embassy_executor::task]
-async fn led_task(mut led: SmartLedsAdapterAsync<'static, LED_BUFFER_LEN>) {
-    let mut hue: u8 = 0;
-    let mut ticks: u32 = 0;
-    loop {
-        let colour = if FAULTED.load(Ordering::Relaxed) {
-            if (ticks / 25) % 2 == 0 {
-                RGB8 { r: 40, g: 0, b: 0 }
-            } else {
-                RGB8::default()
-            }
-        } else {
-            hsv2rgb(Hsv {
-                hue,
-                sat: 255,
-                val: 30,
-            })
-        };
-        let _ = led.write([colour].into_iter()).await;
-        hue = hue.wrapping_add(1);
-        ticks = ticks.wrapping_add(1);
-        Timer::after_millis(20).await; // ~5s per rainbow cycle
+async fn read_piggyback(pressure_adc: &mut Ads1115, ntc_adc: &mut Ads1115) -> Readings {
+    let n = adc::SAMPLES;
+    let pressure_v = pressure_adc.read_mean_v(adc::PRESSURE_1, n).await.ok();
+    let supply = pressure_adc.read_mean_v(adc::SUPPLY_HALF, n).await.ok().map(|v| v * 2.0);
+    let safe = pressure_adc.read_mean_v(adc::SAFE_HALF, 1).await.ok().map(|v| v * 2.0);
+    let ratio = |v: Option<f32>| match (v, supply) {
+        (Some(v), Some(s)) if s > 2.5 => Some(v / s),
+        _ => None,
+    };
+    let rotor_ratio = ratio(ntc_adc.read_mean_v(adc::NTC_ROTOR, n).await.ok());
+    let rotor2_ratio = ratio(ntc_adc.read_mean_v(adc::NTC_ROTOR_2, n).await.ok());
+    let motor_ratio = ratio(ntc_adc.read_mean_v(adc::NTC_MOTOR, n).await.ok());
+    let temp_ok = ntc_adc.read_mean_v(adc::TEMP_OK_HALF, 1).await.ok().map(|v| v * 2.0);
+    // Logic levels from 3V3_D seen through a 10k/10k divider: high is ~3.3V.
+    let high = |v: Option<f32>| v.map(|v| v > 1.65);
+    Readings {
+        pressure_v,
+        rotor_ratio,
+        rotor2_ratio,
+        motor_ratio,
+        interlock_ok: high(safe),
+        hw_temp_ok: high(temp_ok),
     }
 }
 
@@ -114,115 +102,97 @@ async fn main(spawner: Spawner) {
     // the Embassy executor and its timer queue — this is the "RTOS" layer
     // everything else (sensor poll, Modbus comms, state machine tick,
     // button debounce) gets spawned as tasks on top of.
-    let sw_int = SoftwareInterruptControl::new(peripherals.SW_INTERRUPT);
     let timg0 = TimerGroup::new(peripherals.TIMG0);
-    esp_rtos::start(timg0.timer0, sw_int.software_interrupt0);
+    esp_rtos::start(timg0.timer0);
 
-    spawner.spawn(heartbeat()).unwrap();
 
-    // Pressure sensor (4-20mA loop, 100Ω shunt) — see sensors::pressure_bar.
-    // NTC rotor/oil probe (10k pull-up divider) — see sensors::ntc_temp_c.
-    //
-    // Corrected 2026-09-10, two separate bugs:
-    // 1. `enable_pin` (no calibration scheme) leaves the ADC's hardware
-    //    init-code calibration register at an uncalibrated default — found
-    //    while chasing a ~40x offset between a multimeter reading directly
-    //    on R2 (tens of mV) and what read_oneshot reported (over 1V) for
-    //    the same node at the same moment. `AdcCalCurve` applies esp-idf's
-    //    factory-derived per-attenuation error-correction polynomial (real
-    //    hardware calibration, not a software fudge factor) and — this
-    //    changes what read_oneshot returns — makes it return
-    //    already-calibrated **millivolts** directly, not a raw ADC count,
-    //    so the raw-to-volts conversion below changed to match.
-    // 2. 11dB attenuation gives a ~2.5-3.9V full-scale range, wasting most
-    //    of the ADC's 12-bit resolution on a signal that's nominally
-    //    0.4-2.0V (4-20mA * 100Ω) at most. 6dB's ~1.75-2.2V full scale is a
-    //    much closer match. The NTC divider spans most of 0-3.3V (room
-    //    temperature is ~3.0V with the 10k pull-up), so it needs 11dB.
-    let mut adc1_config = AdcConfig::new();
-    let mut pressure_pin =
-        adc1_config.enable_pin_with_cal::<_, AdcCalCurve<_>>(peripherals.GPIO0, Attenuation::_6dB);
-    let mut temp_pin =
-        adc1_config.enable_pin_with_cal::<_, AdcCalCurve<_>>(peripherals.GPIO1, Attenuation::_11dB);
-    let mut adc1 = Adc::new(peripherals.ADC1, adc1_config);
-    // The first conversions after init are garbage (seen on the breadboard:
-    // 484mV pressure / 100mV NTC = 250°C on the very first tick) — throw a
-    // round away before anything acts on a reading.
-    let _ = trimmed_mean_mv!(adc1, pressure_pin);
-    let _ = trimmed_mean_mv!(adc1, temp_pin);
+    // PSRAM: the first 768 KB is the framebuffer, the rest is heap (Slint).
+    // Internal RAM gets a small heap of its own for anything that needs it.
+    esp_alloc::heap_allocator!(size: 64 * 1024);
+    let (psram, psram_len) = esp_hal::psram::psram_raw_parts(&peripherals.PSRAM);
+    assert!(psram_len > display::FB_BYTES, "no PSRAM?");
+    unsafe {
+        esp_alloc::HEAP.add_region(esp_alloc::HeapRegion::new(
+            psram.add(display::FB_BYTES),
+            psram_len - display::FB_BYTES,
+            esp_alloc::MemoryCapability::External.into(),
+        ));
+    }
 
-    // Modbus RTU to the SKI-70 over an auto-direction TTL-RS485 module
-    // (breadboard build) — no DE/RE pin, the module switches on TX activity.
-    // GPIO18 -> module RXD (our TX), GPIO19 <- module TXD (our RX).
+    // One I2C bus for everything: touch, CH422G and RTC on the Waveshare,
+    // the ADCs and PWM chip on the piggyback (through P1). 100 kHz because
+    // the piggyback hangs off a harness.
+    let i2c = I2c::new(peripherals.I2C0, I2cConfig::default().with_frequency(Rate::from_khz(100)))
+        .unwrap()
+        .with_sda(peripherals.GPIO8)
+        .with_scl(peripherals.GPIO9)
+        .into_async();
+    static I2C_BUS: StaticCell<board::Bus> = StaticCell::new();
+    let bus: &'static board::Bus = I2C_BUS.init(embassy_sync::mutex::Mutex::new(i2c));
+    let dev = || I2cDevice::new(bus);
+
+    // Panel and touch reset through the CH422G. GT911 picks address 0x5D
+    // when its INT (GPIO4) is low as reset is released.
+    let mut ch422g = Ch422g::new(bus).await;
+    ch422g.set_io(board::EXIO_CTP_RST | board::EXIO_LCD_RST, false).await;
+    let touch_int = Output::new(peripherals.GPIO4, Level::Low, OutputConfig::default());
+    Timer::after_millis(10).await;
+    ch422g.set_io(board::EXIO_CTP_RST | board::EXIO_LCD_RST, true).await;
+    Timer::after_millis(10).await;
+    drop(touch_int); // back to an input
+    Timer::after_millis(50).await;
+
+    let display = unsafe {
+        Display::start(
+            peripherals.LCD_CAM,
+            peripherals.DMA_CH0,
+            display::Pins {
+                pclk: peripherals.GPIO7,
+                de: peripherals.GPIO5,
+                hsync: peripherals.GPIO46,
+                vsync: peripherals.GPIO3,
+                b: (peripherals.GPIO14, peripherals.GPIO38, peripherals.GPIO18, peripherals.GPIO17, peripherals.GPIO10),
+                g: (
+                    peripherals.GPIO39,
+                    peripherals.GPIO0,
+                    peripherals.GPIO45,
+                    peripherals.GPIO48,
+                    peripherals.GPIO47,
+                    peripherals.GPIO21,
+                ),
+                r: (peripherals.GPIO1, peripherals.GPIO2, peripherals.GPIO42, peripherals.GPIO41, peripherals.GPIO40),
+            },
+            psram,
+        )
+    };
+    ch422g.set_io(board::EXIO_DISP, true).await; // backlight on
+    spawner.spawn(ui::task(display, Gt911::new(dev()))).unwrap();
+
+    // Piggyback. A missing piggyback is logged and shows on the status bar
+    // (interlock unreadable); the controller won't run without pressure.
+    let mut pressure_adc = Ads1115::new(dev(), board::ADDR_ADS_PRESSURE);
+    let mut ntc_adc = Ads1115::new(dev(), board::ADDR_ADS_NTC);
+    let pca = match Pca9685::new(dev(), board::ADDR_PCA9685, config::VALVE_PWM_HZ).await {
+        Ok(p) => Some(p),
+        Err(()) => {
+            log::error!("pca9685 not found: valves can't be driven, watchdog not armed");
+            None
+        }
+    };
+    spawner.spawn(outputs::task(pca, ch422g)).unwrap();
+    let solenoid_unload = PwmValve::new(outputs::CH_START_ASSIST, "start-assist");
+    let solenoid_drain = PwmValve::new(outputs::CH_DRAIN, "drain");
+
+    // Modbus RTU to the SKI-70 through the onboard SP3485, which switches
+    // direction by itself. UART0's pins, so the log is on USB-Serial-JTAG.
     let modbus_uart = Uart::new(
-        peripherals.UART1,
+        peripherals.UART0,
         UartConfig::default().with_baudrate(config::MODBUS_BAUD_RATE),
     )
     .unwrap()
-    .with_tx(peripherals.GPIO18)
-    .with_rx(peripherals.GPIO19)
+    .with_tx(peripherals.GPIO44)
+    .with_rx(peripherals.GPIO43)
     .into_async();
-
-    // Nextion HMI, plain UART (3.3V logic levels both ways). Started at the
-    // fast baud: the link task's first
-    // probe finds out whether the display is already there and switches it
-    // over if not — see nextion.rs.
-    let nextion_uart = Uart::new(
-        peripherals.UART0,
-        UartConfig::default().with_baudrate(config::NEXTION_BAUD_RATE),
-    )
-    .unwrap()
-    .with_tx(peripherals.GPIO23)
-    .with_rx(peripherals.GPIO22)
-    .into_async();
-    spawner.spawn(nextion::link_task(nextion_uart)).unwrap();
-
-    // Solenoid MOSFET gates (IRLZ34N, low side), PWM'd by LEDC for pull-in
-    // then hold — see valve.rs. Both start at 0% (off, so both valves open:
-    // both are normally-open); the controller drives them to their idle
-    // state on its first `service`, within one loop pass of boot.
-    let mut ledc = Ledc::new(peripherals.LEDC);
-    ledc.set_global_slow_clock(LSGlobalClkSource::APBClk);
-    static VALVE_TIMER: StaticCell<ledc_timer::Timer<'static, LowSpeed>> = StaticCell::new();
-    let valve_timer = VALVE_TIMER.init(ledc.timer::<LowSpeed>(ledc_timer::Number::Timer0));
-    valve_timer
-        .configure(ledc_timer::config::Config {
-            duty: ledc_timer::config::Duty::Duty10Bit,
-            clock_source: ledc_timer::LSClockSource::APBClk,
-            frequency: Rate::from_hz(config::VALVE_PWM_HZ),
-        })
-        .expect("valve PWM timer");
-    let valve_timer: &'static ledc_timer::Timer<'static, LowSpeed> = valve_timer;
-    let valve_channel = |number, pin: esp_hal::gpio::AnyPin<'static>| {
-        let mut channel = ledc.channel::<LowSpeed>(number, pin);
-        channel
-            .configure(ledc_channel::config::Config {
-                timer: valve_timer,
-                duty_pct: 0,
-                drive_mode: DriveMode::PushPull,
-            })
-            .expect("valve PWM channel");
-        channel
-    };
-    let solenoid_unload = PwmValve::new(
-        valve_channel(ledc_channel::Number::Channel0, peripherals.GPIO20.into()),
-        "start-assist",
-    );
-    let solenoid_drain = PwmValve::new(
-        valve_channel(ledc_channel::Number::Channel1, peripherals.GPIO21.into()),
-        "drain",
-    );
-
-    // Onboard WS2812 on GPIO8 (ESP32-C6-DevKitC-1), driven over RMT — see
-    // led_task. GPIO8 is a strapping pin but nothing else uses it on this
-    // build; the LED's own pull doesn't upset the boot strap.
-    let rmt = Rmt::new(peripherals.RMT, Rate::from_mhz(80))
-        .expect("failed to init RMT")
-        .into_async();
-    static RMT_BUFFER: StaticCell<[PulseCode; LED_BUFFER_LEN]> = StaticCell::new();
-    let rmt_buffer = RMT_BUFFER.init([PulseCode::default(); LED_BUFFER_LEN]);
-    let led = SmartLedsAdapterAsync::new(rmt.channel0, peripherals.GPIO8, rmt_buffer);
-    spawner.spawn(led_task(led)).unwrap();
 
     let vfd = SkiVfd::new(modbus_uart);
     let store = CounterStore::new(peripherals.FLASH);
@@ -240,41 +210,35 @@ async fn main(spawner: Spawner) {
     let mut pressure_bar: Option<f32> = None;
     let mut temp_c: Option<f32> = None;
     let mut sensor_fault_ticks: u8 = 0;
+    let mut interlock_ok: Option<bool> = None;
+    let mut hw_temp_ok: Option<bool> = None;
 
     // One task, two wake-ups: the control tick every ADC_SAMPLE_MS, and HMI
     // input as soon as it arrives (so +/- and the hold buttons respond
     // immediately rather than on the next tick). Either way the display
     // gets a fresh UiState afterwards.
     loop {
-        match select(ticker.next(), nextion::EVENTS.receive()).await {
+        match select(ticker.next(), ui::EVENTS.receive()).await {
             Either::First(()) => {
-                // Median-of-5: occasional single-shot glitches (2026-09-10
-                // bench test — a steady ~4.2mA reading spiking to a spurious
-                // ~9mA or ~38mA for exactly one sample, never corroborated by
-                // an in-series ammeter) are what Espressif's ADC docs warn
-                // about. The breadboard build adds the RC filter they
-                // recommend (4.7k/100nF pressure, 1k/100nF NTC); the median
-                // stays as a second line of defence.
-                let quiet_from = Instant::now();
-                controller.valves_quiet(true);
-                Timer::after_millis(config::VALVE_QUIET_SETTLE_MS).await;
-                let pressure_mv = trimmed_mean_mv!(adc1, pressure_pin);
-                let temp_mv = trimmed_mean_mv!(adc1, temp_pin);
-                controller.valves_quiet(false);
-                log::debug!("adc: valves quiet for {}us", quiet_from.elapsed().as_micros());
-                // With AdcCalCurve, read_oneshot returns calibrated
-                // millivolts, so this is a unit conversion, not a scale.
-                let pressure_v =
-                    pressure_mv / 1000.0 * config::PRESSURE_ADC_GAIN_CORRECTION;
-                let temp_v = temp_mv / 1000.0;
-                log::info!(
-                    "adc: pressure raw_mv={pressure_mv:.1} -> {pressure_v:.3}V {:.2}mA, ntc raw_mv={temp_mv:.1} (compare against a meter on GPIO0/GPIO1)",
-                    sensors::loop_current_ma(pressure_v)
+                let r = read_piggyback(&mut pressure_adc, &mut ntc_adc).await;
+                if let Some(v) = r.pressure_v {
+                    log::info!("adc: pressure {v:.3}V {:.2}mA", sensors::loop_current_ma(v));
+                }
+                let temp = |ratio: Option<f32>| {
+                    ratio.filter(|&q| !sensors::ntc_sensor_fault(q)).map(sensors::ntc_temp_c)
+                };
+                pressure_bar = r
+                    .pressure_v
+                    .filter(|&v| !sensors::pressure_sensor_fault(v))
+                    .map(sensors::pressure_bar);
+                temp_c = temp(r.rotor_ratio);
+                log::debug!(
+                    "temps: rotor {temp_c:?}, rotor2 {:?}, motor {:?}",
+                    temp(r.rotor2_ratio),
+                    temp(r.motor_ratio)
                 );
-
-                pressure_bar =
-                    (!sensors::pressure_sensor_fault(pressure_v)).then(|| sensors::pressure_bar(pressure_v));
-                temp_c = (!sensors::ntc_sensor_fault(temp_v)).then(|| sensors::ntc_temp_c(temp_v));
+                interlock_ok = r.interlock_ok;
+                hw_temp_ok = r.hw_temp_ok;
 
                 let now = Instant::now();
                 let dt_s = now.duration_since(last_tick).as_millis() as f32 / 1000.0;
@@ -323,8 +287,11 @@ async fn main(spawner: Spawner) {
         }
 
         controller.service(Instant::now());
-        FAULTED.store(controller.fault.is_some(), Ordering::Relaxed);
-        nextion::STATE.signal(UiState {
+        outputs::control_alive();
+        let faulted = controller.fault.is_some();
+        outputs::set_duty(outputs::CH_LED_OK, if faulted { 0 } else { 10 });
+        outputs::set_duty(outputs::CH_LED_FAULT, if faulted { 50 } else { 0 });
+        ui::STATE.signal(UiState {
             pressure_bar,
             temp_c,
             setpoint_bar: controller.setpoint_bar(),
@@ -341,6 +308,8 @@ async fn main(spawner: Spawner) {
             unload_held: controller.unload_held(),
             drain_open: controller.drain_open(),
             idle_stop_in_s: controller.idle_stop_in_s(),
+            interlock_ok,
+            hw_temp_ok,
         });
     }
 }

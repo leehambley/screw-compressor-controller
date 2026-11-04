@@ -1,3 +1,5 @@
 # Runtime/user configuration — env vars consumed at build time.
 [env]
 ESP_LOG = "info"
+# ESP32-S3-WROOM-1-N16R8: 8 MB octal PSRAM.
+ESP_HAL_CONFIG_PSRAM_MODE = "octal"

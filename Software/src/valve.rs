@@ -9,28 +9,26 @@
 //! 24V DC coils are ~40Ω / ~14W.
 //!
 //! During every PWM off-time the coil current freewheels through the
-//! flyback diode. The breadboard uses 1N400x there, whose slow reverse
-//! recovery means the MOSFET briefly switches into a still-conducting
-//! diode each cycle — negligible at `VALVE_PWM_HZ` = 1kHz, a real source
-//! of heat and ground spikes at tens of kHz. Raising the frequency
-//! (to get rid of coil hum) needs a Schottky flyback, e.g. 1N5819.
+//! flyback diode (SS34 Schottky on the piggyback). The PWM comes from the
+//! piggyback's PCA9685 at `VALVE_PWM_HZ`, through its safety AND gates, so a
+//! missed watchdog heartbeat or a hardware over-temperature trip drops both
+//! valves whatever this module asks for.
 
 use embassy_time::Instant;
-use esp_hal::ledc::LowSpeed;
-use esp_hal::ledc::channel::{Channel, ChannelIFace};
 
 use crate::config;
+use crate::outputs;
 
 pub struct PwmValve {
-    channel: Channel<'static, LowSpeed>,
+    /// PCA9685 channel on the piggyback; `outputs::task` writes the duty.
+    channel: u8,
     name: &'static str,
     energised_since: Option<Instant>,
     holding: bool,
 }
 
 impl PwmValve {
-    /// `channel` must already be configured (timer attached), at 0% duty.
-    pub fn new(channel: Channel<'static, LowSpeed>, name: &'static str) -> Self {
+    pub fn new(channel: u8, name: &'static str) -> Self {
         Self {
             channel,
             name,
@@ -78,8 +76,7 @@ impl PwmValve {
     }
 
     fn duty(&self, pct: u8) {
-        if let Err(e) = self.channel.set_duty(pct) {
-            log::error!("valve {}: can't set {pct}% duty: {e:?}", self.name);
-        }
+        log::debug!("valve {}: {pct}%", self.name);
+        outputs::set_duty(self.channel, pct);
     }
 }

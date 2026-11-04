@@ -5,13 +5,20 @@ Original ES3000 board is damaged (blown triac, damaged optocouplers/traces).
 
 ## Hardware target
 
-- MCU: ESP32-C6 (RISC-V, single-core). Was originally scoped as plain
-  ESP32 (Xtensa, dual-core) — confirm the spun PCB's module footprint
-  actually matches C6 before treating this as settled.
-- Framework: Embassy (`embassy-rs`) via `esp-rtos`, `esp-hal`, `no_std`
-- Toolchain: Rust stable + `rustup target add riscv32imac-unknown-none-elf`
-  — `espup`/the Xtensa fork toolchain is NOT needed for C6, since it's a
-  RISC-V chip supported directly by upstream Rust.
+- Since 2026-11-04 (branch `s3-port`): **Waveshare ESP32-S3-Touch-LCD-5**
+  (ESP32-S3-WROOM-1-N16R8, 800x480 RGB panel, GT911 touch, CH422G expander)
+  plus the SMD **piggyback** I/O board in `../Piggyback/` (2x ADS1115,
+  PCA9685, watchdog + hardware over-temp interlock). Every S3 GPIO is used by
+  the Waveshare board, so the piggyback hangs off its I2C bus; see
+  `../Piggyback/pin-allocation.md`. The ESP32-C6 + Nextion build lives on
+  `main` until the S3 board is proven.
+- Framework: Embassy via `esp-rtos`, `esp-hal` 1.0, `no_std`; UI is Slint
+  (software renderer) into a PSRAM framebuffer (`src/board/display.rs`).
+- Toolchain: Espressif's Xtensa fork (`espup install --targets esp32s3`,
+  then `. ~/export-esp.sh`). If espup fails with a missing liblzma/libiconv,
+  run it with `DYLD_LIBRARY_PATH=/opt/homebrew/opt/xz/lib:/opt/homebrew/opt/libiconv/lib`.
+- Flash/log over the Waveshare's USB-C (USB-Serial-JTAG): `cargo run --release`.
+  UART0 (GPIO43/44) is Modbus.
 
 ## System
 

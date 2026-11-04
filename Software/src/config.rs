@@ -75,14 +75,14 @@ pub const PID_KD: f32 = 0.0; // disabled — pressure ADC has no filtering yet, 
 
 // NTC — BETA IS UNCONFIRMED. Verify against probe datasheet or measure
 // resistance at two known temperatures before trusting shutdown thresholds.
-// Breadboard build: 100k (R25) probe to GND, 10k pull-up from 3V3, 1k
-// series + 100nF into GPIO1. The 10k (not 100k) pull-up puts ~1.2V on the
-// pin at the 105°C trip point instead of ~0.2V, where the ADC resolves it
-// far better; the price is that room temperature already sits at ~3.0V.
+// Piggyback: 100k probe to AGND, 33k 0.1% pull-up from 3V3_A, read by a
+// 16-bit ADS1115 that also reads 3V3_A itself, so the conversion is
+// ratiometric (no supply constant). 33k puts ~0.5V on the input at the 105°C
+// trip, where 16 bits resolve it to well under 0.1 K. The piggyback's
+// hardware comparator trips independently at ~110°C (rotor) / ~140°C (motor).
 pub const NTC_BETA: f32 = 4000.0;
 pub const NTC_REF_OHMS: f32 = 100_000.0; // probe resistance at 25°C
-pub const NTC_PULLUP_OHMS: f32 = 10_000.0;
-pub const NTC_SUPPLY_V: f32 = 3.282; // measured on the breadboard 3V3 rail 2026-10-29
+pub const NTC_PULLUP_OHMS: f32 = 33_000.0;
 // Refuse to run (TempSensorFault) without a plausible rotor/oil reading.
 // Set false only to bench-test with no probe fitted.
 pub const TEMP_SENSOR_REQUIRED: bool = true;
@@ -145,35 +145,25 @@ pub const PRESSURE_ADC_GAIN_CORRECTION: f32 = 1.0;
 // the span is scaled by the same ratio. That's an assumption until a
 // second point exists: check against a known pressure (the machine's gauge)
 // and replace V_PER_BAR with the measured slope.
-pub const PRESSURE_CAL_V_AT_ZERO_BAR: f32 = 0.378;
-pub const PRESSURE_CAL_V_PER_BAR: f32 = 1.6 / 17.0 * (0.378 / 0.400);
-
-// GPIO pin assignments (ESP32-C6-DevKitC-1). Pure documentation — Rust can't
-// generically index `peripherals.GPIOn` by a runtime/const u8, so these exist
-// to keep one canonical reference next to the peripheral-construction call
-// sites in main.rs. See CLAUDE.md for the full pin table and rationale.
 //
-// GPIO24-30 are wired internally to the module's SPI flash on every C6
-// module/devkit and are NOT usable as GPIO at all — the four pins below
-// marked "moved" were originally specced on that reserved range and have
-// been reassigned to free pins on the same header.
-pub const PRESSURE_SENSOR_GPIO: u8 = 0; // ADC1 ch0, 4-20mA loop
-pub const TEMP_SENSOR_GPIO: u8 = 1; // ADC1 ch1, NTC divider (breadboard build), 11dB
-// GPIO10 (old MAX3485 DE+RE) is unused on the breadboard build: the TTL-RS485
-// module switches direction by itself off the TX line.
-// Corrected 2026-09-09 — confirmed against the fabricated PCB's netlist
-// (Main/production/netlist.ipc): MAX3485 DI/RO actually land on GPIO19/18,
-// not GPIO23/22 (those instead go to the Nextion header, J3). Previously
-// swapped with NEXTION_TX_GPIO/NEXTION_RX_GPIO below.
-pub const MODBUS_DI_GPIO: u8 = 18; // MAX3485 DI  (MCU UART1 TX)
-pub const MODBUS_RO_GPIO: u8 = 19; // MAX3485 RO  (MCU UART1 RX)
+// 2026-11-04: reset to nominal for the piggyback's ADS1115 and 0.1% shunt;
+// the breadboard figure was mostly the C6 ADC's own gain error. Re-measure.
+pub const PRESSURE_CAL_V_AT_ZERO_BAR: f32 = 0.400;
+pub const PRESSURE_CAL_V_PER_BAR: f32 = 1.6 / 17.0;
+
+// Pins: see Piggyback/pin-allocation.md and src/board/mod.rs. On the
+// Waveshare ESP32-S3-Touch-LCD-5 every GPIO is used by the board itself; the
+// sensors and valves are on the piggyback, over I2C (GPIO8/9). Modbus is
+// UART0 GPIO43 (RX) / GPIO44 (TX) through the onboard SP3485.
+pub const MODBUS_RX_GPIO: u8 = 43;
+pub const MODBUS_TX_GPIO: u8 = 44;
 // Confirmed 2026-08-30 (had this backwards before): start-assist /
 // blow-down-to-intake valve. NOT a pressure-regulation valve — recirculates
 // discharge air back to the intake during motor start-up to cut starting
 // torque, then closes once the motor's up to speed so real compression can
 // begin. See CLAUDE.md "Capacity control strategy". Moved from GPIO26
-// (SPI flash). Polarity: see UNLOAD_VALVE_ENERGISE_TO_OPEN below.
-pub const SOLENOID_UNLOAD_GPIO: u8 = 20;
+// (SPI flash). Piggyback PCA9685 channel 0. Polarity: see
+// UNLOAD_VALVE_ENERGISE_TO_OPEN below.
 // true  = normally-closed valve: GPIO20 high OPENS it (unloads). Powered
 //         idle, during the start ramp, stopping and in Fault; unpowered
 //         while compressing. Power loss leaves it SHUT (no blow-down).
@@ -188,48 +178,14 @@ pub const SOLENOID_UNLOAD_GPIO: u8 = 20;
 pub const UNLOAD_VALVE_ENERGISE_TO_OPEN: bool = false;
 // Waste condensate drain — NOT a load/unload air valve. Manual/timed
 // trigger only (see DRAIN_PULSE_MS below), not part of automatic capacity
-// control. Moved from GPIO25 (SPI flash).
-pub const SOLENOID_DRAIN_GPIO: u8 = 21;
+// control. Piggyback PCA9685 channel 1.
 // Confirmed 2026-10-29 by the operator: the drain valve is normally-OPEN,
 // so GPIO21 is held HIGH (valve shut) at all times except while bPurge is
 // held. Power loss or a reset therefore opens the drain and vents the tank
 // through it until the firmware is back up.
 pub const DRAIN_VALVE_ENERGISE_TO_OPEN: bool = false;
-// Corrected 2026-09-09 — see MODBUS_DI_GPIO/MODBUS_RO_GPIO above: swapped
-// with the Modbus pins after confirming the fabricated PCB's actual wiring.
-pub const NEXTION_TX_GPIO: u8 = 23;
-pub const NEXTION_RX_GPIO: u8 = 22;
-
 // Modbus baud must match the SKI-70's Pd-00 (=5, 9600).
 pub const MODBUS_BAUD_RATE: u32 = 9600;
-
-// Nextion link. The display powers up at NEXTION_BOOT_BAUD (factory default,
-// and what the HMI's Program.s sets); the firmware runs the link at
-// NEXTION_BAUD_RATE and switches the display over with `baud=`. The link
-// task re-checks every NEXTION_RESYNC_MS and repeats the switch if the
-// display has dropped back (power blip, reboot) — see nextion.rs.
-pub const NEXTION_BOOT_BAUD: u32 = 9600;
-// Kept at the boot baud: no `baud=` switch to lose when the display
-// reboots. 9600 is plenty (a full redraw is ~0.5s).
-pub const NEXTION_BAUD_RATE: u32 = 9_600;
-pub const NEXTION_RESYNC_MS: u64 = 3_000;
-// Full re-init (wake, error-only acks, button ids, redraw) this often even
-// while the display answers probes: it can drift out of sync (stale fields,
-// dead touch) without the link ever looking down.
-pub const NEXTION_REINIT_MS: u64 = 30_000;
-// Unanswered probes in a row (one per NEXTION_RESYNC_MS) before the display
-// is sent `rest`.
-pub const NEXTION_MAX_FAILED_PROBES: u32 = 5;
-// Every field is re-sent this often even if unchanged, in case the display
-// reloaded its page (resetting fields to their Editor defaults) without us
-// noticing.
-pub const NEXTION_FULL_REFRESH_MS: u64 = 10_000;
-// HMI value scaling: `.val` is an integer, so fractional values are sent
-// multiplied by these. Use Xfloat components with vvs1=1 for nPressure,
-// nSetPoint and nMotorKw (one decimal place); nMotorSpeed is whole rpm.
-pub const NEXTION_PRESSURE_SCALE: f32 = 10.0;
-pub const NEXTION_SETPOINT_SCALE: f32 = 10.0;
-pub const NEXTION_KW_SCALE: f32 = 10.0;
 
 // Modbus (SKI-70, empirically discovered register map)
 pub const MODBUS_SLAVE_ADDR: u8 = 1;

@@ -1,4 +1,3 @@
 [toolchain]
-channel    = "stable"
-components = ["rust-src", "rust-analyzer"]
-targets    = ["riscv32imac-unknown-none-elf"]
+# Xtensa (ESP32-S3) needs Espressif's fork, installed by `espup install`.
+channel = "esp"

@@ -1,4 +1,10 @@
 fn main() {
+    slint_build::compile_with_config(
+        "ui/main.slint",
+        slint_build::CompilerConfiguration::new()
+            .embed_resources(slint_build::EmbedResourcesKind::EmbedForSoftwareRenderer),
+    )
+    .expect("slint build");
     linker_be_nice();
     // Must be the last linker script (otherwise it can conflict with
     // flip-link or other link-arg ordering).
@@ -51,7 +57,7 @@ fn linker_be_nice() {
     }
 
     println!(
-        "cargo:rustc-link-arg=--error-handling-script={}",
+        "cargo:rustc-link-arg=-Wl,--error-handling-script={}",
         std::env::current_exe().unwrap().display()
     );
 }

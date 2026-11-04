@@ -2,15 +2,11 @@
 name = "compressor-controller"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.95"
+rust-version = "1.88"
 
 [[bin]]
 name = "compressor-controller"
 path = "src/main.rs"
-
-[[bin]]
-name = "modbus-diag"
-path = "src/bin/modbus_diag.rs"
 
 [[bin]]
 name = "vfd-run-test"
@@ -21,13 +17,13 @@ path = "src/bin/vfd_run_test.rs"
 # UART, RMT) this project needs that haven't been through the 1.0 stability
 # gate yet. Pinned to ~1.0 (not 1.1) because esp-hal-smartled 0.17 (below)
 # hasn't been bumped past esp-hal ~1.0 yet — bump both together once it is.
-esp-hal = { version = "~1.0", features = ["esp32c6", "unstable", "log-04"] }
+esp-hal = { version = "~1.0", features = ["esp32s3", "unstable", "log-04", "psram"] }
 
 # Task scheduler / RTOS layer. Runs the Embassy executor on top of esp-hal's
 # timer + software-interrupt primitives — this is what makes `main` async
 # and lets embassy-executor preempt-free cooperatively schedule tasks
 # (sensor poll, Modbus comms, state machine tick, etc) the way an RTOS would.
-esp-rtos = { version = "0.2", features = ["embassy", "esp32c6", "log-04"] }
+esp-rtos = { version = "0.2", features = ["embassy", "esp32s3", "log-04"] }
 
 embassy-executor = "0.9"
 embassy-time = { version = "0.5", features = ["log"] }
@@ -37,29 +33,35 @@ static_cell = "2.1"
 libm = "0.2"
 nb = "1"
 embedded-io-async = "0.7"
+embedded-hal-async = "1.0"
+embedded-hal = "1.0"
+embassy-embedded-hal = "0.5"
+# PSRAM heap for the 800x480 framebuffer and Slint.
+esp-alloc = "0.9"
+# Touch UI. Software renderer, no_std; draws into the PSRAM framebuffer.
+slint = { version = "1.18", default-features = false, features = ["compat-1-2", "unsafe-single-threaded", "libm", "renderer-software"] }
 
 # Persistent starts/runtime counters — raw reads/writes into the default
 # NVS data partition (found via esp-bootloader-esp-idf's partition table,
 # no custom partitions.csv needed). See CLAUDE.md "Persistence".
-esp-storage = { version = "0.8", features = ["esp32c6"] }
+esp-storage = { version = "0.8", features = ["esp32s3"] }
 embedded-storage = "0.3.1"
 
-# Onboard WS2812 RGB LED on GPIO8 (ESP32-C6-DevKitC-1 / DevKitM-1) — used
-# for the blinky smoke test, not part of the compressor control path.
-esp-hal-smartled = { version = "0.17", features = ["esp32c6"] }
-smart-leds = "0.4"
 
 # App image descriptor required by the 2nd-stage bootloader on current
 # esp-hal/esp-bootloader-esp-idf releases.
-esp-bootloader-esp-idf = { version = "0.4", features = ["esp32c6"] }
+esp-bootloader-esp-idf = { version = "0.4", features = ["esp32s3"] }
 
 log = "0.4"
-esp-println = { version = "0.16", features = ["esp32c6", "log-04"] }
+esp-println = { version = "0.16", features = ["esp32s3", "log-04"] }
 esp-backtrace = { version = "0.18", features = [
-    "esp32c6",
+    "esp32s3",
     "panic-handler",
     "println",
 ] }
+
+[build-dependencies]
+slint-build = "1.18"
 
 [profile.release]
 codegen-units = 1
