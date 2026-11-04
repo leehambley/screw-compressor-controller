@@ -140,9 +140,34 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
   Configure that input as normally-closed external fault / coast stop.
 - The opto conducts only while SAFE is high. So a dead piggyback, a dead S3 or an over-temperature condition stops the motor.
 
+## Mechanical: screwed to the back of the Waveshare (Lee approved 2026-11-04)
+
+```
+ front ->  [ cover glass 84.2 x 84.2 ]
+           [ Waveshare PCB 74.5 x 76.5 ]   H4 plug sticks out of its back face
+                ||  4x M2.5 standoffs, 20 mm (F-F), on the 66.50 x 68.50 mm pattern
+           [ piggyback 100 x 80, parts facing away from the display ]
+                ||  optional standoffs / DIN carrier to the enclosure
+```
+
+- The piggyback repeats the Waveshare's hole pattern (66.50 × 68.50 mm) centred on its own outline.
+  Screws go through the piggyback into the standoffs, and through the standoffs into the Waveshare.
+  The display and the piggyback become one rigid module.
+- Hole size: **2.7 mm (M2.5) assumed**. The Waveshare drawing gives no diameter.
+  Measure the board when it arrives; the piggyback can take 3.2 mm (M3) if the Waveshare holes are M3.
+- The standoffs are 20 mm. That clears the green H4 plug (wires enter it sideways, towards the Waveshare's bottom edge), the battery header and the buzzer.
+- Harness: a short 10-wire loom. The Waveshare's own H4 plug sits at one end, and a 3.5 mm 10P plug (15EDGK-3.5-10P class) mates J2 at the other.
+  Use 0.5 mm² for VIN/GND and a twisted pair for A/B.
+- **Keep-outs on the piggyback's display-facing side**: no tall parts under the H4 plug footprint.
+  That is the Waveshare's lower edge, 41 mm wide, centred 11.08 + 20.5 mm from its left edge.
+  All piggyback parts go on the far side anyway.
+- Field terminals sit on the two outer edges that stick out past the Waveshare:
+  - Bottom edge (100 mm): J1 24 V, J9 valves, J10 VFD enable, J11 Modbus.
+  - Right edge (80 mm): J3/J4 4–20 mA, J6–J8 NTC.
+  - J2 sits near the Waveshare's H4, so the loom stays short.
+
 ## Layout intent
 
-- About 100 × 80 mm, 2 layers, 4× M3 holes in the corners.
-- Field terminals on one long edge, J2 on the opposite edge.
+- 100 × 80 mm, 2 layers. 4× M2.5 holes on the Waveshare pattern (see Mechanical).
 - Valve drivers, 24 V entry and TVS on one side; ADS, NTC and 4–20 mA front end on the other.
 - Solid GND plane on the bottom. AGND and GND tie at one point near the ADS.
