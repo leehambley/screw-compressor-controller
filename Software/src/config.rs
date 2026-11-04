@@ -152,11 +152,9 @@ pub const PRESSURE_CAL_V_AT_ZERO_BAR: f32 = 0.400;
 pub const PRESSURE_CAL_V_PER_BAR: f32 = 1.6 / 17.0;
 
 // Pins: see Piggyback/pin-allocation.md and src/board/mod.rs. On the
-// Waveshare ESP32-S3-Touch-LCD-5 every GPIO is used by the board itself; the
-// sensors and valves are on the piggyback, over I2C (GPIO8/9). Modbus is
-// UART0 GPIO43 (RX) / GPIO44 (TX) through the onboard SP3485.
-pub const MODBUS_RX_GPIO: u8 = 43;
-pub const MODBUS_TX_GPIO: u8 = 44;
+// Waveshare ESP32-S3-Touch-LCD-4 every GPIO is used by the board itself; the
+// sensors and valves are on the piggyback, over I2C (GPIO15 SDA / GPIO7 SCL).
+// Modbus is UART0 GPIO43 (TX) / GPIO44 (RX) through the onboard MAX13487.
 // Confirmed 2026-08-30 (had this backwards before): start-assist /
 // blow-down-to-intake valve. NOT a pressure-regulation valve — recirculates
 // discharge air back to the intake during motor start-up to cut starting

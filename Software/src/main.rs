@@ -32,10 +32,11 @@ use ui::{UiEvent, UiState};
 use valve::PwmValve;
 
 use board::ads1115::Ads1115;
-use board::ch422g::Ch422g;
 use board::display::{self, Display};
 use board::gt911::Gt911;
 use board::pca9685::Pca9685;
+use board::st7701::St7701;
+use board::tca9554::Tca9554;
 
 esp_bootloader_esp_idf::esp_app_desc!();
 
@@ -119,53 +120,69 @@ async fn main(spawner: Spawner) {
         ));
     }
 
-    // One I2C bus for everything: touch, CH422G and RTC on the Waveshare,
-    // the ADCs and PWM chip on the piggyback (through P1). 100 kHz because
+    // One I2C bus for everything: touch, expander and RTC on the Waveshare,
+    // the ADCs and PWM chip on the piggyback (through H4). 100 kHz because
     // the piggyback hangs off a harness.
     let i2c = I2c::new(peripherals.I2C0, I2cConfig::default().with_frequency(Rate::from_khz(100)))
         .unwrap()
-        .with_sda(peripherals.GPIO8)
-        .with_scl(peripherals.GPIO9)
+        .with_sda(peripherals.GPIO15)
+        .with_scl(peripherals.GPIO7)
         .into_async();
     static I2C_BUS: StaticCell<board::Bus> = StaticCell::new();
     let bus: &'static board::Bus = I2C_BUS.init(embassy_sync::mutex::Mutex::new(i2c));
     let dev = || I2cDevice::new(bus);
 
-    // Panel and touch reset through the CH422G. GT911 picks address 0x5D
-    // when its INT (GPIO4) is low as reset is released.
-    let mut ch422g = Ch422g::new(bus).await;
-    ch422g.set_io(board::EXIO_CTP_RST | board::EXIO_LCD_RST, false).await;
-    let touch_int = Output::new(peripherals.GPIO4, Level::Low, OutputConfig::default());
+    // Panel and touch reset through the TCA9554. GT911 picks address 0x5D
+    // when its INT (GPIO16) is low as reset is released.
+    let mut exio = Tca9554::new(dev(), board::EXIO_INPUTS).await.ok();
+    if exio.is_none() {
+        log::error!("tca9554 not found: no panel reset or backlight");
+    }
+    if let Some(x) = exio.as_mut() {
+        x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST | board::EXIO_BL_EN, false).await;
+    }
+    let touch_int = Output::new(peripherals.GPIO16, Level::Low, OutputConfig::default());
     Timer::after_millis(10).await;
-    ch422g.set_io(board::EXIO_CTP_RST | board::EXIO_LCD_RST, true).await;
-    Timer::after_millis(10).await;
+    if let Some(x) = exio.as_mut() {
+        x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, true).await;
+    }
+    Timer::after_millis(120).await;
     drop(touch_int); // back to an input
-    Timer::after_millis(50).await;
+
+    St7701 {
+        cs: Output::new(peripherals.GPIO42, Level::High, OutputConfig::default()),
+        sck: Output::new(peripherals.GPIO2, Level::High, OutputConfig::default()),
+        sda: Output::new(peripherals.GPIO1, Level::Low, OutputConfig::default()),
+    }
+    .init()
+    .await;
 
     let display = unsafe {
         Display::start(
             peripherals.LCD_CAM,
             peripherals.DMA_CH0,
             display::Pins {
-                pclk: peripherals.GPIO7,
-                de: peripherals.GPIO5,
-                hsync: peripherals.GPIO46,
-                vsync: peripherals.GPIO3,
-                b: (peripherals.GPIO14, peripherals.GPIO38, peripherals.GPIO18, peripherals.GPIO17, peripherals.GPIO10),
+                pclk: peripherals.GPIO41,
+                de: peripherals.GPIO40,
+                hsync: peripherals.GPIO38,
+                vsync: peripherals.GPIO39,
+                b: (peripherals.GPIO5, peripherals.GPIO45, peripherals.GPIO48, peripherals.GPIO47, peripherals.GPIO21),
                 g: (
-                    peripherals.GPIO39,
-                    peripherals.GPIO0,
-                    peripherals.GPIO45,
-                    peripherals.GPIO48,
-                    peripherals.GPIO47,
-                    peripherals.GPIO21,
+                    peripherals.GPIO14,
+                    peripherals.GPIO13,
+                    peripherals.GPIO12,
+                    peripherals.GPIO11,
+                    peripherals.GPIO10,
+                    peripherals.GPIO9,
                 ),
-                r: (peripherals.GPIO1, peripherals.GPIO2, peripherals.GPIO42, peripherals.GPIO41, peripherals.GPIO40),
+                r: (peripherals.GPIO46, peripherals.GPIO3, peripherals.GPIO8, peripherals.GPIO18, peripherals.GPIO17),
             },
             psram,
         )
     };
-    ch422g.set_io(board::EXIO_DISP, true).await; // backlight on
+    if let Some(x) = exio.as_mut() {
+        x.set(board::EXIO_BL_EN, true).await; // backlight on
+    }
     spawner.spawn(ui::task(display, Gt911::new(dev()))).unwrap();
 
     // Piggyback. A missing piggyback is logged and shows on the status bar
@@ -179,19 +196,20 @@ async fn main(spawner: Spawner) {
             None
         }
     };
-    spawner.spawn(outputs::task(pca, ch422g)).unwrap();
+    spawner.spawn(outputs::task(pca)).unwrap();
     let solenoid_unload = PwmValve::new(outputs::CH_START_ASSIST, "start-assist");
     let solenoid_drain = PwmValve::new(outputs::CH_DRAIN, "drain");
 
-    // Modbus RTU to the SKI-70 through the onboard SP3485, which switches
-    // direction by itself. UART0's pins, so the log is on USB-Serial-JTAG.
+    // Modbus RTU to the SKI-70 through the onboard MAX13487, which switches
+    // direction by itself; A/B leave on H4 and the piggyback passes them to a
+    // terminal. UART0's pins, so the log is on USB-Serial-JTAG.
     let modbus_uart = Uart::new(
         peripherals.UART0,
         UartConfig::default().with_baudrate(config::MODBUS_BAUD_RATE),
     )
     .unwrap()
-    .with_tx(peripherals.GPIO44)
-    .with_rx(peripherals.GPIO43)
+    .with_tx(peripherals.GPIO43)
+    .with_rx(peripherals.GPIO44)
     .into_async();
 
     let vfd = SkiVfd::new(modbus_uart);

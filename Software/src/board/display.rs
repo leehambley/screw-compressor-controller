@@ -1,16 +1,16 @@
-//! 800x480 RGB565 panel on the S3's LCD_CAM in DPI (RGB) mode, scanning out a
-//! single framebuffer in PSRAM forever.
+//! 480x480 RGB panel (ST7701S, set up over SPI by `st7701`) on the S3's
+//! LCD_CAM in DPI (RGB) mode, scanning out a single RGB565 framebuffer in
+//! PSRAM forever.
 //!
 //! The DMA walks a circular descriptor chain over the framebuffer and the LCD
 //! has `next_frame_en` set, so after `start` the panel refreshes with no CPU
-//! involvement. Drawing goes through the data cache, so call `flush` after
-//! each render to write the cache back to PSRAM, where the DMA reads it.
+//! involvement. Drawing goes through the data cache, so call `flush_rows`
+//! after each render to write the cache back to PSRAM, where the DMA reads it.
 //!
-//! UNVERIFIED on hardware (board not in hand, 2026-11-04): the timings below
-//! are the usual ones for 800x480 RGB panels on Waveshare's S3 boards
-//! (16 MHz, porches 8/8, sync 4). Check them against Waveshare's demo code
-//! once the board is here. If the picture jitters or drifts, the PSRAM can't
-//! keep up: drop PCLK_MHZ first.
+//! Timings and pins are ESPHome's tested `WAVESHARE-4-480X480` model: 12 MHz,
+//! clock not inverted, porches 20/10/10 (h) and 10/10/10 (v). UNVERIFIED with
+//! this driver (board not in hand, 2026-11-04). If the picture jitters or
+//! drifts, the PSRAM can't keep up: drop PCLK_MHZ first.
 
 use core::ptr::addr_of_mut;
 
@@ -23,26 +23,26 @@ use esp_hal::lcd_cam::LcdCam;
 use esp_hal::lcd_cam::lcd::dpi::{Config, Dpi, DpiTransfer, Format, FrameTiming};
 use esp_hal::lcd_cam::lcd::{ClockMode, Phase, Polarity};
 use esp_hal::peripherals::{
-    DMA_CH0, GPIO0, GPIO1, GPIO10, GPIO14, GPIO17, GPIO18, GPIO2, GPIO21, GPIO3, GPIO38, GPIO39,
-    GPIO40, GPIO41, GPIO42, GPIO45, GPIO46, GPIO47, GPIO48, GPIO5, GPIO7, LCD_CAM,
+    DMA_CH0, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO17, GPIO18, GPIO21, GPIO3, GPIO38,
+    GPIO39, GPIO40, GPIO41, GPIO45, GPIO46, GPIO47, GPIO48, GPIO5, GPIO8, GPIO9, LCD_CAM,
 };
 use esp_hal::time::Rate;
 use esp_hal::Blocking;
 
-pub const WIDTH: usize = 800;
+pub const WIDTH: usize = 480;
 pub const HEIGHT: usize = 480;
 pub const FB_BYTES: usize = WIDTH * HEIGHT * 2;
 
-const PCLK_MHZ: u32 = 16;
-const H_SYNC: usize = 4;
-const H_BACK: usize = 8;
-const H_FRONT: usize = 8;
-const V_SYNC: usize = 4;
-const V_BACK: usize = 8;
-const V_FRONT: usize = 8;
+const PCLK_MHZ: u32 = 12;
+const H_SYNC: usize = 10;
+const H_BACK: usize = 10;
+const H_FRONT: usize = 20;
+const V_SYNC: usize = 10;
+const V_BACK: usize = 10;
+const V_FRONT: usize = 10;
 
 /// Bytes per DMA descriptor: under the 4095 limit, a multiple of the 64-byte
-/// PSRAM burst, and an exact divisor of the frame (768000 / 3840 = 200).
+/// PSRAM burst, and an exact divisor of the frame (460800 / 3840 = 120).
 const CHUNK: usize = 3840;
 const DESCRIPTORS: usize = FB_BYTES / CHUNK;
 const _: () = assert!(FB_BYTES % CHUNK == 0 && CHUNK % 64 == 0);
@@ -95,21 +95,21 @@ unsafe impl DmaTxBuffer for FrameRing {
 }
 
 pub struct Pins {
-    pub pclk: GPIO7<'static>,
-    pub de: GPIO5<'static>,
-    pub hsync: GPIO46<'static>,
-    pub vsync: GPIO3<'static>,
-    // Panel B3..B7, G2..G7, R3..R7 (RGB565 uses the top bits of each).
-    pub b: (GPIO14<'static>, GPIO38<'static>, GPIO18<'static>, GPIO17<'static>, GPIO10<'static>),
+    pub pclk: GPIO41<'static>,
+    pub de: GPIO40<'static>,
+    pub hsync: GPIO38<'static>,
+    pub vsync: GPIO39<'static>,
+    // Panel B1..B5, G0..G5, R1..R5 as wired by Waveshare.
+    pub b: (GPIO5<'static>, GPIO45<'static>, GPIO48<'static>, GPIO47<'static>, GPIO21<'static>),
     pub g: (
-        GPIO39<'static>,
-        GPIO0<'static>,
-        GPIO45<'static>,
-        GPIO48<'static>,
-        GPIO47<'static>,
-        GPIO21<'static>,
+        GPIO14<'static>,
+        GPIO13<'static>,
+        GPIO12<'static>,
+        GPIO11<'static>,
+        GPIO10<'static>,
+        GPIO9<'static>,
     ),
-    pub r: (GPIO1<'static>, GPIO2<'static>, GPIO42<'static>, GPIO41<'static>, GPIO40<'static>),
+    pub r: (GPIO46<'static>, GPIO3<'static>, GPIO8<'static>, GPIO18<'static>, GPIO17<'static>),
 }
 
 pub struct Display {
@@ -130,7 +130,7 @@ impl Display {
             // Data changes on the falling edge, panel samples on the rising one.
             .with_clock_mode(ClockMode {
                 polarity: Polarity::IdleLow,
-                phase: Phase::ShiftLow, // esp-idf pclk_active_neg = 1
+                phase: Phase::ShiftHigh, // ESPHome pclk_inverted = false
             })
             .with_format(Format {
                 enable_2byte_mode: true,

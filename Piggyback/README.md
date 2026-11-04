@@ -1,14 +1,24 @@
-# Piggyback I/O board for the Waveshare ESP32-S3-Touch-LCD-5
+# Piggyback I/O board for the Waveshare ESP32-S3-Touch-LCD-4
 
 An SMD board, assembled by JLCPCB, that carries everything the Waveshare
-display board can't do itself. It talks to the S3 over **I2C only**, plus three
-of the board's opto I/O lines, because every S3 GPIO is taken (see
+display board can't do itself. It connects to the board's 10-pin H4 header
+only: power, I2C and the RS485 pair. Every S3 GPIO is taken (see
 [pin-allocation.md](pin-allocation.md)).
+
+**2026-11-04 evening: the display board changed from the 5" to the 4" (480x480).**
+The changes that followed:
+- J2 is now a 10-pin H4 harness.
+- The heartbeat comes from PCA9685 LED4, not the Waveshare's DO0.
+- The status lines back to the S3 (Q5/Q6) are gone. The S3 reads SAFE and TEMP_OK through the ADS1115s.
+- New J11 passes Modbus A/B through to the VFD.
+
+Lee confirmed the onboard MAX13487 (no isolation) and no digital inputs.
+The blocks below still describe the original 8-pin J2. The schematic is authoritative.
 
 ## Decisions (Lee, 2026-11-04)
 
 - The S3 is the only MCU and runs all-Rust Embassy (Xtensa). The C6 and the Nextion are retired.
-- Modbus to the SKI-70 goes through the Waveshare's onboard SP3485 (UART0, GPIO43/44, auto direction, not isolated).
+- Modbus to the SKI-70 goes through the Waveshare's onboard RS485 transceiver (UART0, GPIO43/44, auto direction, not isolated).
   The piggyback has no RS485 parts.
 - The valves are driven by MOSFETs on the piggyback, with the PWM hold kept.
 - Fail-safe: a firmware watchdog **and** a hardware over-temperature cutout.

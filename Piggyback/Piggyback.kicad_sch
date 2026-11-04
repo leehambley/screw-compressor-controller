@@ -6390,6 +6390,396 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector_Generic:Conn_01x10"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x10"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_01x10_1_1"
+				(rectangle
+					(start -1.27 11.43)
+					(end 1.27 -13.97)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(rectangle
+					(start -1.27 10.287)
+					(end 0 10.033)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 7.747)
+					(end 0 7.493)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 5.207)
+					(end 0 4.953)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 2.667)
+					(end 0 2.413)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -4.953)
+					(end 0 -5.207)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -7.493)
+					(end 0 -7.747)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -10.033)
+					(end 0 -10.287)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -12.573)
+					(end 0 -12.827)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 10.16 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 7.62 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 5.08 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "Pin_7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -7.62 0)
+					(length 3.81)
+					(name "Pin_8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -10.16 0)
+					(length 3.81)
+					(name "Pin_9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -12.7 0)
+					(length 3.81)
+					(name "Pin_10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(no_connect
 		(at 71.12 134.62)
@@ -6398,10 +6788,6 @@
 	(no_connect
 		(at 180.34 134.62)
 		(uuid "04f2f570-2aa5-46d3-8c2e-21b2d45d5460")
-	)
-	(no_connect
-		(at 93.98 365.76)
-		(uuid "7e2271a4-7d2a-43cd-8519-7ad4d3712064")
 	)
 	(no_connect
 		(at 93.98 368.3)
@@ -6446,6 +6832,134 @@
 	(no_connect
 		(at 93.98 393.7)
 		(uuid "55d63eff-8047-42ab-a127-194d9737ed37")
+	)
+	(no_connect
+		(at 185.42 55.88)
+		(uuid "21d26532-8663-410c-84ff-b9e6fff07517")
+	)
+	(no_connect
+		(at 185.42 58.42)
+		(uuid "59fd3b26-8ffc-4545-9d4c-419ccba2e210")
+	)
+	(text "1. POWER INPUT / PROTECTION (R1 = R_TIE joins GND and AGND)"
+		(at 20.32 22.86 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "a561db89-df6c-4845-bbec-905ecc1992da")
+	)
+	(text "2. J2 HARNESS TO DISPLAY BOARD + J5 DEBUG HEADER (R2/R3 pull-ups DNP)"
+		(at 185.42 22.86 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "af1db9ac-885b-436a-bfa7-eaa46fd3f82f")
+	)
+	(text "TEST POINTS / MOUNTING HOLES (GND)"
+		(at 330.2 22.86 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "9e114d2c-fd91-4187-a09b-98c78c975ba9")
+	)
+	(text "3. ADCs: U1 ADS1115 0x48 / U2 ADS1115 0x49 (VDD=3V3_A, GND=AGND)"
+		(at 20.32 102.87 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "5d6cd05d-40b0-4d23-8b83-94960e99d29f")
+	)
+	(text "4. 4-20 mA INPUTS x2 (Jp1=J3, Jp2=J4)"
+		(at 243.84 102.87 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "3ca4cddd-4315-4261-b15c-cf4a143a3f9c")
+	)
+	(text "5. NTC INPUTS x3 (Jt1..3 = J6..J8, pin3 SHIELD tied to AGND)"
+		(at 424.18 102.87 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "e438de0a-2b57-4a42-a620-1c4c25bcdcb5")
+	)
+	(text "6. HARDWARE OVER-TEMP COMPARATOR (U3 LM393) -> TEMP_OK"
+		(at 20.32 246.38 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "aec8626b-fae2-4530-a1fd-bd364f5e4772")
+	)
+	(text "7. WATCHDOG (U4 74LVC1G123) HEARTBEAT -> WD_OK"
+		(at 215.9 246.38 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "08da48b2-4bee-4d58-8bc3-08a569e9f665")
+	)
+	(text "8. SAFETY GATING (U5 74LVC08): SAFE, V1_DRV, V2_DRV, VFD_EN"
+		(at 345.44 246.38 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "aafe8ec1-5aab-41a2-b0a2-f4b65e902f11")
+	)
+	(text "10. PWM (U6 PCA9685) + status LEDs"
+		(at 20.32 336.55 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "e7feb7b1-20d0-45ce-961a-c5288f2bf708")
+	)
+	(text "11. VALVE DRIVERS x2 (Q1/Q2) + J9"
+		(at 198.12 336.55 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "1519d74f-3a13-4658-b618-3d24eda7499c")
+	)
+	(text "12. VFD ENABLE OPTO (U7 -> J10)"
+		(at 391.16 336.55 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "cffc22eb-da5c-46c5-9824-e4e1e4950f56")
 	)
 	(label "24V_IN"
 		(at 20.32 38.1 180)
@@ -6708,16 +7222,6 @@
 		(uuid "15bb19a0-8066-4fa5-b0b7-44b2fd70f310")
 	)
 	(label "GND"
-		(at 185.42 45.72 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "79fefc79-1bd1-460d-9df5-061d83e8ed16")
-	)
-	(label "GND"
 		(at 269.24 40.64 180)
 		(effects
 			(font
@@ -6956,46 +7460,6 @@
 			(justify left bottom)
 		)
 		(uuid "f268a15a-d14a-4266-9181-38935c1868a4")
-	)
-	(label "GND"
-		(at 523.24 288.29 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "dbe54276-d882-45b1-91b6-abd63edfb454")
-	)
-	(label "GND"
-		(at 523.24 328.93 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "cfa2d1ed-8f52-4fdf-9d1e-cee38cfabe2d")
-	)
-	(label "GND"
-		(at 538.48 274.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "43ee51cc-60b1-485c-9eb6-1f3845ff9a06")
-	)
-	(label "GND"
-		(at 538.48 314.96 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2cf87e3e-7874-4442-82bd-81bb6d5db7b3")
 	)
 	(label "GND"
 		(at 139.7 379.73 0)
@@ -7598,16 +8062,6 @@
 		(uuid "2d429341-e8d6-40d4-9b9f-f209593c27f6")
 	)
 	(label "3V3_D"
-		(at 185.42 48.26 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "8ba9251f-6333-4d1f-9f9a-0241ef37c438")
-	)
-	(label "3V3_D"
 		(at 269.24 38.1 180)
 		(effects
 			(font
@@ -7748,16 +8202,6 @@
 		(uuid "ac9c73f3-1a94-4516-83ca-06f4414bfb05")
 	)
 	(label "24V_P"
-		(at 185.42 43.18 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2d30c1e5-90a8-4922-a5f1-e9a0098439c1")
-	)
-	(label "24V_P"
 		(at 330.2 38.1 0)
 		(effects
 			(font
@@ -7878,16 +8322,6 @@
 		(uuid "a952574f-5b59-4495-9f77-0da08d0f8063")
 	)
 	(label "SDA"
-		(at 185.42 50.8 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2e3c4168-85b6-403e-a0bb-5eaaf32dd9ec")
-	)
-	(label "SDA"
 		(at 228.6 41.91 0)
 		(effects
 			(font
@@ -7936,16 +8370,6 @@
 			(justify right bottom)
 		)
 		(uuid "2a2b799a-2056-4ae2-a7dd-4658e9c0eec6")
-	)
-	(label "SCL"
-		(at 185.42 53.34 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "49806adb-e7b9-4b0d-bf96-15b9e052aed5")
 	)
 	(label "SCL"
 		(at 243.84 41.91 0)
@@ -7998,16 +8422,6 @@
 		(uuid "74221719-d6c7-4eac-a904-7f8888b029de")
 	)
 	(label "HEARTBEAT"
-		(at 185.42 55.88 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2d80f88b-4533-4987-8f01-fb911740d609")
-	)
-	(label "HEARTBEAT"
 		(at 243.84 287.02 180)
 		(effects
 			(font
@@ -8036,46 +8450,6 @@
 			(justify left bottom)
 		)
 		(uuid "b435f199-a953-4dd1-8072-aa7dc10a63ff")
-	)
-	(label "DIN_TEMP"
-		(at 185.42 58.42 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "917edf3b-ea05-4c02-b860-956591d32f8f")
-	)
-	(label "DIN_TEMP"
-		(at 538.48 264.16 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f7e394d5-a93c-4457-bb3f-51c18242350e")
-	)
-	(label "DIN_WD"
-		(at 185.42 60.96 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c6c14a6a-3674-44fa-aaea-68821db15a5a")
-	)
-	(label "DIN_WD"
-		(at 538.48 304.8 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f51b824e-4110-48fc-bcde-8c5589da7786")
 	)
 	(label "LOOP1+"
 		(at 243.84 127 180)
@@ -8788,16 +9162,6 @@
 		(uuid "ade700f9-d00d-4c15-95f7-0f4ccd418f94")
 	)
 	(label "TEMP_OK"
-		(at 510.54 257.81 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "cf36d507-a272-4705-9504-58b9a071f9bb")
-	)
-	(label "TEMP_OK"
 		(at 364.49 269.24 180)
 		(effects
 			(font
@@ -8846,16 +9210,6 @@
 			(justify left bottom)
 		)
 		(uuid "68df5edb-4d88-417e-b319-515107fa2d8f")
-	)
-	(label "WD_OK"
-		(at 510.54 298.45 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "33500b3f-3753-4066-a1aa-df4891e468e9")
 	)
 	(label "WD_CLR"
 		(at 302.26 267.97 0)
@@ -9136,66 +9490,6 @@
 			(justify left bottom)
 		)
 		(uuid "1afc7631-8d42-4f04-b68e-395d8c43f2a6")
-	)
-	(label "Q5_G"
-		(at 510.54 265.43 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "055fca7a-bad3-459a-a227-ec0b3d733a9e")
-	)
-	(label "Q5_G"
-		(at 523.24 280.67 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "95ffad47-0780-4592-ab18-57fd93b405f6")
-	)
-	(label "Q5_G"
-		(at 530.86 269.24 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "12004f28-0a2b-4284-ac9b-0c8bbb0d50c2")
-	)
-	(label "Q6_G"
-		(at 510.54 306.07 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d314fa58-173f-45c3-9bee-54640433ba29")
-	)
-	(label "Q6_G"
-		(at 523.24 321.31 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d81747a7-13a4-498c-bd0c-8d876b9a488a")
-	)
-	(label "Q6_G"
-		(at 530.86 309.88 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b30d4239-910e-4696-a571-e054c174afd7")
 	)
 	(label "STAT1_DRV"
 		(at 93.98 360.68 0)
@@ -9587,70 +9881,140 @@
 		)
 		(uuid "4a815f47-7e60-435f-8638-e585cf043c80")
 	)
-  (text "1. POWER INPUT / PROTECTION (R1 = R_TIE joins GND and AGND)"
-    (at 20.32 22.86 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "a561db89-df6c-4845-bbec-905ecc1992da")
+	(label "GND"
+		(at 185.42 48.26 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "388d56d5-37d9-4e5a-ba54-7816e0f04e4c")
+	)
+	(label "GND"
+		(at 185.42 63.5 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c16fb100-39d8-44a0-b2f2-bd53e2dc02e1")
+	)
+	(label "GND"
+		(at 530.86 287.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "1ffaabd3-8e3d-4961-a336-182dfaf36ed3")
+	)
+	(label "24V_P"
+		(at 185.42 45.72 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0f936de5-99ec-478e-bc8a-a79406b0b157")
+	)
+	(label "RS485_A"
+		(at 185.42 50.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "3112ca17-466b-49a0-8c26-ed9f7c638d49")
+	)
+	(label "RS485_A"
+		(at 530.86 281.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "cbc4c0e4-4220-4d9b-8b50-368b20d63f4a")
+	)
+	(label "RS485_B"
+		(at 185.42 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "f75057c5-8f85-4927-b492-6281a59e0628")
+	)
+	(label "RS485_B"
+		(at 530.86 284.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "fc8ae7b1-1bb8-4be0-b4bb-a2546a904fbc")
+	)
+	(label "3V3_D"
+		(at 185.42 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "095e0c43-152a-4e14-87ef-f5a3b451365a")
+	)
+	(label "SDA"
+		(at 185.42 66.04 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "93f4e976-0aa2-430d-82ed-e95db31be798")
+	)
+	(label "SCL"
+		(at 185.42 68.58 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2daeb53c-5ecc-4801-ad81-028cfdaf9b2e")
+	)
+	(label "HEARTBEAT"
+		(at 93.98 365.76 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "84253e01-b952-45fd-ae12-05cb5139607c")
+	)
+  (text "Modbus pass-through from Waveshare MAX13487 (non-isolated)"
+    (at 500.38 262.89 0)
+    (effects (font (size 1.5 1.5)) (justify left bottom))
+    (uuid "3612d409-3d5b-425e-86be-94544f8701c7")
   )
-  (text "2. J2 HARNESS TO DISPLAY BOARD + J5 DEBUG HEADER (R2/R3 pull-ups DNP)"
-    (at 185.42 22.86 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "af1db9ac-885b-436a-bfa7-eaa46fd3f82f")
+  (text "J2: Waveshare ESP32-S3-Touch-LCD-4 H4 header, pitch TBC. 1=24V_P 2=GND 3=RS485_A 4=RS485_B 5=CANL(NC) 6=CANH(NC) 7=3V3_D 8=GND 9=SDA 10=SCL"
+    (at 185.42 75.18 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid "bb649cb3-95d0-49db-8a23-0ddc869abf70")
   )
-  (text "TEST POINTS / MOUNTING HOLES (GND)"
-    (at 330.2 22.86 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "9e114d2c-fd91-4187-a09b-98c78c975ba9")
-  )
-  (text "3. ADCs: U1 ADS1115 0x48 / U2 ADS1115 0x49 (VDD=3V3_A, GND=AGND)"
-    (at 20.32 102.87 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "5d6cd05d-40b0-4d23-8b83-94960e99d29f")
-  )
-  (text "4. 4-20 mA INPUTS x2 (Jp1=J3, Jp2=J4)"
-    (at 243.84 102.87 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "3ca4cddd-4315-4261-b15c-cf4a143a3f9c")
-  )
-  (text "5. NTC INPUTS x3 (Jt1..3 = J6..J8, pin3 SHIELD tied to AGND)"
-    (at 424.18 102.87 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "e438de0a-2b57-4a42-a620-1c4c25bcdcb5")
-  )
-  (text "6. HARDWARE OVER-TEMP COMPARATOR (U3 LM393) -> TEMP_OK"
-    (at 20.32 246.38 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "aec8626b-fae2-4530-a1fd-bd364f5e4772")
-  )
-  (text "7. WATCHDOG (U4 74LVC1G123) HEARTBEAT -> WD_OK"
-    (at 215.9 246.38 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "08da48b2-4bee-4d58-8bc3-08a569e9f665")
-  )
-  (text "8. SAFETY GATING (U5 74LVC08): SAFE, V1_DRV, V2_DRV, VFD_EN"
-    (at 345.44 246.38 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "aafe8ec1-5aab-41a2-b0a2-f4b65e902f11")
-  )
-  (text "9. STATUS BACK TO S3 (Q5/Q6 open-drain)"
+  (text "12b. VFD MODBUS (J11)"
     (at 500.38 246.38 0)
     (effects (font (size 2 2)) (justify left bottom))
-    (uuid "4d54581b-6c24-4b63-827c-97bf06aa0045")
-  )
-  (text "10. PWM (U6 PCA9685) + status LEDs"
-    (at 20.32 336.55 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "e7feb7b1-20d0-45ce-961a-c5288f2bf708")
-  )
-  (text "11. VALVE DRIVERS x2 (Q1/Q2) + J9"
-    (at 198.12 336.55 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "1519d74f-3a13-4658-b618-3d24eda7499c")
-  )
-  (text "12. VFD ENABLE OPTO (U7 -> J10)"
-    (at 391.16 336.55 0)
-    (effects (font (size 2 2)) (justify left bottom))
-    (uuid "cffc22eb-da5c-46c5-9824-e4e1e4950f56")
+    (uuid "bb4bce19-52d6-4175-8fd0-66565761a182")
   )
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -9703,15 +10067,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441204"
 			(at 25.4 38.1 0)
 			(hide yes)
@@ -9720,7 +10075,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:Polyfuse")
 		(at 50.8 38.1 0)
@@ -9772,15 +10136,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "F1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C18198333"
 			(at 50.8 38.1 0)
 			(hide yes)
@@ -9789,7 +10144,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "F1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D")
 		(at 76.2 38.1 90)
@@ -9841,15 +10205,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C22452"
 			(at 76.2 38.1 0)
 			(hide yes)
@@ -9858,7 +10213,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D_Zener")
 		(at 101.6 38.1 90)
@@ -9910,15 +10274,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D2")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C113998"
 			(at 101.6 38.1 0)
 			(hide yes)
@@ -9927,7 +10282,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D2")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 127 38.1 0)
@@ -9981,15 +10345,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C13585"
 			(at 127 38.1 0)
 			(hide yes)
@@ -9998,7 +10353,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 139.7 38.1 0)
@@ -10052,15 +10416,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C2")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C13585"
 			(at 139.7 38.1 0)
 			(hide yes)
@@ -10069,7 +10424,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C2")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 152.4 38.1 0)
@@ -10123,15 +10487,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C3")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 152.4 38.1 0)
 			(hide yes)
@@ -10140,7 +10495,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 25.4 76.2 0)
@@ -10194,15 +10558,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19702"
 			(at 25.4 76.2 0)
 			(hide yes)
@@ -10211,7 +10566,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 38.1 76.2 0)
@@ -10265,15 +10629,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C5")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 38.1 76.2 0)
 			(hide yes)
@@ -10282,7 +10637,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:FerriteBead")
 		(at 63.5 76.2 0)
@@ -10334,15 +10698,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "FB1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19330"
 			(at 63.5 76.2 0)
 			(hide yes)
@@ -10351,7 +10706,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "FB1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 88.9 76.2 0)
@@ -10405,15 +10769,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C6")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19702"
 			(at 88.9 76.2 0)
 			(hide yes)
@@ -10422,7 +10777,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 101.6 76.2 0)
@@ -10476,15 +10840,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C7")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 101.6 76.2 0)
 			(hide yes)
@@ -10493,7 +10848,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 127 76.2 0)
@@ -10545,15 +10909,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C21189"
 			(at 127 76.2 0)
 			(hide yes)
@@ -10562,76 +10917,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x08")
-		(at 190.5 50.8 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8b92d0ea-4910-46d6-a2e9-fa7df0be99f4")
-		(property "Reference" "J2"
-			(at 190.5 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "HARNESS"
-			(at 190.5 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Phoenix_MC:PhoenixContact_MC_1,5_8-G-3.5_1x08_P3.50mm_Horizontal"
-			(at 190.5 50.8 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 190.5 50.8 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 190.5 50.8 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
 		)
 		(instances
 			(project "Piggyback"
 				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J2")
+					(reference "R1")
 					(unit 1)
 				)
 			)
 		)
-	
-		(property "LCSC" "C441177"
-			(at 190.5 50.8 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 228.6 38.1 0)
@@ -10683,15 +10978,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R2")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C23162"
 			(at 228.6 38.1 0)
 			(hide yes)
@@ -10700,7 +10986,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 243.84 38.1 0)
@@ -10752,15 +11047,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R3")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C23162"
 			(at 243.84 38.1 0)
 			(hide yes)
@@ -10769,7 +11055,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 274.32 40.64 0)
@@ -10821,15 +11116,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J5")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C492403"
 			(at 274.32 40.64 0)
 			(hide yes)
@@ -10838,7 +11124,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J5")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 330.2 38.1 0)
@@ -11670,15 +11965,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C37593"
 			(at 60.96 139.7 0)
 			(hide yes)
@@ -11687,7 +11973,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Analog_ADC:ADS1115IDGS")
 		(at 170.18 139.7 0)
@@ -11739,15 +12034,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C37593"
 			(at 170.18 139.7 0)
 			(hide yes)
@@ -11756,7 +12042,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 92.71 118.11 0)
@@ -11810,15 +12105,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C8")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 92.71 118.11 0)
 			(hide yes)
@@ -11827,7 +12113,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 201.93 118.11 0)
@@ -11881,15 +12176,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C9")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 201.93 118.11 0)
 			(hide yes)
@@ -11898,7 +12184,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 25.4 177.8 0)
@@ -11950,15 +12245,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R4")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 25.4 177.8 0)
 			(hide yes)
@@ -11967,7 +12253,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 38.1 177.8 0)
@@ -12019,15 +12314,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R5")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 38.1 177.8 0)
 			(hide yes)
@@ -12036,7 +12322,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 55.88 177.8 0)
@@ -12088,15 +12383,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R6")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 55.88 177.8 0)
 			(hide yes)
@@ -12105,7 +12391,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 68.58 177.8 0)
@@ -12157,15 +12452,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R7")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 68.58 177.8 0)
 			(hide yes)
@@ -12174,7 +12460,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R7")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 152.4 177.8 0)
@@ -12226,15 +12521,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R8")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 152.4 177.8 0)
 			(hide yes)
@@ -12243,7 +12529,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 165.1 177.8 0)
@@ -12295,15 +12590,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R9")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 165.1 177.8 0)
 			(hide yes)
@@ -12312,7 +12598,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R9")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 248.92 127 0)
@@ -12364,15 +12659,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J3")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441204"
 			(at 248.92 127 0)
 			(hide yes)
@@ -12381,7 +12667,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 248.92 170.18 0)
@@ -12433,15 +12728,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441204"
 			(at 248.92 170.18 0)
 			(hide yes)
@@ -12450,7 +12736,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:Polyfuse")
 		(at 279.4 127 0)
@@ -12502,15 +12797,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "F2")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C20797"
 			(at 279.4 127 0)
 			(hide yes)
@@ -12519,7 +12805,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "F2")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:Polyfuse")
 		(at 279.4 170.18 0)
@@ -12571,15 +12866,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "F3")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C20797"
 			(at 279.4 170.18 0)
 			(hide yes)
@@ -12588,7 +12874,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "F3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 304.8 127 0)
@@ -12640,15 +12935,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R10")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C728670"
 			(at 304.8 127 0)
 			(hide yes)
@@ -12657,7 +12943,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 304.8 170.18 0)
@@ -12709,15 +13004,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R11")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C728670"
 			(at 304.8 170.18 0)
 			(hide yes)
@@ -12726,7 +13012,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 322.58 127 0)
@@ -12778,15 +13073,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R12")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C21190"
 			(at 322.58 127 0)
 			(hide yes)
@@ -12795,7 +13081,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 322.58 170.18 0)
@@ -12847,15 +13142,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R13")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C21190"
 			(at 322.58 170.18 0)
 			(hide yes)
@@ -12864,7 +13150,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R13")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 337.82 127 0)
@@ -12918,15 +13213,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C10")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 337.82 127 0)
 			(hide yes)
@@ -12935,7 +13221,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 337.82 170.18 0)
@@ -12989,15 +13284,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C11")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 337.82 170.18 0)
 			(hide yes)
@@ -13006,7 +13292,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C11")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Diode:BAT54S")
 		(at 365.76 127 0)
@@ -13060,15 +13355,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D3")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C47546"
 			(at 365.76 127 0)
 			(hide yes)
@@ -13077,7 +13363,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Diode:BAT54S")
 		(at 365.76 170.18 0)
@@ -13131,15 +13426,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D4")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C47546"
 			(at 365.76 170.18 0)
 			(hide yes)
@@ -13148,7 +13434,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D4")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 429.26 127 0)
@@ -13200,15 +13495,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J6")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441205"
 			(at 429.26 127 0)
 			(hide yes)
@@ -13217,7 +13503,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 429.26 170.18 0)
@@ -13269,15 +13564,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J7")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441205"
 			(at 429.26 170.18 0)
 			(hide yes)
@@ -13286,7 +13572,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J7")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 429.26 213.36 0)
@@ -13338,15 +13633,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J8")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441205"
 			(at 429.26 213.36 0)
 			(hide yes)
@@ -13355,7 +13641,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 457.2 127 0)
@@ -13407,15 +13702,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R14")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C705768"
 			(at 457.2 127 0)
 			(hide yes)
@@ -13424,7 +13710,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 457.2 170.18 0)
@@ -13476,15 +13771,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R15")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C705768"
 			(at 457.2 170.18 0)
 			(hide yes)
@@ -13493,7 +13779,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R15")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 457.2 213.36 0)
@@ -13545,15 +13840,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R16")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C705768"
 			(at 457.2 213.36 0)
 			(hide yes)
@@ -13562,7 +13848,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R16")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D_TVS")
 		(at 471.17 127 90)
@@ -13614,15 +13909,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D5")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19224"
 			(at 471.17 127 0)
 			(hide yes)
@@ -13631,7 +13917,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D5")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D_TVS")
 		(at 471.17 170.18 90)
@@ -13683,15 +13978,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D6")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19224"
 			(at 471.17 170.18 0)
 			(hide yes)
@@ -13700,7 +13986,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D_TVS")
 		(at 471.17 213.36 90)
@@ -13752,15 +14047,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D7")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19224"
 			(at 471.17 213.36 0)
 			(hide yes)
@@ -13769,7 +14055,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D7")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 485.14 127 0)
@@ -13821,15 +14116,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R17")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 485.14 127 0)
 			(hide yes)
@@ -13838,7 +14124,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 485.14 170.18 0)
@@ -13890,15 +14185,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R18")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 485.14 170.18 0)
 			(hide yes)
@@ -13907,7 +14193,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R18")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 485.14 213.36 0)
@@ -13959,15 +14254,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R19")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 485.14 213.36 0)
 			(hide yes)
@@ -13976,7 +14262,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 499.11 127 0)
@@ -14030,15 +14325,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C12")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 499.11 127 0)
 			(hide yes)
@@ -14047,7 +14333,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C12")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 499.11 170.18 0)
@@ -14101,15 +14396,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C13")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 499.11 170.18 0)
 			(hide yes)
@@ -14118,7 +14404,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C13")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 499.11 213.36 0)
@@ -14172,15 +14467,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C14")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 499.11 213.36 0)
 			(hide yes)
@@ -14189,7 +14475,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C14")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Diode:BAT54S")
 		(at 530.86 127 0)
@@ -14243,15 +14538,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D8")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C47546"
 			(at 530.86 127 0)
 			(hide yes)
@@ -14260,7 +14546,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D8")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Diode:BAT54S")
 		(at 530.86 170.18 0)
@@ -14314,15 +14609,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D9")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C47546"
 			(at 530.86 170.18 0)
 			(hide yes)
@@ -14331,7 +14617,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D9")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Diode:BAT54S")
 		(at 530.86 213.36 0)
@@ -14385,15 +14680,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D10")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C47546"
 			(at 530.86 213.36 0)
 			(hide yes)
@@ -14402,7 +14688,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D10")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Comparator:LM393")
 		(at 60.96 279.4 0)
@@ -14454,15 +14749,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U3")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C7955"
 			(at 60.96 279.4 0)
 			(hide yes)
@@ -14471,7 +14757,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Comparator:LM393")
 		(at 60.96 309.88 0)
@@ -14523,15 +14818,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U3")
-					(unit 2)
-				)
-			)
-		)
-	
 		(property "LCSC" "C7955"
 			(at 60.96 309.88 0)
 			(hide yes)
@@ -14540,7 +14826,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U3")
+					(unit 2)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Comparator:LM393")
 		(at 106.68 294.64 0)
@@ -14592,15 +14887,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U3")
-					(unit 3)
-				)
-			)
-		)
-	
 		(property "LCSC" "C7955"
 			(at 106.68 294.64 0)
 			(hide yes)
@@ -14609,7 +14895,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U3")
+					(unit 3)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 127 264.16 0)
@@ -14661,15 +14956,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R20")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 127 264.16 0)
 			(hide yes)
@@ -14678,7 +14964,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R20")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 139.7 264.16 0)
@@ -14730,15 +15025,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R21")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 139.7 264.16 0)
 			(hide yes)
@@ -14747,7 +15033,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R21")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 152.4 264.16 0)
@@ -14799,15 +15094,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R22")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C22804"
 			(at 152.4 264.16 0)
 			(hide yes)
@@ -14816,7 +15102,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 165.1 264.16 0)
@@ -14868,15 +15163,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R23")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C7250"
 			(at 165.1 264.16 0)
 			(hide yes)
@@ -14885,7 +15171,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R23")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 127 309.88 0)
@@ -14937,15 +15232,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R24")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 127 309.88 0)
 			(hide yes)
@@ -14954,7 +15240,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 139.7 309.88 0)
@@ -15006,15 +15301,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R25")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 139.7 309.88 0)
 			(hide yes)
@@ -15023,7 +15309,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R25")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 152.4 309.88 0)
@@ -15075,15 +15370,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R26")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25980"
 			(at 152.4 309.88 0)
 			(hide yes)
@@ -15092,7 +15378,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 165.1 309.88 0)
@@ -15144,15 +15439,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R27")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C7250"
 			(at 165.1 309.88 0)
 			(hide yes)
@@ -15161,7 +15447,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R27")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 190.5 287.02 0)
@@ -15213,15 +15508,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R28")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 190.5 287.02 0)
 			(hide yes)
@@ -15230,7 +15516,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R28")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 91.44 289.56 0)
@@ -15284,15 +15579,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C15")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 91.44 289.56 0)
 			(hide yes)
@@ -15301,7 +15587,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C15")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 287.02 264.16 0)
@@ -15355,15 +15650,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C16")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 287.02 264.16 0)
 			(hide yes)
@@ -15372,7 +15658,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C16")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 302.26 264.16 0)
@@ -15424,15 +15719,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R29")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 302.26 264.16 0)
 			(hide yes)
@@ -15441,7 +15727,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R29")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 217.17 322.58 0)
@@ -15493,15 +15788,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R30")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C22935"
 			(at 217.17 322.58 0)
 			(hide yes)
@@ -15510,7 +15796,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R30")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 232.41 322.58 0)
@@ -15564,15 +15859,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C17")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C15849"
 			(at 232.41 322.58 0)
 			(hide yes)
@@ -15581,7 +15867,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C17")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 302.26 297.18 0)
@@ -15633,15 +15928,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R31")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 302.26 297.18 0)
 			(hide yes)
@@ -15650,7 +15936,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R31")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "74xx:74LS08")
 		(at 372.11 266.7 0)
@@ -15702,15 +15997,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U5")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C468253"
 			(at 372.11 266.7 0)
 			(hide yes)
@@ -15719,7 +16005,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U5")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "74xx:74LS08")
 		(at 372.11 293.37 0)
@@ -15771,15 +16066,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U5")
-					(unit 2)
-				)
-			)
-		)
-	
 		(property "LCSC" "C468253"
 			(at 372.11 293.37 0)
 			(hide yes)
@@ -15788,7 +16074,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U5")
+					(unit 2)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "74xx:74LS08")
 		(at 417.83 266.7 0)
@@ -15840,15 +16135,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U5")
-					(unit 3)
-				)
-			)
-		)
-	
 		(property "LCSC" "C468253"
 			(at 417.83 266.7 0)
 			(hide yes)
@@ -15857,7 +16143,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U5")
+					(unit 3)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "74xx:74LS08")
 		(at 417.83 293.37 0)
@@ -15909,15 +16204,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U5")
-					(unit 4)
-				)
-			)
-		)
-	
 		(property "LCSC" "C468253"
 			(at 417.83 293.37 0)
 			(hide yes)
@@ -15926,7 +16212,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U5")
+					(unit 4)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "74xx:74LS08")
 		(at 453.39 279.4 0)
@@ -15978,15 +16273,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U5")
-					(unit 5)
-				)
-			)
-		)
-	
 		(property "LCSC" "C468253"
 			(at 453.39 279.4 0)
 			(hide yes)
@@ -15995,7 +16281,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U5")
+					(unit 5)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 468.63 264.16 0)
@@ -16049,15 +16344,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C18")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 468.63 264.16 0)
 			(hide yes)
@@ -16066,7 +16352,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 349.25 325.12 0)
@@ -16118,15 +16413,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R32")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 349.25 325.12 0)
 			(hide yes)
@@ -16135,7 +16421,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R32")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 361.95 325.12 0)
@@ -16187,15 +16482,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R33")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 361.95 325.12 0)
 			(hide yes)
@@ -16204,7 +16490,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R33")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 374.65 325.12 0)
@@ -16256,15 +16551,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R34")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 374.65 325.12 0)
 			(hide yes)
@@ -16273,7 +16559,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R34")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 387.35 325.12 0)
@@ -16325,15 +16620,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R35")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 387.35 325.12 0)
 			(hide yes)
@@ -16342,425 +16628,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
-	(symbol
-		(lib_id "Transistor_FET:Q_NMOS_GSD")
-		(at 535.94 269.24 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ce9a209b-bf0b-4ad8-8786-4bef52e1e656")
-		(property "Reference" "Q5"
-			(at 541.02 267.335 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "2N7002"
-			(at 541.02 269.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 535.94 269.24 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 535.94 269.24 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "N-MOSFET transistor, gate/source/drain"
-			(at 535.94 269.24 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
 		)
 		(instances
 			(project "Piggyback"
 				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "Q5")
+					(reference "R35")
 					(unit 1)
 				)
 			)
 		)
-	
-		(property "LCSC" "C8545"
-			(at 535.94 269.24 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
-	(symbol
-		(lib_id "Transistor_FET:Q_NMOS_GSD")
-		(at 535.94 309.88 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e9affa0b-4382-40bf-b844-829bfa8f92fe")
-		(property "Reference" "Q6"
-			(at 541.02 307.975 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "2N7002"
-			(at 541.02 309.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 535.94 309.88 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 535.94 309.88 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "N-MOSFET transistor, gate/source/drain"
-			(at 535.94 309.88 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "Q6")
-					(unit 1)
-				)
-			)
-		)
-	
-		(property "LCSC" "C8545"
-			(at 535.94 309.88 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
-	(symbol
-		(lib_id "Device:R")
-		(at 510.54 261.62 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "502f3d9c-c282-4958-bc96-50d409305391")
-		(property "Reference" "R36"
-			(at 512.572 261.62 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1k"
-			(at 510.54 261.62 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 510.54 261.62 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 510.54 261.62 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 510.54 261.62 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R36")
-					(unit 1)
-				)
-			)
-		)
-	
-		(property "LCSC" "C21190"
-			(at 510.54 261.62 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
-	(symbol
-		(lib_id "Device:R")
-		(at 523.24 284.48 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8c0c51e9-29ab-4097-88ef-b4ebf641ed4b")
-		(property "Reference" "R38"
-			(at 525.272 284.48 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 523.24 284.48 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 523.24 284.48 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 523.24 284.48 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 523.24 284.48 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R38")
-					(unit 1)
-				)
-			)
-		)
-	
-		(property "LCSC" "C25803"
-			(at 523.24 284.48 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
-	(symbol
-		(lib_id "Device:R")
-		(at 510.54 302.26 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d975f872-2903-4de1-af26-174ed63f52b2")
-		(property "Reference" "R37"
-			(at 512.572 302.26 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1k"
-			(at 510.54 302.26 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 510.54 302.26 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 510.54 302.26 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 510.54 302.26 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R37")
-					(unit 1)
-				)
-			)
-		)
-	
-		(property "LCSC" "C21190"
-			(at 510.54 302.26 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
-	(symbol
-		(lib_id "Device:R")
-		(at 523.24 325.12 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f6c0295e-5c54-4bec-953e-1bb4c0a2427f")
-		(property "Reference" "R39"
-			(at 525.272 325.12 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 523.24 325.12 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 523.24 325.12 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 523.24 325.12 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 523.24 325.12 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R39")
-					(unit 1)
-				)
-			)
-		)
-	
-		(property "LCSC" "C25803"
-			(at 523.24 325.12 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		))
+	)
 	(symbol
 		(lib_id "Driver_LED:PCA9685PW")
 		(at 76.2 373.38 0)
@@ -16814,15 +16691,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U6")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C2678753"
 			(at 76.2 373.38 0)
 			(hide yes)
@@ -16831,7 +16699,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U6")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 106.68 349.25 0)
@@ -16885,15 +16762,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C19")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 106.68 349.25 0)
 			(hide yes)
@@ -16902,7 +16770,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C19")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 119.38 349.25 0)
@@ -16956,15 +16833,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C20")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C19702"
 			(at 119.38 349.25 0)
 			(hide yes)
@@ -16973,7 +16841,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C20")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 139.7 360.68 0)
@@ -17025,15 +16902,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R40")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C21190"
 			(at 139.7 360.68 0)
 			(hide yes)
@@ -17042,7 +16910,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R40")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 139.7 375.92 90)
@@ -17094,15 +16971,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D11")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C2289"
 			(at 139.7 375.92 0)
 			(hide yes)
@@ -17111,7 +16979,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D11")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 157.48 360.68 0)
@@ -17163,15 +17040,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R41")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C21190"
 			(at 157.48 360.68 0)
 			(hide yes)
@@ -17180,7 +17048,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R41")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 157.48 375.92 90)
@@ -17232,15 +17109,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D12")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C2287"
 			(at 157.48 375.92 0)
 			(hide yes)
@@ -17249,7 +17117,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D12")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 203.2 360.68 0)
@@ -17301,15 +17178,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R42")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C22775"
 			(at 203.2 360.68 0)
 			(hide yes)
@@ -17318,7 +17186,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R42")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 215.9 375.92 0)
@@ -17370,15 +17247,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R44")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 215.9 375.92 0)
 			(hide yes)
@@ -17387,7 +17255,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R44")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Transistor_FET:Q_NMOS_GSD")
 		(at 238.76 365.76 0)
@@ -17441,15 +17318,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "Q1")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C155242"
 			(at 238.76 365.76 0)
 			(hide yes)
@@ -17458,7 +17326,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "Q1")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D")
 		(at 264.16 365.76 90)
@@ -17510,15 +17387,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D13")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C8678"
 			(at 264.16 365.76 0)
 			(hide yes)
@@ -17527,7 +17395,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D13")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 284.48 354.33 0)
@@ -17579,15 +17456,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R46")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 284.48 354.33 0)
 			(hide yes)
@@ -17596,7 +17464,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R46")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 284.48 375.92 90)
@@ -17648,15 +17525,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D15")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C2286"
 			(at 284.48 375.92 0)
 			(hide yes)
@@ -17665,7 +17533,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D15")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 203.2 396.24 0)
@@ -17717,15 +17594,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R43")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C22775"
 			(at 203.2 396.24 0)
 			(hide yes)
@@ -17734,7 +17602,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R43")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 215.9 408.94 0)
@@ -17786,15 +17663,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R45")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25803"
 			(at 215.9 408.94 0)
 			(hide yes)
@@ -17803,7 +17671,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R45")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Transistor_FET:Q_NMOS_GSD")
 		(at 238.76 396.24 0)
@@ -17857,15 +17734,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "Q2")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C155242"
 			(at 238.76 396.24 0)
 			(hide yes)
@@ -17874,7 +17742,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "Q2")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:D")
 		(at 264.16 396.24 90)
@@ -17926,15 +17803,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D14")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C8678"
 			(at 264.16 396.24 0)
 			(hide yes)
@@ -17943,7 +17811,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D14")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 297.18 354.33 0)
@@ -17995,15 +17872,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R47")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C25804"
 			(at 297.18 354.33 0)
 			(hide yes)
@@ -18012,7 +17880,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R47")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 297.18 375.92 90)
@@ -18064,15 +17941,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "D16")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C2286"
 			(at 297.18 375.92 0)
 			(hide yes)
@@ -18081,7 +17949,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "D16")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 330.2 381 0)
@@ -18133,15 +18010,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J9")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441206"
 			(at 330.2 381 0)
 			(hide yes)
@@ -18150,7 +18018,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J9")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:R")
 		(at 396.24 365.76 0)
@@ -18202,15 +18079,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "R48")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C23138"
 			(at 396.24 365.76 0)
 			(hide yes)
@@ -18219,7 +18087,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "R48")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Isolator:PC817")
 		(at 431.8 381 0)
@@ -18273,15 +18150,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U7")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C66405"
 			(at 431.8 381 0)
 			(hide yes)
@@ -18290,7 +18158,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 472.44 381 0)
@@ -18342,15 +18219,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "J10")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C441204"
 			(at 472.44 381 0)
 			(hide yes)
@@ -18359,7 +18227,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J10")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Device:C")
 		(at 495.3 365.76 0)
@@ -18413,15 +18290,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "C21")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C14663"
 			(at 495.3 365.76 0)
 			(hide yes)
@@ -18430,7 +18298,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "C21")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Piggyback:74LVC1G123_VSSOP8")
 		(at 254 287.02 0)
@@ -18482,15 +18359,6 @@
 				)
 			)
 		)
-		(instances
-			(project "Piggyback"
-				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
-					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
-	
 		(property "LCSC" "C77273"
 			(at 254 287.02 0)
 			(hide yes)
@@ -18499,7 +18367,16 @@
 					(size 1.27 1.27)
 				)
 			)
-		))
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 190.5 85.09 0)
@@ -18805,4 +18682,142 @@
 			)
 		)
 	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x10")
+		(at 190.5 55.88 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "73b85cd5-890e-4217-af68-a4293d2ec0c4")
+		(property "Reference" "J2"
+			(at 190.5 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HARNESS_H4 (pitch TBC)"
+			(at 190.5 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical"
+			(at 190.5 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190.5 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 190.5 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	
+		(property "LCSC" "C2897373"
+			(at 190.5 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		))
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x03")
+		(at 535.94 284.48 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f77ba1cb-9471-40bc-989d-55df4583819b")
+		(property "Reference" "J11"
+			(at 535.94 279.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "VFD_MODBUS"
+			(at 535.94 289.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Phoenix_MSTB:PhoenixContact_MSTBA_2,5_3-G-5,08_1x03_P5.08mm_Horizontal"
+			(at 535.94 284.48 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 535.94 284.48 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 535.94 284.48 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Piggyback"
+				(path "/cbf15013-b8b4-4e77-a301-fe04b7003078"
+					(reference "J11")
+					(unit 1)
+				)
+			)
+		)
+	
+		(property "LCSC" "C441205"
+			(at 535.94 284.48 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		))
 )

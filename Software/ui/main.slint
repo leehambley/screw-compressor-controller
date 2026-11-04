@@ -1,4 +1,4 @@
-// 800x480 operator screen. Same content as the old Nextion page 0:
+// 480x480 operator screen. Same content as the old Nextion page 0:
 // pressure, setpoint -/+, motor speed and power, a motor note, a status
 // bar, the RUN/STOP/RESET button and the two hold-to-act buttons.
 // All text and colours come from Rust (src/ui.rs); this file is layout only.
@@ -37,19 +37,19 @@ component Readout inherits Rectangle {
     background: #1c1c1c;
     border-radius: 10px;
     VerticalLayout {
-        padding: 12px;
-        Text { text: root.title; color: #9a9a9a; font-size: 20px; }
+        padding: 8px;
+        Text { text: root.title; color: #9a9a9a; font-size: 16px; }
         HorizontalLayout {
             alignment: start;
             spacing: 8px;
             Text { text: root.value; color: root.fg; font-size: root.big; font-weight: 700; vertical-alignment: bottom; }
-            Text { text: root.unit; color: #9a9a9a; font-size: 26px; vertical-alignment: bottom; }
+            Text { text: root.unit; color: #9a9a9a; font-size: 20px; vertical-alignment: bottom; }
         }
     }
 }
 
 export component MainWindow inherits Window {
-    width: 800px;
+    width: 480px;
     height: 480px;
     background: #000000;
 
@@ -75,47 +75,41 @@ export component MainWindow inherits Window {
     callback purge(bool);
 
     VerticalLayout {
-        padding: 10px;
-        spacing: 10px;
+        padding: 8px;
+        spacing: 8px;
+
+        // Pressure dominates: the number the operator looks for from across the shop.
+        Readout { title: "Pressure"; value: root.pressure; unit: "bar"; fg: root.pressure-fg; big: 96px; height: 140px; }
 
         HorizontalLayout {
-            spacing: 10px;
-            Readout { title: "Pressure"; value: root.pressure; unit: "bar"; fg: root.pressure-fg; big: 110px; horizontal-stretch: 3; }
-            VerticalLayout {
-                horizontal-stretch: 2;
-                spacing: 10px;
-                Readout { title: "Setpoint"; value: root.setpoint; unit: "bar"; big: 56px; }
-                HorizontalLayout {
-                    spacing: 10px;
-                    height: 70px;
-                    Btn { label: "-"; font: 44px; pressed => { root.setpoint-down(); } }
-                    Btn { label: "+"; font: 44px; pressed => { root.setpoint-up(); } }
-                }
-            }
+            spacing: 8px;
+            height: 76px;
+            Btn { label: "-"; font: 44px; width: 76px; pressed => { root.setpoint-down(); } }
+            Readout { title: "Setpoint"; value: root.setpoint; unit: "bar"; big: 36px; }
+            Btn { label: "+"; font: 44px; width: 76px; pressed => { root.setpoint-up(); } }
         }
 
         HorizontalLayout {
-            spacing: 10px;
-            height: 110px;
-            Readout { title: "Motor"; value: root.rpm; unit: "rpm"; fg: root.motor-fg; big: 52px; }
-            Readout { title: "Power (est.)"; value: root.kw; unit: "kW"; fg: root.motor-fg; big: 52px; }
+            spacing: 8px;
+            height: 76px;
+            Readout { title: "Motor"; value: root.rpm; unit: "rpm"; fg: root.motor-fg; big: 34px; }
+            Readout { title: "Power (est.)"; value: root.kw; unit: "kW"; fg: root.motor-fg; big: 34px; }
         }
 
-        Text { text: root.note; color: root.note-fg; font-size: 22px; height: 28px; }
+        Text { text: root.note; color: root.note-fg; font-size: 18px; height: 22px; horizontal-alignment: center; }
 
         Rectangle {
-            height: 44px;
+            height: 36px;
             background: root.status-bg;
             border-radius: 8px;
-            Text { text: root.status; color: root.status-fg; font-size: 24px; vertical-alignment: center; horizontal-alignment: center; }
+            Text { text: root.status; color: root.status-fg; font-size: 18px; vertical-alignment: center; horizontal-alignment: center; wrap: word-wrap; }
         }
 
         HorizontalLayout {
-            spacing: 10px;
-            height: 80px;
-            Btn { label: "UNLOAD"; pressed => { root.unload(true); } released => { root.unload(false); } }
-            Btn { label: "PURGE"; pressed => { root.purge(true); } released => { root.purge(false); } }
-            Btn { label: root.run-label; bg: root.run-bg; fg: root.run-fg; font: 34px; horizontal-stretch: 2; pressed => { root.run-pressed(); } }
+            spacing: 8px;
+            Btn { label: "UNLOAD"; font: 22px; pressed => { root.unload(true); } released => { root.unload(false); } }
+            Btn { label: "PURGE"; font: 22px; pressed => { root.purge(true); } released => { root.purge(false); } }
+            Btn { label: root.run-label; bg: root.run-bg; fg: root.run-fg; font: 28px; horizontal-stretch: 2; pressed => { root.run-pressed(); } }
         }
     }
 }

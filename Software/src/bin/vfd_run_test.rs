@@ -47,8 +47,8 @@ async fn main(_spawner: Spawner) {
         UartConfig::default().with_baudrate(config::MODBUS_BAUD_RATE),
     )
     .unwrap()
-    .with_tx(peripherals.GPIO44)
-    .with_rx(peripherals.GPIO43)
+    .with_tx(peripherals.GPIO43)
+    .with_rx(peripherals.GPIO44)
     .into_async();
 
     let mut vfd = SkiVfd::new(modbus_uart);
