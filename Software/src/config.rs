@@ -209,8 +209,17 @@ pub const MODBUS_BAUD_RATE: u32 = 9600;
 // task re-checks every NEXTION_RESYNC_MS and repeats the switch if the
 // display has dropped back (power blip, reboot) — see nextion.rs.
 pub const NEXTION_BOOT_BAUD: u32 = 9600;
-pub const NEXTION_BAUD_RATE: u32 = 115_200;
+// Kept at the boot baud: no `baud=` switch to lose when the display
+// reboots. 9600 is plenty (a full redraw is ~0.5s).
+pub const NEXTION_BAUD_RATE: u32 = 9_600;
 pub const NEXTION_RESYNC_MS: u64 = 3_000;
+// Full re-init (wake, error-only acks, button ids, redraw) this often even
+// while the display answers probes: it can drift out of sync (stale fields,
+// dead touch) without the link ever looking down.
+pub const NEXTION_REINIT_MS: u64 = 30_000;
+// Unanswered probes in a row (one per NEXTION_RESYNC_MS) before the display
+// is sent `rest`.
+pub const NEXTION_MAX_FAILED_PROBES: u32 = 5;
 // Every field is re-sent this often even if unchanged, in case the display
 // reloaded its page (resetting fields to their Editor defaults) without us
 // noticing.

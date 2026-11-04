@@ -10,7 +10,12 @@
 //!    already at the fast baud nothing is resent: a 9600-baud frame arrives
 //!    as junk at 115200 and would corrupt whatever command came next.
 //!    Whenever the link (re)connects it re-learns the button ids, forces a
-//!    full redraw, and releases any held buttons.
+//!    full redraw, and releases any held buttons. The same re-init also
+//!    runs every `NEXTION_REINIT_MS` regardless, when the display reports a
+//!    page other than 0, and when it reports going to sleep: a display that
+//!    still answers `sendme` can otherwise sit out of sync indefinitely.
+//!    After `NEXTION_MAX_FAILED_PROBES` unanswered probes in a row it is
+//!    sent `rest` (reboot) at both bauds.
 //! 2. **Input.** Parses the display's return frames; touch events from the
 //!    known buttons become `UiEvent`s on `EVENTS`.
 //! 3. **Output.** Renders the latest `UiState` (from `STATE`) into
@@ -101,7 +106,8 @@ fn event_for(button: usize, press: bool) -> Option<UiEvent> {
 }
 
 const POLL_MS: u64 = 5;
-const REPLY_TIMEOUT: Duration = Duration::from_millis(100);
+// At 9600 baud a display busy redrawing can take a few hundred ms to answer.
+const REPLY_TIMEOUT: Duration = Duration::from_millis(400);
 
 #[embassy_executor::task]
 pub async fn link_task(uart: Uart<'static, Async>) {
@@ -114,6 +120,8 @@ pub async fn link_task(uart: Uart<'static, Async>) {
     let mut dirty = false;
     let mut next_probe = Instant::now();
     let mut next_refresh = Instant::now();
+    let mut next_reinit = Instant::now() + Duration::from_millis(config::NEXTION_REINIT_MS);
+    let mut failed_probes: u32 = 0;
 
     loop {
         while let Some(frame) = link.next_frame() {
@@ -134,16 +142,55 @@ pub async fn link_task(uart: Uart<'static, Async>) {
             // since we last spoke, losing everything we'd sent it — re-init
             // even if the previous probe had the link up.
             let mut fresh = false;
-            let ok = link.probe().await || {
+            let mut page = link.probe().await;
+            if page.is_none() {
+                // One slow reply isn't a lost link: scanning other bauds
+                // sends the display garbage, so only do it on a second miss.
+                page = link.probe().await;
+            }
+            if page.is_none() {
                 fresh = true;
-                link.force_baud().await;
-                link.probe().await
-            };
-            if ok && (fresh || !link_up) {
-                log::info!("nextion: link up at {} baud", config::NEXTION_BAUD_RATE);
+                if let Some(baud) = link.find_baud().await {
+                    if baud == config::NEXTION_BAUD_RATE {
+                        page = link.probe().await;
+                    } else {
+                        log::info!("nextion: display answered at {baud} baud, switching it to {}", config::NEXTION_BAUD_RATE);
+                        link.force_baud(baud).await;
+                        page = link.probe().await;
+                    }
+                }
+            }
+            let ok = page.is_some();
+            failed_probes = if ok { 0 } else { failed_probes + 1 };
+            let wrong_page = matches!(page, Some(p) if p != 0);
+            if wrong_page {
+                log::warn!("nextion: display is on page {}, switching back to 0", page.unwrap_or(0));
+                link.send(b"page 0").await;
+            }
+            let periodic = ok && now >= next_reinit;
+            if ok && (fresh || !link_up || wrong_page || periodic) {
+                if periodic {
+                    log::debug!("nextion: periodic re-init");
+                } else {
+                    log::info!("nextion: link up at {} baud", config::NEXTION_BAUD_RATE);
+                }
+                next_reinit = now + Duration::from_millis(config::NEXTION_REINIT_MS);
                 link.init().await;
                 renderer.invalidate();
                 dirty = true;
+            } else if !ok && failed_probes == 1 {
+                // Wrong baud shows up as junk bytes; no bytes at all means
+                // nothing is arriving on RX (power, wiring, TX/RX swapped).
+                log::warn!(
+                    "nextion: no reply at any baud; {} bytes received since last check",
+                    core::mem::take(&mut link.rx_bytes)
+                );
+            }
+            if !ok && failed_probes >= config::NEXTION_MAX_FAILED_PROBES {
+                log::warn!("nextion: no reply to {failed_probes} probes, rebooting the display");
+                log::warn!("nextion: {} bytes received meanwhile", core::mem::take(&mut link.rx_bytes));
+                link.reboot().await;
+                failed_probes = 0;
             } else if !ok && link_up {
                 log::warn!("nextion: link lost, retrying every {}ms", config::NEXTION_RESYNC_MS);
             } else if !ok && !ever_up && !warned_never_up {
@@ -282,6 +329,8 @@ struct Link {
     ids: [Option<u8>; BUTTONS.len()],
     /// Set by `dispatch` on a boot/ready frame.
     rebooted: bool,
+    /// Raw bytes received, valid or not; read and cleared by the link task.
+    rx_bytes: u32,
 }
 
 impl Link {
@@ -294,6 +343,7 @@ impl Link {
             rx_pos: 0,
             ids: [None; BUTTONS.len()],
             rebooted: false,
+            rx_bytes: 0,
         }
     }
 
@@ -313,6 +363,7 @@ impl Link {
             if self.rx_pos == self.rx_len {
                 self.rx_pos = 0;
                 self.rx_len = self.uart.read_buffered(&mut self.rx).unwrap_or(0);
+                self.rx_bytes += self.rx_len as u32;
                 if self.rx_len == 0 {
                     return None;
                 }
@@ -347,6 +398,11 @@ impl Link {
             }
             Frame::Ready | Frame::Startup => {
                 log::info!("nextion: display (re)booted");
+                self.rebooted = true;
+            }
+            Frame::Code(0x86) => {
+                // Asleep it ignores everything but `sleep=0`; init wakes it.
+                log::warn!("nextion: display went to sleep, waking it");
                 self.rebooted = true;
             }
             Frame::Code(code) => {
@@ -390,18 +446,57 @@ impl Link {
         ok
     }
 
-    /// Is the display answering at the fast baud?
-    async fn probe(&mut self) -> bool {
+    /// Is the display answering at the fast baud? Returns its current page.
+    /// The leading terminator discards any half-received command first.
+    async fn probe(&mut self) -> Option<u8> {
+        self.send(b"").await;
         self.send(b"sendme").await;
-        self.await_frame(|f| matches!(f, Frame::Page(_))).await.is_some()
+        match self.await_frame(|f| matches!(f, Frame::Page(_))).await {
+            Some(Frame::Page(page)) => Some(page),
+            _ => None,
+        }
     }
 
-    /// Talks to the display at its boot baud and tells it to switch to ours.
-    async fn force_baud(&mut self) {
+    /// Sends `rest` at both bauds, since we can't tell which one a hung
+    /// display is listening at. It boots at `NEXTION_BOOT_BAUD`; the next
+    /// probe's `force_baud` brings it back up to ours.
+    async fn reboot(&mut self) {
+        for baud in [config::NEXTION_BAUD_RATE, config::NEXTION_BOOT_BAUD] {
+            self.set_baud(baud);
+            self.send(b"").await;
+            self.send(b"rest").await;
+            Timer::after_millis(5).await;
+        }
+        self.set_baud(config::NEXTION_BAUD_RATE);
+        while self.next_frame().is_some() {}
+    }
+
+    /// Asks for the page number at every baud the display supports, boot
+    /// baud first, and returns the first one that answers. Leaves the UART
+    /// at `NEXTION_BAUD_RATE`.
+    async fn find_baud(&mut self) -> Option<u32> {
+        const BAUDS: [u32; 12] = [
+            config::NEXTION_BOOT_BAUD, 2400, 4800, 19200, 31250, 38400, 57600,
+            230400, 250000, 256000, 512000, 921600,
+        ];
+        let mut found = None;
+        for baud in BAUDS {
+            self.set_baud(baud);
+            if self.probe().await.is_some() {
+                found = Some(baud);
+                break;
+            }
+        }
+        self.set_baud(config::NEXTION_BAUD_RATE);
+        found
+    }
+
+    /// Talks to the display at `from` baud and tells it to switch to ours.
+    async fn force_baud(&mut self, from: u32) {
         let mut cmd = CmdBuf::<24>::new();
         let _ = write!(cmd, "baud={}", config::NEXTION_BAUD_RATE);
 
-        self.set_baud(config::NEXTION_BOOT_BAUD);
+        self.set_baud(from);
         self.send(b"").await;
         self.send(cmd.as_bytes()).await;
         // `flush` returns once the FIFO is empty; give the last byte time to
@@ -417,6 +512,8 @@ impl Link {
     /// release of anything that might have been held when the link dropped
     /// (the release event is gone with it).
     async fn init(&mut self) {
+        self.send(b"").await;
+        self.send(b"sleep=0").await;
         self.send(b"bkcmd=2").await;
 
         for (i, name) in BUTTONS.iter().enumerate() {

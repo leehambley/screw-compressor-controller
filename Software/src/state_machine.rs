@@ -427,7 +427,11 @@ impl<'d> Controller<'d> {
                 self.vfd_comms_ok = true;
             }
             Err(e) => {
-                log::warn!("vfd: monitor read failed: {e:?}");
+                // Only a start or a running motor faults on this (see
+                // `tick_*`); idle it's a status warning, logged once.
+                if self.vfd_comms_ok {
+                    log::warn!("vfd: monitor read failed: {e:?}");
+                }
                 self.motor_hz = None;
                 self.motor_amps = None;
                 self.vfd_comms_ok = false;
@@ -661,6 +665,11 @@ impl<'d> Controller<'d> {
     }
 
     async fn enter_fault(&mut self, reason: FaultReason, now: Instant) {
+        // A fault drops the run request: RESET returns to a stopped Idle and
+        // the operator presses START again. Otherwise the request outlives
+        // the fault and Idle retries the start (and re-trips) straight after
+        // RESET.
+        self.enabled = false;
         self.assist_closed = false; // fail safe: open / de-energized
         self.apply_valves();
         let _ = self.vfd.set_run(false).await;
