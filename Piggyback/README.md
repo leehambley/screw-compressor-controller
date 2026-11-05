@@ -136,8 +136,18 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 ### VFD enable output
 
 - VFD_EN → 330 Ω → LED of a PC817-class optocoupler (SMD).
-- The transistor goes to J9, a 2-pin 5.08 terminal (DI, COM), wired to an SKI-70 digital input.
-  Configure that input as normally-closed external fault / coast stop.
+- The transistor goes to J10, a 2-pin 5.08 terminal (DI, COM). Wire DI to SKI-70 **X1** and COM to the
+  drive's **GND** (COM on the isolated variant). The drive's inputs are switched to GND (5–30 V, 1 kΩ).
+- SKI-70 settings (manual, P4 group), alongside the Modbus ones (P0-02=2, P0-03=9, Pd-00..02):
+  - **P4-00 = 8** ("freely park", i.e. coast to stop). The factory default 1 = FWD must go.
+  - **P4-35 = 00001**: X1 active on *low* level, so an **open** opto (SAFE low, piggyback or S3 dead,
+    cable cut) coasts the motor. Terminal functions act independently of the command source, so
+    Modbus keeps run/stop/speed while X1 can only stop it. **Verify on the drive**: with the motor
+    running over Modbus, pulling J10 must coast it to a stop; the manual's table doesn't say so explicitly.
+  - Coast-stop doesn't latch, so no fault reset is needed. The alternative, P4-00 = 32
+    ("outer failure normally close"), trips Err15. That latches, and it would also trip at every
+    power-up before the heartbeat starts, so it would need a reset (keypad or X4 = 9) each time.
+    The manual doesn't document a Modbus fault-reset command.
 - The opto conducts only while SAFE is high. So a dead piggyback, a dead S3 or an over-temperature condition stops the motor.
 
 ## Mechanical: screwed to the back of the Waveshare (Lee approved 2026-11-04)
