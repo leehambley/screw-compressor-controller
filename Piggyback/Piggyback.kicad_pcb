@@ -99,7 +99,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -123,7 +123,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -325,7 +325,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 3P 5.08mm right-angle"
 			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
@@ -381,6 +381,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "999da767-3a94-4b12-9763-c27c6e9bb638")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1c4083e8-8572-46fe-b7b5-a6cd79ea3e4e")
 			(effects
 				(font
 					(size 1 1)
@@ -690,7 +703,7 @@
 				)
 			)
 		)
-		(property "Value" "PC817X2CSP9F"
+		(property "Value" "LTV-817S"
 			(at 0 3.6 0)
 			(layer "F.Fab")
 			(uuid "d5e814d0-5d7c-46f3-82f8-4c258a3e499b")
@@ -701,7 +714,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Sharp-Microelectronics-PC817X2CSP9F_C66405.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Lite-On-LTV-817S-TA1-C_C109227.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -712,7 +725,7 @@
 				)
 			)
 		)
-		(property "Description" "Optocoupler, phototransistor out, 80V Vceo, CTR 50-600%, 5kV isolation, SMD-4 (gull-wing DIP-4)"
+		(property "Description" "Optocoupler, phototransistor output, 5kV, SMD-4"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -735,7 +748,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C66405"
+		(property "LCSC" "C109227"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -748,7 +761,7 @@
 				)
 			)
 		)
-		(property "MPN" "PC817X2CSP9F"
+		(property "MPN" "LTV-817S-TA1-C"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -761,7 +774,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Sharp Microelectronics"
+		(property "Manufacturer" "Lite-On"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1016,7 +1029,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1218,7 +1231,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1420,7 +1433,7 @@
 				)
 			)
 		)
-		(property "Description" "Diode"
+		(property "Description" "Schottky diode 40V 5A SMA (reverse-polarity protection)"
 			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
@@ -1740,7 +1753,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -1764,7 +1777,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2051,7 +2064,7 @@
 				)
 			)
 		)
-		(property "Value" "15.4k 1%"
+		(property "Value" "15k 1%"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -2064,7 +2077,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010130_UNI-ROYAL-Uniroyal-Elec-0603WAF1542T5E_C22804.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010130_UNI-ROYAL-Uniroyal-Elec-0603WAF1502T5E_C22809.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2075,7 +2088,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 15k 1% 100mW 0603 (rotor over-temp trip ~111 C)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2099,7 +2112,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C22804"
+		(property "LCSC" "C22809"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2112,7 +2125,7 @@
 				)
 			)
 		)
-		(property "MPN" "0603WAF1542T5E"
+		(property "MPN" "0603WAF1502T5E"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2277,7 +2290,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10M 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2479,7 +2492,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2681,7 +2694,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2883,7 +2896,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 1k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3085,7 +3098,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 4.7k 1% 100mW 0603 (I2C pull-up, DNP)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3263,7 +3276,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -3287,7 +3300,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3489,7 +3502,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 2P 5.08mm right-angle"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3545,6 +3558,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3139917d-2e93-4d81-9305-cb58b26beb2e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "62e5e58e-13f7-49ba-8577-fe4c994b2653")
 			(effects
 				(font
 					(size 1 1)
@@ -3952,7 +3978,7 @@
 				)
 			)
 		)
-		(property "Description" "Resettable fuse, polymeric positive temperature coefficient"
+		(property "Description" "PTC resettable fuse 50mA hold 60V 1206 (4-20mA loop)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -4130,7 +4156,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10uF/10V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -4154,7 +4180,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 10uF 10V X5R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4356,7 +4382,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 0R jumper 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4682,7 +4708,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4860,7 +4886,7 @@
 				)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 0 2.400001 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -4873,7 +4899,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4884,7 +4910,7 @@
 				)
 			)
 		)
-		(property "Description" "Vr 30V, If 200mA, Dual schottky barrier diode, in series, SOT-323"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4908,7 +4934,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -4921,7 +4947,7 @@
 				)
 			)
 		)
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5434,7 +5460,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5612,7 +5638,7 @@
 				)
 			)
 		)
-		(property "Value" "100R 0.1%"
+		(property "Value" "100R 1%"
 			(at 0 1.83 90)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -5625,7 +5651,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_YAGEO-RT1206BRD07100RL_C728670.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010145_UNI-ROYAL-Uniroyal-Elec-1206W4F1000T5E_C17901.pdf"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -5636,7 +5662,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100R 1% 250mW 1206 (4-20mA shunt, gain calibrated in firmware)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -5660,7 +5686,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C728670"
+		(property "LCSC" "C17901"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5673,7 +5699,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT1206BRD07100RL"
+		(property "MPN" "1206W4F1000T5E"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5686,7 +5712,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5944,7 +5970,7 @@
 				)
 			)
 		)
-		(property "Description" "4-pin 3.5mm pluggable terminal header, right-angle, closed, screw flange (mates 15EDGKM-3.5-04P plug). Hand-fit, not JLC-assembled."
+		(property "Description" "Pluggable terminal block header 4P 3.5mm right-angle, closed, screw flange (mates 15EDGKM-3.5-04P)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -6006,10 +6032,29 @@
 				)
 			)
 		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "954bd616-ac26-456f-b848-2bd91be0325e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/8f729440-0498-4399-97b0-01a4ed592a97")
 		(sheetname "/")
 		(sheetfile "Piggyback.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6281,7 +6326,7 @@
 				)
 			)
 		)
-		(property "Value" "1uF"
+		(property "Value" "1uF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -6305,7 +6350,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 1uF 50V X5R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -6507,7 +6552,7 @@
 				)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
+		(property "Description" "ESD protection diode bidirectional 5V 130W SOD-323"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -6550,6 +6595,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4ba43662-2e6d-4f99-a302-28d1e4873f82")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit if ESD trouble)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b78c432-1e97-4369-a0a9-7aed635bfc1f")
 			(effects
 				(font
 					(size 1 1)
@@ -6825,7 +6883,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 3P 5.08mm right-angle"
 			(at 0 0 270)
 			(layer "F.Fab")
 			(hide yes)
@@ -6881,6 +6939,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5a2840f0-3024-42ce-b3a2-d337f90c83bc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d5049165-b34f-47e1-bc5b-1239ab792e85")
 			(effects
 				(font
 					(size 1 1)
@@ -7215,7 +7286,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 10uF 50V X5R ±10% 1206"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -7502,7 +7573,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10uF/10V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -7526,7 +7597,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 10uF 10V X5R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -7728,7 +7799,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 1M 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -7930,7 +8001,7 @@
 				)
 			)
 		)
-		(property "Description" "Light emitting diode"
+		(property "Description" "LED red 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8196,7 +8267,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 1k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8398,7 +8469,7 @@
 				)
 			)
 		)
-		(property "Description" "Light emitting diode"
+		(property "Description" "LED red 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8664,7 +8735,7 @@
 				)
 			)
 		)
-		(property "Description" "Quad And2"
+		(property "Description" "Quad 2-input AND gate 74LVC08, SOIC-14"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9154,7 +9225,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9356,7 +9427,7 @@
 				)
 			)
 		)
-		(property "Description" "16-channel 12-bit PWM Fm+ I2C-bus LED controller RGBA TSSOP"
+		(property "Description" "16-ch 12-bit PWM driver, I2C, TSSOP-28"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9984,7 +10055,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -10186,7 +10257,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 2P 5.08mm right-angle"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -10242,6 +10313,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "d8002011-4a79-4828-a1ca-cb5e817fe21c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "12756066-395e-4bde-99ec-0ee3a2933718")
 			(effects
 				(font
 					(size 1 1)
@@ -10525,7 +10609,7 @@
 				)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
+		(property "Description" "ESD protection diode bidirectional 5V 130W SOD-323"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -10568,6 +10652,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "93b2e73f-09f4-4416-ab60-f14a1d6f865c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit if ESD trouble)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "aa99e292-4b81-4104-a109-98290a3d2a90")
 			(effects
 				(font
 					(size 1 1)
@@ -10843,7 +10940,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -11045,7 +11142,7 @@
 				)
 			)
 		)
-		(property "Description" "Diode"
+		(property "Description" "Schottky diode 40V 3A SMA (valve flyback)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -11389,7 +11486,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -11591,7 +11688,7 @@
 				)
 			)
 		)
-		(property "Description" "Resettable fuse, polymeric positive temperature coefficient"
+		(property "Description" "PTC resettable fuse 50mA hold 60V 1206 (4-20mA loop)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -11769,7 +11866,7 @@
 				)
 			)
 		)
-		(property "Value" "33k 0.1%"
+		(property "Value" "33k 1%"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -11782,7 +11879,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2009282135_YAGEO-RT0603BRD0733KL_C705768.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010230_UNI-ROYAL-Uniroyal-Elec-0603WAF3302T5E_C4216.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -11793,7 +11890,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 33k 1% 100mW 0603 (NTC pull-up)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -11817,7 +11914,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C705768"
+		(property "LCSC" "C4216"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -11830,7 +11927,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT0603BRD0733KL"
+		(property "MPN" "0603WAF3302T5E"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -11843,7 +11940,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -11995,7 +12092,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 4P 5.08mm right-angle"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12051,6 +12148,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "46eee3d8-55bb-41df-9f49-34e4229abc95")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2decc368-281d-46d5-985e-37f8d64ef9e7")
 			(effects
 				(font
 					(size 1 1)
@@ -12412,7 +12522,7 @@
 				)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 0 2.4 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -12425,7 +12535,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12436,7 +12546,7 @@
 				)
 			)
 		)
-		(property "Description" "Vr 30V, If 200mA, Dual schottky barrier diode, in series, SOT-323"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12460,7 +12570,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -12473,7 +12583,7 @@
 				)
 			)
 		)
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -12862,7 +12972,7 @@
 				)
 			)
 		)
-		(property "Description" "Diode"
+		(property "Description" "Schottky diode 40V 3A SMA (valve flyback)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -13182,7 +13292,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -13206,7 +13316,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13517,7 +13627,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13719,7 +13829,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 1k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13921,7 +14031,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14123,7 +14233,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 10uF 50V X5R ±10% 1206"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14325,7 +14435,7 @@
 				)
 			)
 		)
-		(property "Description" "Ultra-Small, Low-Power, I2C-Compatible, 860-SPS, 16-Bit ADCs With Internal Reference, Oscillator, and Programmable Comparator, VSSOP-10"
+		(property "Description" "16-bit 4-ch ADC, I2C, PGA, VSSOP-10"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14771,7 +14881,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14973,7 +15083,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15175,7 +15285,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15462,7 +15572,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.429999 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -15486,7 +15596,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15664,7 +15774,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -15688,7 +15798,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15890,7 +16000,7 @@
 				)
 			)
 		)
-		(property "Description" "Ultra-Small, Low-Power, I2C-Compatible, 860-SPS, 16-Bit ADCs With Internal Reference, Oscillator, and Programmable Comparator, VSSOP-10"
+		(property "Description" "16-bit 4-ch ADC, I2C, PGA, VSSOP-10"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16445,7 +16555,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16647,7 +16757,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16825,7 +16935,7 @@
 				)
 			)
 		)
-		(property "Value" "33k 0.1%"
+		(property "Value" "33k 1%"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -16838,7 +16948,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2009282135_YAGEO-RT0603BRD0733KL_C705768.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010230_UNI-ROYAL-Uniroyal-Elec-0603WAF3302T5E_C4216.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16849,7 +16959,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 33k 1% 100mW 0603 (NTC pull-up)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16873,7 +16983,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C705768"
+		(property "LCSC" "C4216"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -16886,7 +16996,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT0603BRD0733KL"
+		(property "MPN" "0603WAF3302T5E"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -16899,7 +17009,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -17160,7 +17270,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 3P 5.08mm right-angle"
 			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
@@ -17216,6 +17326,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "fc155d3a-3ee2-4e28-817c-35c0361599af")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "52e6e165-c71f-4407-b631-513ae24325e5")
 			(effects
 				(font
 					(size 1 1)
@@ -17526,7 +17649,7 @@
 				)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 0 2.4 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -17539,7 +17662,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -17550,7 +17673,7 @@
 				)
 			)
 		)
-		(property "Description" "Vr 30V, If 200mA, Dual schottky barrier diode, in series, SOT-323"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -17574,7 +17697,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -17587,7 +17710,7 @@
 				)
 			)
 		)
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -17952,7 +18075,7 @@
 				)
 			)
 		)
-		(property "Value" "100R 0.1%"
+		(property "Value" "100R 1%"
 			(at 0 1.83 90)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -17965,7 +18088,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_YAGEO-RT1206BRD07100RL_C728670.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010145_UNI-ROYAL-Uniroyal-Elec-1206W4F1000T5E_C17901.pdf"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -17976,7 +18099,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100R 1% 250mW 1206 (4-20mA shunt, gain calibrated in firmware)"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -18000,7 +18123,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C728670"
+		(property "LCSC" "C17901"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -18013,7 +18136,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT1206BRD07100RL"
+		(property "MPN" "1206W4F1000T5E"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -18026,7 +18149,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -18178,7 +18301,7 @@
 				)
 			)
 		)
-		(property "Description" "Resettable fuse, polymeric positive temperature coefficient"
+		(property "Description" "PTC resettable fuse 1.5A hold 33V 1812"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18380,7 +18503,7 @@
 				)
 			)
 		)
-		(property "Description" "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8"
+		(property "Description" "Dual comparator, open collector, SOIC-8"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18788,7 +18911,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -18812,7 +18935,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19014,7 +19137,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19192,7 +19315,7 @@
 				)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 0 2.4 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -19205,7 +19328,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19216,7 +19339,7 @@
 				)
 			)
 		)
-		(property "Description" "Vr 30V, If 200mA, Dual schottky barrier diode, in series, SOT-323"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19240,7 +19363,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -19253,7 +19376,7 @@
 				)
 			)
 		)
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -19618,7 +19741,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -19642,7 +19765,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19820,7 +19943,7 @@
 				)
 			)
 		)
-		(property "Value" "KT-0603YG (yellow-green)"
+		(property "Value" "KT-0603R (red)"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -19833,7 +19956,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1806151835_Hubei-KENTO-Elec-KT-0603YG_C2289.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810231112_Hubei-KENTO-Elec-KT-0603R_C2286.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19844,7 +19967,7 @@
 				)
 			)
 		)
-		(property "Description" "Light emitting diode"
+		(property "Description" "LED red 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19868,7 +19991,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2289"
+		(property "LCSC" "C2286"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -19894,7 +20017,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0603YG"
+		(property "MPN" "KT-0603R"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -20110,7 +20233,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20312,7 +20435,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100R 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20514,7 +20637,7 @@
 				)
 			)
 		)
-		(property "Description" "N-MOSFET transistor, gate/source/drain"
+		(property "Description" "N-channel MOSFET 60V 2.5A 120mOhm SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20939,7 +21062,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21141,7 +21264,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 1k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21428,7 +21551,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10uF/10V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -21452,7 +21575,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 10uF 10V X5R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21630,7 +21753,7 @@
 				)
 			)
 		)
-		(property "Value" "33k 0.1%"
+		(property "Value" "33k 1%"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -21643,7 +21766,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2009282135_YAGEO-RT0603BRD0733KL_C705768.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010230_UNI-ROYAL-Uniroyal-Elec-0603WAF3302T5E_C4216.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21654,7 +21777,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 33k 1% 100mW 0603 (NTC pull-up)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21678,7 +21801,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C705768"
+		(property "LCSC" "C4216"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -21691,7 +21814,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT0603BRD0733KL"
+		(property "MPN" "0603WAF3302T5E"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -21704,7 +21827,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -21856,7 +21979,7 @@
 				)
 			)
 		)
-		(property "Description" "Zener diode"
+		(property "Description" "TVS diode unidirectional 30V 600W SMB"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22150,7 +22273,7 @@
 				)
 			)
 		)
-		(property "Value" "KT-0603Y (yellow)"
+		(property "Value" "KT-0603R (red)"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -22163,7 +22286,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://jlcpcb.com/partdetail/Hubei_KENTOElec-KT0603Y/C2287"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810231112_Hubei-KENTO-Elec-KT-0603R_C2286.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22174,7 +22297,7 @@
 				)
 			)
 		)
-		(property "Description" "Light emitting diode"
+		(property "Description" "LED red 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22198,7 +22321,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2287"
+		(property "LCSC" "C2286"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -22224,7 +22347,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0603Y"
+		(property "MPN" "KT-0603R"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -22440,7 +22563,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22642,7 +22765,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22820,7 +22943,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -22844,7 +22967,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23022,7 +23145,7 @@
 				)
 			)
 		)
-		(property "Value" "7.15k 1%"
+		(property "Value" "7.5k 1%"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -23035,7 +23158,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF7151T5E_C25980.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010100_UNI-ROYAL-Uniroyal-Elec-0603WAF7501T5E_C23234.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23046,7 +23169,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 7.5k 1% 100mW 0603 (motor over-temp trip ~138.5 C)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23070,7 +23193,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25980"
+		(property "LCSC" "C23234"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -23083,7 +23206,7 @@
 				)
 			)
 		)
-		(property "MPN" "0603WAF7151T5E"
+		(property "MPN" "0603WAF7501T5E"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -23248,7 +23371,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 4.7k 1% 100mW 0603 (I2C pull-up, DNP)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23450,7 +23573,7 @@
 				)
 			)
 		)
-		(property "Description" "N-MOSFET transistor, gate/source/drain"
+		(property "Description" "N-channel MOSFET 60V 2.5A 120mOhm SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23875,7 +23998,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 2P 5.08mm right-angle"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -23931,6 +24054,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8b96ab38-0575-4f05-876b-de9035b2b567")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c0ab0d70-af71-4f9d-9191-5dbe30be8280")
 			(effects
 				(font
 					(size 1 1)
@@ -24214,7 +24350,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24392,7 +24528,7 @@
 				)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 0 2.4 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -24405,7 +24541,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24416,7 +24552,7 @@
 				)
 			)
 		)
-		(property "Description" "Vr 30V, If 200mA, Dual schottky barrier diode, in series, SOT-323"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24440,7 +24576,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24453,7 +24589,7 @@
 				)
 			)
 		)
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24842,7 +24978,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 2P 5.08mm right-angle"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24898,6 +25034,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "55eae213-dadd-4ae0-92fc-38967c108c87")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7ba69aeb-5f95-484e-a559-6534bd718b6f")
 			(effects
 				(font
 					(size 1 1)
@@ -25181,7 +25330,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25383,7 +25532,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10M 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25585,7 +25734,7 @@
 				)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
+		(property "Description" "ESD protection diode bidirectional 5V 130W SOD-323"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25628,6 +25777,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "09b7e357-c305-405f-9d65-3f15f8a5602c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit if ESD trouble)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d822d0e3-36ae-4dfa-840f-a36420062670")
 			(effects
 				(font
 					(size 1 1)
@@ -25879,7 +26041,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -25903,7 +26065,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26229,7 +26391,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26431,7 +26593,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 100R 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26742,7 +26904,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 3P 5.08mm right-angle"
 			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
@@ -26798,6 +26960,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "aea7713f-18b4-4499-badd-e10d6a9d2445")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a8882101-b8fa-4133-aadf-28a8c783b65b")
 			(effects
 				(font
 					(size 1 1)
@@ -27108,7 +27283,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -27132,7 +27307,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27323,7 +27498,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Murata-Electronics-BLM18AG601SN1D_C19330.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2310301640_Sunlord-GZ1608D601TF_C1002.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27334,7 +27509,7 @@
 				)
 			)
 		)
-		(property "Description" "Ferrite bead"
+		(property "Description" "Ferrite bead 600R@100MHz 200mA 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27358,7 +27533,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C19330"
+		(property "LCSC" "C1002"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -27371,7 +27546,7 @@
 				)
 			)
 		)
-		(property "MPN" "BLM18AG601SN1D"
+		(property "MPN" "GZ1608D601TF"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -27384,7 +27559,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Murata Electronics"
+		(property "Manufacturer" "Sunlord"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -27536,7 +27711,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 10k 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27714,7 +27889,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.43 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -27738,7 +27913,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27940,7 +28115,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Resistor 330R 1% 100mW 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28142,7 +28317,7 @@
 				)
 			)
 		)
-		(property "Description" "Single retriggerable monostable multivibrator with reset, 1.65-5.5V, VSSOP-8 (watchdog)"
+		(property "Description" "Retriggerable monostable multivibrator 74LVC1G123, VSSOP-8"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28503,7 +28678,7 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100nF/50V"
 			(at 0 1.430001 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -28527,7 +28702,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Capacitor MLCC 100nF 50V X7R ±10% 0603"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28729,7 +28904,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Pluggable terminal block header 10P 3.5mm right-angle, closed"
 			(at 0 0 270)
 			(layer "F.Fab")
 			(hide yes)
@@ -28785,6 +28960,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0be80052-659c-450f-b2fb-3a7526e91e46")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "062dfb0e-1444-4334-b99e-4654d0cb274e")
 			(effects
 				(font
 					(size 1 1)
@@ -29246,50 +29434,6 @@
 		(layer "Edge.Cuts")
 		(uuid "87aa36f3-5e37-4514-aee9-0f5ef6e5673d")
 	)
-	(gr_text "SCL"
-		(at 135.2 109.5 0)
-		(layer "F.SilkS")
-		(uuid "02f514f1-e116-4697-8ca3-1df6588841eb")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.12)
-			)
-		)
-	)
-	(gr_text "SDA"
-		(at 135.2 113 0)
-		(layer "F.SilkS")
-		(uuid "3b8c372e-1639-467c-8739-d63adb0ffa2a")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.12)
-			)
-		)
-	)
-	(gr_text "0V"
-		(at 135.2 116.5 0)
-		(layer "F.SilkS")
-		(uuid "41f6e5ba-a1cd-4238-9d79-866cd1a7af36")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.12)
-			)
-		)
-	)
-	(gr_text "3V3"
-		(at 135.2 120 0)
-		(layer "F.SilkS")
-		(uuid "5ffc0c1b-35e5-4dca-98bc-e19d21f1d7fa")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.12)
-			)
-		)
-	)
 	(gr_text "VIN"
 		(at 61.3 52 0)
 		(layer "F.SilkS")
@@ -29587,6 +29731,50 @@
 			)
 		)
 	)
+	(gr_text "SCL"
+		(at 135.2 109.5 0)
+		(layer "F.SilkS")
+		(uuid "02f514f1-e116-4697-8ca3-1df6588841eb")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(gr_text "SDA"
+		(at 135.2 113 0)
+		(layer "F.SilkS")
+		(uuid "3b8c372e-1639-467c-8739-d63adb0ffa2a")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(gr_text "0V"
+		(at 135.2 116.5 0)
+		(layer "F.SilkS")
+		(uuid "41f6e5ba-a1cd-4238-9d79-866cd1a7af36")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(gr_text "3V3"
+		(at 135.2 120 0)
+		(layer "F.SilkS")
+		(uuid "5ffc0c1b-35e5-4dca-98bc-e19d21f1d7fa")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
 	(gr_text "SIG"
 		(at 135.9 74.92 0)
 		(layer "F.SilkS")
@@ -29697,17 +29885,6 @@
 			)
 		)
 	)
-	(gr_text "I2C EXT"
-		(at 133 114.75 90)
-		(layer "F.SilkS")
-		(uuid "fa7fba11-28d6-48c0-b909-eb30ee90501c")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
 	(gr_text "TO WAVESHARE H4"
 		(at 63.65 66.15 90)
 		(layer "F.SilkS")
@@ -29723,6 +29900,17 @@
 		(at 66.4 102.08 90)
 		(layer "F.SilkS")
 		(uuid "eb2ddc8c-3a45-423a-bf35-4e79de5a69eb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(gr_text "I2C EXT"
+		(at 133 114.75 90)
+		(layer "F.SilkS")
+		(uuid "fa7fba11-28d6-48c0-b909-eb30ee90501c")
 		(effects
 			(font
 				(size 1 1)
