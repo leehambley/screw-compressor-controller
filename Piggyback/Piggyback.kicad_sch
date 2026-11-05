@@ -19745,6 +19745,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit if ESD trouble)"
+			(at 248.92 204.47 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
@@ -23494,6 +23503,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit if ESD trouble)"
+			(at 248.92 148.59 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:R")
@@ -23954,6 +23972,15 @@
 			)
 		)
 		(property "Manufacturer" "Nexperia"
+			(at 248.92 176.53 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit if ESD trouble)"
 			(at 248.92 176.53 0)
 			(hide yes)
 			(effects

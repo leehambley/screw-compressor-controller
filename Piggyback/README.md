@@ -86,7 +86,7 @@ Both run from 3V3_A, and ALERT/RDY are not connected.
 - Terminal: 3-pin 5.08, NTC, AGND, SHIELD (shield goes to AGND at this end only).
 - 3V3_A → 33k 1 % → NTCn_NODE (1 % costs about 0.35 K at 100 °C), which goes to the terminal; the probe returns to AGND.
 - NTCn_NODE → 10k → ADC pin, with 100 nF to AGND and a BAV99 clamp. The 10k limits fault current into the ADS1115 well below its 10 mA input rating.
-- ESD diode (PESD5V0-class) at each terminal pin.
+- ESD diode footprint (PESD5V0S1BA, D5–D7) at each terminal pin, DNP to save a JLC Extended part. The 33k/10k/100k resistors and the 100 nF take most of an ESD hit; hand-fit the diodes if the sensor cables prove troublesome.
 
 ### Hardware over-temperature cutout: LM393 dual comparator on 3V3_A
 
