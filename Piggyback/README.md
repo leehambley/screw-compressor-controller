@@ -161,13 +161,16 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 - **Keep-outs on the piggyback's display-facing side**: no tall parts under the H4 plug footprint.
   That is the Waveshare's lower edge, 41 mm wide, centred 11.08 + 20.5 mm from its left edge.
   All piggyback parts go on the far side anyway.
-- Field terminals sit on the two outer edges that stick out past the Waveshare:
-  - Bottom edge (100 mm): J1 24 V, J9 valves, J10 VFD enable, J11 Modbus.
-  - Right edge (80 mm): J3/J4 4–20 mA, J6–J8 NTC.
-  - J2 sits near the Waveshare's H4, so the loom stays short.
+- Field terminals sit on all four edges, outside the Waveshare footprint:
+  - Left: J2 (harness to H4), J11 Modbus, J5 I2C expansion.
+  - Bottom: J1 24 V, J9 valves, J10 VFD enable.
+  - Top: J6–J8 NTC.
+  - Right: J3/J4 4–20 mA.
 
 ## Layout intent
 
 - 100 × 80 mm, 2 layers. 4× M2.5 holes on the Waveshare pattern (see Mechanical).
 - Valve drivers, 24 V entry and TVS on one side; ADS, NTC and 4–20 mA front end on the other.
-- Solid GND plane on the bottom. AGND and GND tie at one point near the ADS.
+- Routed with Freerouting (all nets, GND and AGND included) and then poured: GND on both layers, AGND (priority 1, solid pad connection) over the analog block. AGND and GND tie at one point through R1.
+- Netclasses: Default 0.3 mm / 0.15 mm clearance; Power24 (24V_IN, FUSE_OUT, 24V_P) 0.8 mm with 1.1/0.5 vias; Rail (VALVE1-, VALVE2-) 0.5 mm with 0.8/0.4 vias.
+- 100 × 80 mm with 2 mm corner radius. DRC: 0 errors, 0 unconnected.
