@@ -57,15 +57,23 @@ for row in csv.DictReader(open(bom_raw)):
     if "DNP" in val.upper() or "DNP" in row.get("Assembly", "").upper() or not lcsc:
         continue
     fitted[ref] = True
-    key = (val, fp.split(":")[-1], lcsc)
-    groups.setdefault(key, []).append(ref)
+    # One BOM line per LCSC part: JLC rejects two lines matched to the same part.
+    g = groups.setdefault(lcsc, {"refs": [], "vals": set(), "fps": set()})
+    g["refs"].append(ref); g["vals"].add(val); g["fps"].add(fp.split(":")[-1])
 
-rows = sorted(groups.items(), key=lambda kv: natkey(sorted(kv[1], key=natkey)[0]))
+bad = [(l, g) for l, g in groups.items() if len(g["vals"]) > 1 or len(g["fps"]) > 1]
+for l, g in bad:
+    print(f"ERROR {l}: {sorted(g['refs'], key=natkey)} disagree on value {sorted(g['vals'])} "
+          f"or footprint {sorted(g['fps'])}; fix the schematic", file=sys.stderr)
+if bad:
+    sys.exit(1)
+
+rows = sorted(groups.items(), key=lambda kv: natkey(sorted(kv[1]["refs"], key=natkey)[0]))
 with open(f"{out}/Piggyback-BOM-JLCPCB.csv", "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
-    for (val, fp, lcsc), refs in rows:
-        w.writerow([val, ",".join(sorted(refs, key=natkey)), fp, lcsc])
+    for lcsc, g in rows:
+        w.writerow([g["vals"].pop(), ",".join(sorted(g["refs"], key=natkey)), g["fps"].pop(), lcsc])
 
 with open(pos_csv) as f, open(f"{out}/Piggyback-CPL-JLCPCB.csv", "w", newline="") as g:
     w = csv.writer(g)
