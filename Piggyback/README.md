@@ -187,4 +187,4 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 
 ## Production
 
-`./production/make_production.sh` (run from `Piggyback/`) regenerates the gerbers and drill zip, the JLC BOM and CPL, and the renders. DNP parts and parts without an LCSC number are left out of the BOM and CPL.
+`./production/make_production.sh` (run from `Piggyback/`) regenerates the gerbers and drill zip, the JLC BOM and CPL, and the renders. DNP parts (Value or `Assembly` field containing "DNP": R2, R3 and all J connectors, which are hand-fit) and parts without an LCSC number are left out of the BOM and CPL.

@@ -16908,6 +16908,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 560.07 294.64 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:R")
@@ -18681,6 +18690,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 350.52 38.1 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:R")
@@ -19854,6 +19872,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 419.1 40.64 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:R")
@@ -20085,6 +20112,15 @@
 			)
 		)
 		(property "Manufacturer" "Cixi Kefa Elec"
+			(at 386.08 378.46 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
 			(at 386.08 378.46 0)
 			(hide yes)
 			(effects
@@ -22245,6 +22281,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 218.44 177.8 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:R")
@@ -24035,6 +24080,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 25.4 152.4 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "power:GND")
@@ -25498,6 +25552,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 218.44 149.86 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "74xx:74LS08")
@@ -26833,6 +26896,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 25.4 40.64 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:LED")
@@ -27436,6 +27508,15 @@
 			)
 		)
 		(property "Manufacturer" "Cixi Kefa Elec"
+			(at 25.4 193.04 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
 			(at 25.4 193.04 0)
 			(hide yes)
 			(effects
@@ -28587,6 +28668,15 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
+			(at 317.5 33.02 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		))
 	(symbol
 		(lib_id "Device:R")
@@ -29063,6 +29153,15 @@
 			)
 		)
 		(property "Manufacturer" "Cixi Kefa Elec"
+			(at 218.44 205.74 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Assembly" "DNP (hand-fit)"
 			(at 218.44 205.74 0)
 			(hide yes)
 			(effects

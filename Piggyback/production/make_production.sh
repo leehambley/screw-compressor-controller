@@ -10,7 +10,7 @@
 #   Piggyback-render-{top,bottom,iso}.png
 #
 # Parts left out of the BOM and CPL (not JLC-assembled):
-#   - anything whose Value contains "DNP" (R2, R3, J5 the I2C_EXT header)
+#   - anything whose Value or Assembly field contains "DNP" (R2, R3, all J connectors)
 #   - anything without an LCSC number (H1-H4 mounting holes, TP1-TP9 test pads)
 set -euo pipefail
 
@@ -36,7 +36,7 @@ rm -f "$OUT/Piggyback-gerbers-JLCPCB.zip"
 (cd "$OUT/gerbers" && zip -q -X ../Piggyback-gerbers-JLCPCB.zip ./*)
 
 kicad-cli sch export bom \
-  --fields 'Reference,Value,Footprint,LCSC' --labels 'Reference,Value,Footprint,LCSC' \
+  --fields 'Reference,Value,Footprint,LCSC,Assembly' --labels 'Reference,Value,Footprint,LCSC,Assembly' \
   --group-by '' --exclude-dnp -o "$TMP/bom_raw.csv" "$SCH"
 kicad-cli pcb export pos --format csv --units mm --side front -o "$TMP/pos.csv" "$PCB"
 
@@ -54,7 +54,7 @@ fitted = {}
 groups = OrderedDict()
 for row in csv.DictReader(open(bom_raw)):
     ref, val, fp, lcsc = row["Reference"], row["Value"], row["Footprint"], row["LCSC"].strip()
-    if "DNP" in val.upper() or not lcsc:
+    if "DNP" in val.upper() or "DNP" in row.get("Assembly", "").upper() or not lcsc:
         continue
     fitted[ref] = True
     key = (val, fp.split(":")[-1], lcsc)
