@@ -672,13 +672,18 @@
       {
         "filename": "Piggyback.kicad_sch",
         "name": "Piggyback",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "cbf15013-b8b4-4e77-a301-fe04b7003078"
       }
     ],
     "used_designators": "",
     "variants": []
   },
-  "sheets": [],
+  "sheets": [
+    [
+      "cbf15013-b8b4-4e77-a301-fe04b7003078",
+      "Piggyback"
+    ]
+  ],
   "text_variables": {},
   "tuning_profiles": {
     "meta": {

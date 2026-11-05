@@ -60,7 +60,7 @@ The blocks below still describe the original 8-pin J2. The schematic is authorit
 | 8 | DIN_WD | 16 DIN1 |
 
 - The Waveshare already pulls SDA and SCL up with 4.7k. The piggyback has DNP 4.7k footprints only.
-- J5 is a 4-pin 2.54 mm I2C expansion header (3V3_D, GND, SDA, SCL).
+- J5 is a 4-pin 3.5 mm screw-flange pluggable terminal for I2C expansion (3V3_D, GND, SDA, SCL), LCSC C5188343. It is DNP: not in the JLC BOM/CPL, hand-fit. The mating plug is 15EDGKM-3.5-04P.
 
 ### Analog inputs: 2× ADS1115 (16-bit, I2C)
 
@@ -172,10 +172,10 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
   That is the Waveshare's lower edge, 41 mm wide, centred 11.08 + 20.5 mm from its left edge.
   All piggyback parts go on the far side anyway.
 - Field terminals sit on all four edges, outside the Waveshare footprint:
-  - Left: J2 (harness to H4), J11 Modbus, J5 I2C expansion.
+  - Left: J2 (harness to H4), J11 Modbus.
   - Bottom: J1 24 V, J9 valves, J10 VFD enable.
   - Top: J6–J8 NTC.
-  - Right: J3/J4 4–20 mA.
+  - Right: J3/J4 4–20 mA, J5 I2C expansion.
 
 ## Layout intent
 
@@ -184,3 +184,7 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 - Routed with Freerouting (all nets, GND and AGND included) and then poured: GND on both layers, AGND (priority 1, solid pad connection) over the analog block. AGND and GND tie at one point through R1.
 - Netclasses: Default 0.3 mm / 0.15 mm clearance; Power24 (24V_IN, FUSE_OUT, 24V_P) 0.8 mm with 1.1/0.5 vias; Rail (VALVE1-, VALVE2-) 0.5 mm with 0.8/0.4 vias.
 - 100 × 80 mm with 2 mm corner radius. DRC: 0 errors, 0 unconnected.
+
+## Production
+
+`./production/make_production.sh` (run from `Piggyback/`) regenerates the gerbers and drill zip, the JLC BOM and CPL, and the renders. DNP parts and parts without an LCSC number are left out of the BOM and CPL.
