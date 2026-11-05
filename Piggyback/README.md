@@ -78,14 +78,14 @@ Both run from 3V3_A, and ALERT/RDY are not connected.
 **4–20 mA (×2):**
 - Terminal: 2-pin 5.08, LOOP+ and SIG.
 - LOOP+ = 24V_P through a 50 mA PTC per channel.
-- SIG goes to GND through a 100 Ω 0.1 % 1206 shunt.
-- The shunt node goes through 1k to the ADC pin. At the pin: 100 nF to GND and a BAT54S clamp to 3V3_A / GND.
+- SIG goes to GND through a 100 Ω 1 % 1206 shunt (JLC Basic part; calibrate the gain in firmware).
+- The shunt node goes through 1k to the ADC pin. At the pin: 100 nF to GND and a BAV99 clamp to 3V3_A / GND.
 - 20 mA gives 2.0 V. Firmware sets the PGA to ±4.096 V and flags readings below 3.8 mA as open loop.
 
 **NTC (×3), 100k B≈4000:**
 - Terminal: 3-pin 5.08, NTC, AGND, SHIELD (shield goes to AGND at this end only).
-- 3V3_A → 33k 0.1 % → NTCn_NODE, which goes to the terminal; the probe returns to AGND.
-- NTCn_NODE → 10k → ADC pin, with 100 nF to AGND and a BAT54S clamp.
+- 3V3_A → 33k 1 % → NTCn_NODE (1 % costs about 0.35 K at 100 °C), which goes to the terminal; the probe returns to AGND.
+- NTCn_NODE → 10k → ADC pin, with 100 nF to AGND and a BAV99 clamp. The 10k limits fault current into the ADS1115 well below its 10 mA input rating.
 - ESD diode (PESD5V0-class) at each terminal pin.
 
 ### Hardware over-temperature cutout: LM393 dual comparator on 3V3_A
@@ -94,8 +94,8 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 
 | Ch | Input | Trip | Threshold divider (IN−) | Node at trip |
 |---|---|---|---|---|
-| A | NTC1 rotor | ≈ 110 °C (firmware trips at 105) | 100k / 15.4k (0.1334·Vcc) | 0.44 V |
-| B | NTC3 motor | ≈ 140 °C (firmware faults at 130) | 100k / 7.15k (0.0667·Vcc) | 0.22 V |
+| A | NTC1 rotor | ≈ 111 °C (firmware trips at 105) | 100k / 15k (0.1304·Vcc) | 0.43 V |
+| B | NTC3 motor | ≈ 138.5 °C (firmware faults at 130) | 100k / 7.5k (0.0698·Vcc) | 0.23 V |
 
 - IN+ = NTCn_NODE through 100k. Hysteresis comes from 10 MΩ output→IN+ (about 3 K). The load this puts on the NTC node is below 0.2 K.
 - The open-collector outputs are wire-ANDed with a 10k pull-up to 3V3_D. That gives **TEMP_OK**: high = OK, low = too hot.
@@ -135,7 +135,7 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 
 ### VFD enable output
 
-- VFD_EN → 330 Ω → LED of a PC817-class optocoupler (SMD).
+- VFD_EN → 330 Ω → LED of a PC817-class optocoupler (LTV-817S, SMD).
 - The transistor goes to J10, a 2-pin 5.08 terminal (DI, COM). Wire DI to SKI-70 **X1** and COM to the
   drive's **GND** (COM on the isolated variant). The drive's inputs are switched to GND (5–30 V, 1 kΩ).
 - SKI-70 settings (manual, P4 group), alongside the Modbus ones (P0-02=2, P0-03=9, Pd-00..02):
@@ -187,4 +187,4 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 
 ## Production
 
-`./production/make_production.sh` (run from `Piggyback/`) regenerates the gerbers and drill zip, the JLC BOM and CPL, and the renders. DNP parts (Value or `Assembly` field containing "DNP": R2, R3 and all J connectors, which are hand-fit) and parts without an LCSC number are left out of the BOM and CPL.
+`./production/make_production.sh` (run from `Piggyback/`) regenerates the gerbers and drill zip, the JLC BOM and CPL, and the renders. Parts are chosen from JLC's Basic library wherever one fits, because each Extended part adds a feeder-loading fee. DNP parts (Value or `Assembly` field containing "DNP": R2, R3 and all J connectors, which are hand-fit) and parts without an LCSC number are left out of the BOM and CPL.

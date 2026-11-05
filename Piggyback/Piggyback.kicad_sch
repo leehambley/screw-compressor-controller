@@ -12267,7 +12267,7 @@
 				)
 			)
 		)
-		(property "Value" "15.4k 1%"
+		(property "Value" "15k 1%"
 			(at 35.56 292.1 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12288,7 +12288,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010130_UNI-ROYAL-Uniroyal-Elec-0603WAF1542T5E_C22804.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010130_UNI-ROYAL-Uniroyal-Elec-0603WAF1502T5E_C22809.pdf"
 			(at 35.56 292.1 0)
 			(hide yes)
 			(show_name no)
@@ -12299,7 +12299,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 15.4k 1% 100mW 0603"
+		(property "Description" "Resistor 15k 1% 100mW 0603 (rotor over-temp trip ~111 C)"
 			(at 35.56 292.1 0)
 			(hide yes)
 			(show_name no)
@@ -12310,7 +12310,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C22804"
+		(property "LCSC" "C22809"
 			(at 35.56 292.1 0)
 			(hide yes)
 			(show_name no)
@@ -12347,7 +12347,7 @@
 			)
 		)
 	
-		(property "MPN" "0603WAF1542T5E"
+		(property "MPN" "0603WAF1502T5E"
 			(at 35.56 292.1 0)
 			(hide yes)
 			(effects
@@ -13163,7 +13163,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "PC817X2CSP9F"
+		(property "Value" "LTV-817S"
 			(at 347.98 375.92 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13185,7 +13185,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Sharp-Microelectronics-PC817X2CSP9F_C66405.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Lite-On-LTV-817S-TA1-C_C109227.pdf"
 			(at 347.98 381 0)
 			(hide yes)
 			(show_name no)
@@ -13207,7 +13207,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C66405"
+		(property "LCSC" "C109227"
 			(at 347.98 381 0)
 			(hide yes)
 			(show_name no)
@@ -13250,7 +13250,7 @@
 			)
 		)
 	
-		(property "MPN" "PC817X2CSP9F"
+		(property "MPN" "LTV-817S-TA1-C"
 			(at 347.98 381 0)
 			(hide yes)
 			(effects
@@ -13259,7 +13259,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Sharp Microelectronics"
+		(property "Manufacturer" "Lite-On"
 			(at 347.98 381 0)
 			(hide yes)
 			(effects
@@ -13844,7 +13844,7 @@
 				)
 			)
 		)
-		(property "Value" "33k 0.1%"
+		(property "Value" "33k 1%"
 			(at 236.22 176.53 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13865,7 +13865,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2009282135_YAGEO-RT0603BRD0733KL_C705768.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010230_UNI-ROYAL-Uniroyal-Elec-0603WAF3302T5E_C4216.pdf"
 			(at 236.22 176.53 0)
 			(hide yes)
 			(show_name no)
@@ -13876,7 +13876,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 33k 0.1% 25ppm thin film 100mW 0603 (NTC pull-up)"
+		(property "Description" "Resistor 33k 1% 100mW 0603 (NTC pull-up)"
 			(at 236.22 176.53 0)
 			(hide yes)
 			(show_name no)
@@ -13887,7 +13887,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C705768"
+		(property "LCSC" "C4216"
 			(at 236.22 176.53 0)
 			(hide yes)
 			(show_name no)
@@ -13924,7 +13924,7 @@
 			)
 		)
 	
-		(property "MPN" "RT0603BRD0733KL"
+		(property "MPN" "0603WAF3302T5E"
 			(at 236.22 176.53 0)
 			(hide yes)
 			(effects
@@ -13933,7 +13933,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 236.22 176.53 0)
 			(hide yes)
 			(effects
@@ -15729,7 +15729,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 90.17 151.765 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15751,7 +15751,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 96.52 154.94 0)
 			(hide yes)
 			(show_name no)
@@ -15762,7 +15762,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky diode pair, series, 30V 200mA SOT-23 (input clamp)"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 96.52 154.94 0)
 			(hide yes)
 			(show_name no)
@@ -15773,7 +15773,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 96.52 154.94 0)
 			(hide yes)
 			(show_name no)
@@ -15813,7 +15813,7 @@
 			)
 		)
 	
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 96.52 154.94 0)
 			(hide yes)
 			(effects
@@ -17412,7 +17412,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 306.07 210.185 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17434,7 +17434,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 312.42 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -17445,7 +17445,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky diode pair, series, 30V 200mA SOT-23 (input clamp)"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 312.42 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -17456,7 +17456,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 312.42 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -17496,7 +17496,7 @@
 			)
 		)
 	
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 312.42 213.36 0)
 			(hide yes)
 			(effects
@@ -17654,7 +17654,7 @@
 				)
 			)
 		)
-		(property "Value" "33k 0.1%"
+		(property "Value" "33k 1%"
 			(at 236.22 204.47 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17675,7 +17675,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2009282135_YAGEO-RT0603BRD0733KL_C705768.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010230_UNI-ROYAL-Uniroyal-Elec-0603WAF3302T5E_C4216.pdf"
 			(at 236.22 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -17686,7 +17686,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 33k 0.1% 25ppm thin film 100mW 0603 (NTC pull-up)"
+		(property "Description" "Resistor 33k 1% 100mW 0603 (NTC pull-up)"
 			(at 236.22 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -17697,7 +17697,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C705768"
+		(property "LCSC" "C4216"
 			(at 236.22 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -17734,7 +17734,7 @@
 			)
 		)
 	
-		(property "MPN" "RT0603BRD0733KL"
+		(property "MPN" "0603WAF3302T5E"
 			(at 236.22 204.47 0)
 			(hide yes)
 			(effects
@@ -17743,7 +17743,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 236.22 204.47 0)
 			(hide yes)
 			(effects
@@ -18290,7 +18290,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 90.17 192.405 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18312,7 +18312,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 96.52 195.58 0)
 			(hide yes)
 			(show_name no)
@@ -18323,7 +18323,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky diode pair, series, 30V 200mA SOT-23 (input clamp)"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 96.52 195.58 0)
 			(hide yes)
 			(show_name no)
@@ -18334,7 +18334,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 96.52 195.58 0)
 			(hide yes)
 			(show_name no)
@@ -18374,7 +18374,7 @@
 			)
 		)
 	
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 96.52 195.58 0)
 			(hide yes)
 			(effects
@@ -19080,7 +19080,7 @@
 				)
 			)
 		)
-		(property "Value" "100R 0.1%"
+		(property "Value" "100R 1%"
 			(at 45.72 194.31 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19101,7 +19101,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_YAGEO-RT1206BRD07100RL_C728670.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010145_UNI-ROYAL-Uniroyal-Elec-1206W4F1000T5E_C17901.pdf"
 			(at 45.72 194.31 0)
 			(hide yes)
 			(show_name no)
@@ -19112,7 +19112,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 100R 0.1% 25ppm thin film 250mW 1206 (4-20mA shunt)"
+		(property "Description" "Resistor 100R 1% 250mW 1206 (4-20mA shunt, gain calibrated in firmware)"
 			(at 45.72 194.31 0)
 			(hide yes)
 			(show_name no)
@@ -19123,7 +19123,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C728670"
+		(property "LCSC" "C17901"
 			(at 45.72 194.31 0)
 			(hide yes)
 			(show_name no)
@@ -19160,7 +19160,7 @@
 			)
 		)
 	
-		(property "MPN" "RT1206BRD07100RL"
+		(property "MPN" "1206W4F1000T5E"
 			(at 45.72 194.31 0)
 			(hide yes)
 			(effects
@@ -19169,7 +19169,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 45.72 194.31 0)
 			(hide yes)
 			(effects
@@ -19903,7 +19903,7 @@
 				)
 			)
 		)
-		(property "Value" "100R 0.1%"
+		(property "Value" "100R 1%"
 			(at 45.72 153.67 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19924,7 +19924,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_YAGEO-RT1206BRD07100RL_C728670.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010145_UNI-ROYAL-Uniroyal-Elec-1206W4F1000T5E_C17901.pdf"
 			(at 45.72 153.67 0)
 			(hide yes)
 			(show_name no)
@@ -19935,7 +19935,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 100R 0.1% 25ppm thin film 250mW 1206 (4-20mA shunt)"
+		(property "Description" "Resistor 100R 1% 250mW 1206 (4-20mA shunt, gain calibrated in firmware)"
 			(at 45.72 153.67 0)
 			(hide yes)
 			(show_name no)
@@ -19946,7 +19946,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C728670"
+		(property "LCSC" "C17901"
 			(at 45.72 153.67 0)
 			(hide yes)
 			(show_name no)
@@ -19983,7 +19983,7 @@
 			)
 		)
 	
-		(property "MPN" "RT1206BRD07100RL"
+		(property "MPN" "1206W4F1000T5E"
 			(at 45.72 153.67 0)
 			(hide yes)
 			(effects
@@ -19992,7 +19992,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 45.72 153.67 0)
 			(hide yes)
 			(effects
@@ -22569,7 +22569,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 306.07 182.245 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22591,7 +22591,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 312.42 185.42 0)
 			(hide yes)
 			(show_name no)
@@ -22602,7 +22602,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky diode pair, series, 30V 200mA SOT-23 (input clamp)"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 312.42 185.42 0)
 			(hide yes)
 			(show_name no)
@@ -22613,7 +22613,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 312.42 185.42 0)
 			(hide yes)
 			(show_name no)
@@ -22653,7 +22653,7 @@
 			)
 		)
 	
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 312.42 185.42 0)
 			(hide yes)
 			(effects
@@ -22814,7 +22814,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BAT54S"
+		(property "Value" "BAV99"
 			(at 306.07 154.305 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22836,7 +22836,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121943_Nexperia-BAT54S-215_C47546.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407250951_Nexperia-BAV99-215_C2500.pdf"
 			(at 312.42 157.48 0)
 			(hide yes)
 			(show_name no)
@@ -22847,7 +22847,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky diode pair, series, 30V 200mA SOT-23 (input clamp)"
+		(property "Description" "Switching diode pair, series, 100V 215mA SOT-23 (ADC input clamp)"
 			(at 312.42 157.48 0)
 			(hide yes)
 			(show_name no)
@@ -22858,7 +22858,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C47546"
+		(property "LCSC" "C2500"
 			(at 312.42 157.48 0)
 			(hide yes)
 			(show_name no)
@@ -22898,7 +22898,7 @@
 			)
 		)
 	
-		(property "MPN" "BAT54S,215"
+		(property "MPN" "BAV99,215"
 			(at 312.42 157.48 0)
 			(hide yes)
 			(effects
@@ -23516,7 +23516,7 @@
 				)
 			)
 		)
-		(property "Value" "7.15k 1%"
+		(property "Value" "7.5k 1%"
 			(at 35.56 335.28 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23537,7 +23537,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF7151T5E_C25980.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010100_UNI-ROYAL-Uniroyal-Elec-0603WAF7501T5E_C23234.pdf"
 			(at 35.56 335.28 0)
 			(hide yes)
 			(show_name no)
@@ -23548,7 +23548,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 7.15k 1% 100mW 0603"
+		(property "Description" "Resistor 7.5k 1% 100mW 0603 (motor over-temp trip ~138.5 C)"
 			(at 35.56 335.28 0)
 			(hide yes)
 			(show_name no)
@@ -23559,7 +23559,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25980"
+		(property "LCSC" "C23234"
 			(at 35.56 335.28 0)
 			(hide yes)
 			(show_name no)
@@ -23596,7 +23596,7 @@
 			)
 		)
 	
-		(property "MPN" "0603WAF7151T5E"
+		(property "MPN" "0603WAF7501T5E"
 			(at 35.56 335.28 0)
 			(hide yes)
 			(effects
@@ -26927,7 +26927,7 @@
 				)
 			)
 		)
-		(property "Value" "KT-0603YG (yellow-green)"
+		(property "Value" "KT-0603R (red)"
 			(at 540 205 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26948,7 +26948,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1806151835_Hubei-KENTO-Elec-KT-0603YG_C2289.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810231112_Hubei-KENTO-Elec-KT-0603R_C2286.pdf"
 			(at 533.4 191.77 0)
 			(hide yes)
 			(show_name no)
@@ -26959,7 +26959,7 @@
 				)
 			)
 		)
-		(property "Description" "LED yellow-green 0603"
+		(property "Description" "LED red 0603"
 			(at 533.4 191.77 0)
 			(hide yes)
 			(show_name no)
@@ -26970,7 +26970,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2289"
+		(property "LCSC" "C2286"
 			(at 533.4 191.77 0)
 			(hide yes)
 			(show_name no)
@@ -27018,7 +27018,7 @@
 			)
 		)
 	
-		(property "MPN" "KT-0603YG"
+		(property "MPN" "KT-0603R"
 			(at 533.4 191.77 0)
 			(hide yes)
 			(effects
@@ -27211,7 +27211,7 @@
 				)
 			)
 		)
-		(property "Value" "KT-0603Y (yellow)"
+		(property "Value" "KT-0603R (red)"
 			(at 530 209 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -27232,7 +27232,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://jlcpcb.com/partdetail/Hubei_KENTOElec-KT0603Y/C2287"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810231112_Hubei-KENTO-Elec-KT-0603R_C2286.pdf"
 			(at 520.7 194.31 0)
 			(hide yes)
 			(show_name no)
@@ -27243,7 +27243,7 @@
 				)
 			)
 		)
-		(property "Description" "LED yellow 0603"
+		(property "Description" "LED red 0603"
 			(at 520.7 194.31 0)
 			(hide yes)
 			(show_name no)
@@ -27254,7 +27254,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2287"
+		(property "LCSC" "C2286"
 			(at 520.7 194.31 0)
 			(hide yes)
 			(show_name no)
@@ -27302,7 +27302,7 @@
 			)
 		)
 	
-		(property "MPN" "KT-0603Y"
+		(property "MPN" "KT-0603R"
 			(at 520.7 194.31 0)
 			(hide yes)
 			(effects
@@ -27546,7 +27546,7 @@
 				)
 			)
 		)
-		(property "Value" "33k 0.1%"
+		(property "Value" "33k 1%"
 			(at 236.22 148.59 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -27567,7 +27567,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2009282135_YAGEO-RT0603BRD0733KL_C705768.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010230_UNI-ROYAL-Uniroyal-Elec-0603WAF3302T5E_C4216.pdf"
 			(at 236.22 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -27578,7 +27578,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 33k 0.1% 25ppm thin film 100mW 0603 (NTC pull-up)"
+		(property "Description" "Resistor 33k 1% 100mW 0603 (NTC pull-up)"
 			(at 236.22 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -27589,7 +27589,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C705768"
+		(property "LCSC" "C4216"
 			(at 236.22 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -27626,7 +27626,7 @@
 			)
 		)
 	
-		(property "MPN" "RT0603BRD0733KL"
+		(property "MPN" "0603WAF3302T5E"
 			(at 236.22 148.59 0)
 			(hide yes)
 			(effects
@@ -27635,7 +27635,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "YAGEO"
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
 			(at 236.22 148.59 0)
 			(hide yes)
 			(effects
@@ -28001,7 +28001,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Murata-Electronics-BLM18AG601SN1D_C19330.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2310301640_Sunlord-GZ1608D601TF_C1002.pdf"
 			(at 198.12 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -28012,7 +28012,7 @@
 				)
 			)
 		)
-		(property "Description" "Ferrite bead 600R@100MHz 500mA 0603"
+		(property "Description" "Ferrite bead 600R@100MHz 200mA 0603"
 			(at 198.12 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -28023,7 +28023,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C19330"
+		(property "LCSC" "C1002"
 			(at 198.12 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -28060,7 +28060,7 @@
 			)
 		)
 	
-		(property "MPN" "BLM18AG601SN1D"
+		(property "MPN" "GZ1608D601TF"
 			(at 198.12 40.64 0)
 			(hide yes)
 			(effects
@@ -28069,7 +28069,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Murata Electronics"
+		(property "Manufacturer" "Sunlord"
 			(at 198.12 40.64 0)
 			(hide yes)
 			(effects
