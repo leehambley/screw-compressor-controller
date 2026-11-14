@@ -166,7 +166,7 @@ The comparators take NTC1 and NTC3 as inputs. The thresholds are ratiometric div
 - Hole size: **2.7 mm (M2.5) assumed**. The Waveshare drawing gives no diameter.
   Measure the board when it arrives; the piggyback can take 3.2 mm (M3) if the Waveshare holes are M3.
 - The standoffs are 20 mm. That clears the green H4 plug (wires enter it sideways, towards the Waveshare's bottom edge), the battery header and the buzzer.
-- Harness: a short 10-wire loom. The Waveshare's own H4 plug sits at one end, and a 3.5 mm 10P plug (15EDGK-3.5-10P class) mates J2 at the other.
+- Harness: a short 10-wire loom. The Waveshare's own H4 plug sits at one end, and a 10P plug mates J2 at the other. J2 is **3.50 mm pitch** (pin 1 to pin 10 = 31.5 mm), THT right-angle header, 1.2 mm holes (LCSC C5188303 / Phoenix MC 1,5/10-G-3,5; plug MC 1,5/10-ST-3,5). "15EDG" listings come in both 3.5 and 3.81 mm: 3.81 does not fit.
   Use 0.5 mm² for VIN/GND and a twisted pair for A/B.
 - **Keep-outs on the piggyback's display-facing side**: no tall parts under the H4 plug footprint.
   That is the Waveshare's lower edge, 41 mm wide, centred 11.08 + 20.5 mm from its left edge.
