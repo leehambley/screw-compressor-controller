@@ -242,10 +242,12 @@ impl Display {
         lcd_cam.set_interrupt_handler(lcd_vsync);
         let config = Config::default()
             .with_frequency(Rate::from_mhz(PCLK_MHZ))
-            // Data changes on the falling edge, panel samples on the rising one.
+            // ShiftLow is the right phase on the Rev 4.0 board: with ShiftHigh (what
+            // ESPHome's pclk_inverted = false suggested) text edges had red/blue colour
+            // fringes, as if bits were sampled off-centre. Found by eye 2026-11-17.
             .with_clock_mode(ClockMode {
                 polarity: Polarity::IdleLow,
-                phase: Phase::ShiftHigh, // ESPHome pclk_inverted = false
+                phase: Phase::ShiftLow,
             })
             .with_format(Format {
                 enable_2byte_mode: true,
