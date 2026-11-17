@@ -50,21 +50,7 @@ const CHUNK: usize = 3840;
 const DESCRIPTORS: usize = FB_BYTES / CHUNK;
 const _: () = assert!(FB_BYTES % CHUNK == 0 && CHUNK % 64 == 0);
 
-/// Even with the ESP-IDF start order (`restart_in_idf_order`) the picture comes
-/// out shifted right by a fixed amount, the left strip showing the end of the
-/// previous row: the frame starts that many pixels before the ring start. Cancel
-/// it by entering the ring that many pixels into its first chunk (once; after
-/// that every lap is exactly one frame).
-///
-/// Measured on the Rev 4.0 board 2026-11-17: 128 px, within ~10 px by eye (a
-/// +80 lead-in doubled the shift, 80 skipped left ~40 px too little). 128 px is
-/// 256 bytes, four 64-byte bursts, so most likely the DMA/LCD FIFO depth rather
-/// than a coincidence. Keep it a multiple of 32 px so the entry address stays
-/// 64-byte aligned. More skip moves the content left.
-const START_SKIP_PX: usize = 128;
-const START_SKIP_BYTES: usize = START_SKIP_PX * 2;
-const _: () = assert!(START_SKIP_BYTES < CHUNK);
-const MAX_RING: usize = DESCRIPTORS + 1;
+const MAX_RING: usize = DESCRIPTORS;
 
 /// Descriptors must live in internal RAM.
 static mut DESCRIPTOR_RING: [DmaDescriptor; MAX_RING] = [DmaDescriptor::EMPTY; MAX_RING];
@@ -81,10 +67,7 @@ unsafe impl DmaTxBuffer for FrameRing {
     fn prepare(&mut self) -> Preparation {
         let ring = unsafe { &mut *addr_of_mut!(DESCRIPTOR_RING) };
         let base = ring.as_mut_ptr();
-        // ring[0..DESCRIPTORS] loop over the frame; ring[DESCRIPTORS] is the
-        // entry point (rest of chunk 0), run once, then on to chunk 1.
-        for i in 0..DESCRIPTORS {
-            let d = &mut ring[i];
+        for (i, d) in ring.iter_mut().enumerate() {
             d.buffer = unsafe { self.fb.add(i * CHUNK) };
             d.set_size(CHUNK);
             d.set_length(CHUNK);
@@ -92,20 +75,8 @@ unsafe impl DmaTxBuffer for FrameRing {
             d.set_suc_eof(i == DESCRIPTORS - 1);
             d.next = unsafe { base.add((i + 1) % DESCRIPTORS) };
         }
-        let start = if START_SKIP_BYTES > 0 {
-            let d = &mut ring[DESCRIPTORS];
-            d.buffer = unsafe { self.fb.add(START_SKIP_BYTES) };
-            d.set_size(CHUNK - START_SKIP_BYTES);
-            d.set_length(CHUNK - START_SKIP_BYTES);
-            d.set_owner(Owner::Dma);
-            d.set_suc_eof(false);
-            d.next = unsafe { base.add(1) };
-            unsafe { base.add(DESCRIPTORS) }
-        } else {
-            base
-        };
         Preparation {
-            start,
+            start: base,
             direction: TransferDirection::Out,
             accesses_psram: true,
             burst_transfer: BurstConfig {
@@ -137,8 +108,7 @@ unsafe impl DmaTxBuffer for FrameRing {
 unsafe fn restart_in_idf_order() {
     let lcd = esp_hal::peripherals::LCD_CAM::regs();
     let ch = esp_hal::peripherals::DMA::regs().ch(0);
-    let ring = addr_of_mut!(DESCRIPTOR_RING) as *mut DmaDescriptor;
-    let head = (if START_SKIP_BYTES > 0 { unsafe { ring.add(DESCRIPTORS) } } else { ring }) as u32;
+    let head = addr_of_mut!(DESCRIPTOR_RING) as u32;
 
     lcd.lcd_user().modify(|_, w| w.lcd_start().clear_bit());
     ch.out_link().modify(|_, w| w.outlink_stop().set_bit());
@@ -149,7 +119,11 @@ unsafe fn restart_in_idf_order() {
 
     ch.out_link().modify(|_, w| unsafe { w.outlink_addr().bits(head & 0xf_ffff) });
     ch.out_link().modify(|_, w| w.outlink_stop().clear_bit().outlink_start().set_bit());
-    esp_hal::delay::Delay::new().delay_micros(2);
+    // IDF waits 1 us, but from cold PSRAM the first burst can take longer, and a
+    // LCD that starts before data is in the FIFO clocks out junk pixels first (a
+    // different picture offset each boot). The FIFO just fills and stalls, so
+    // waiting is free.
+    esp_hal::delay::Delay::new().delay_micros(2000);
     lcd.lcd_user().modify(|_, w| w.lcd_update().set_bit().lcd_start().set_bit());
 }
 
