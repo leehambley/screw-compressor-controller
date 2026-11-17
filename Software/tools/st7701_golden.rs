@@ -1,15 +1,20 @@
-//! ST7701S panel controller setup over its 3-wire, 9-bit SPI (bit-banged:
-//! it only runs once at boot). Sequence and settings from ESPHome's tested
-//! `WAVESHARE-4-480X480` mipi_rgb model (base ST7701S table, SPI mode 3,
-//! 18-bit pixel mode, colour inversion on).
+// Golden check for the ST7701 init sequence (src/board/st7701/panel.rs): the
+// bytes it generates must equal the flat table it replaced, which is Waveshare's
+// own table. Plain host Rust, no hardware or target needed:
+//
+//     cd Software/tools && rustc --edition 2024 -o /tmp/st7701_golden st7701_golden.rs && /tmp/st7701_golden
+//
+// If you change panel.rs on purpose, update GOLDEN with the new bytes.
 
-use embassy_time::{Delay, Timer};
-use embedded_hal::delay::DelayNs;
-use esp_hal::gpio::Output;
+#[path = "../src/board/st7701/regs.rs"]
+mod regs;
+#[path = "../src/board/st7701/panel.rs"]
+mod panel;
 
+#[allow(dead_code)]
 /// (command + parameters, delay after in ms). Waveshare's own table for this
 /// board (`esp32_s3_touch_lcd_4.c` in Waveshare-ESP32-components), 18 bit/pixel.
-const INIT: &[(&[u8], u32)] = &[
+const GOLDEN: &[(&[u8], u32)] = &[
     (&[0x11], 120), // SLPOUT
     (&[0xFF, 0x77, 0x01, 0x00, 0x00, 0x10], 0),
     (&[0xC0, 0x3B, 0x00], 0),
@@ -47,44 +52,26 @@ const INIT: &[(&[u8], u32)] = &[
     (&[0x29], 0),       // DISPON
 ];
 
-pub struct St7701 {
-    pub cs: Output<'static>,
-    pub sck: Output<'static>,
-    pub sda: Output<'static>,
-}
-
-impl St7701 {
-    /// Call after the panel's hardware reset has been released.
-    pub async fn init(&mut self) {
-        self.cs.set_high();
-        self.sck.set_high(); // mode 3: idle high
-        for (cmd, delay_ms) in INIT {
-            self.write(cmd);
-            if *delay_ms > 0 {
-                Timer::after_millis(*delay_ms as u64).await;
-            }
+fn main() {
+    let new: Vec<(Vec<u8>, u32)> = panel::WAVESHARE_4_480X480
+        .iter()
+        .map(|s| {
+            let mut v = vec![s.cmd];
+            v.extend_from_slice(s.params);
+            (v, s.delay_ms)
+        })
+        .collect();
+    let old: Vec<(Vec<u8>, u32)> = GOLDEN.iter().map(|(b, d)| (b.to_vec(), *d)).collect();
+    println!("steps: new {} old {}", new.len(), old.len());
+    let mut bad = 0;
+    for (i, (n, o)) in new.iter().zip(old.iter()).enumerate() {
+        if n != o {
+            bad += 1;
+            println!("DIFF step {i}: new {:02x?} old {:02x?}", n, o);
         }
     }
-
-    pub fn write(&mut self, cmd: &[u8]) {
-        self.cs.set_low();
-        for (i, &byte) in cmd.iter().enumerate() {
-            // Ninth (leading) bit: 0 = command, 1 = parameter.
-            self.bit(i != 0);
-            for b in (0..8).rev() {
-                self.bit(byte & (1 << b) != 0);
-            }
-        }
-        self.cs.set_high();
-        Delay.delay_us(2);
-    }
-
-    /// Data changes while SCK is low, panel samples on the rising edge.
-    fn bit(&mut self, high: bool) {
-        self.sck.set_low();
-        if high { self.sda.set_high() } else { self.sda.set_low() }
-        Delay.delay_ns(500); // 2 MHz max
-        self.sck.set_high();
-        Delay.delay_ns(500);
-    }
+    let bytes = |v: &Vec<(Vec<u8>, u32)>| v.iter().map(|(b, _)| b.len()).sum::<usize>();
+    println!("bytes: new {} old {}; differing steps: {bad}", bytes(&new), bytes(&old));
+    assert!(new == old, "init sequence changed");
+    println!("IDENTICAL");
 }
