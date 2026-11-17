@@ -29,6 +29,13 @@ impl Ch32Exio {
         Ok(Self { dev, out: initial })
     }
 
+    /// Changes which pins are inputs (all others become outputs).
+    pub async fn set_inputs(&mut self, inputs: u8) {
+        if self.dev.write(ADDR, &[REG_DIRECTION, !inputs]).await.is_err() {
+            log::warn!("ch32 expander: direction write failed");
+        }
+    }
+
     pub async fn set(&mut self, mask: u8, high: bool) {
         self.out = if high { self.out | mask } else { self.out & !mask };
         if self.dev.write(ADDR, &[REG_OUTPUT, self.out]).await.is_err() {

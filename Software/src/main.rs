@@ -145,7 +145,7 @@ async fn main(spawner: Spawner) {
     // Panel and touch reset through the CH32 expander, as Waveshare's V4
     // demo does it but with SYS_EN (the power latch) held high throughout.
     // GPIO16 is SYS_OUT on Rev 4.0 and is left alone.
-    let mut exio = Ch32Exio::new(dev(), board::EXIO_INPUTS, board::EXIO_SYS_EN | board::EXIO_SD_CS).await.ok();
+    let mut exio = Ch32Exio::new(dev(), board::EXIO_RTC_INT, board::EXIO_SYS_EN | board::EXIO_SD_CS).await.ok();
     match exio.as_mut() {
         None => log::error!("ch32 expander not found: no panel reset or backlight"),
         Some(x) => {
@@ -154,6 +154,10 @@ async fn main(spawner: Spawner) {
             x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, false).await;
             Timer::after_millis(100).await;
             x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, true).await;
+            // TP_INT was driven low through the reset, which selects the GT911's
+            // address 0x5D. Let go of it now so the GT911 can drive it.
+            Timer::after_millis(60).await;
+            x.set_inputs(board::EXIO_INPUTS).await;
         }
     }
     Timer::after_millis(200).await;
