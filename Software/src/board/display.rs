@@ -50,8 +50,24 @@ const CHUNK: usize = 3840;
 const DESCRIPTORS: usize = FB_BYTES / CHUNK;
 const _: () = assert!(FB_BYTES % CHUNK == 0 && CHUNK % 64 == 0);
 
+/// Even with the ESP-IDF start order (`restart_in_idf_order`) the picture comes
+/// out shifted right by a fixed amount, the left strip showing the end of the
+/// previous row: the frame starts that many pixels before the ring start. Cancel
+/// it by entering the ring that many pixels into its first chunk (once; after
+/// that every lap is exactly one frame).
+///
+/// Measured on the Rev 4.0 board 2026-11-17: 128 px, within ~10 px by eye (a
+/// +80 lead-in doubled the shift, 80 skipped left ~40 px too little). 128 px is
+/// 256 bytes, four 64-byte bursts, so most likely the DMA/LCD FIFO depth rather
+/// than a coincidence. Keep it a multiple of 32 px so the entry address stays
+/// 64-byte aligned. More skip moves the content left.
+const START_SKIP_PX: usize = 128;
+const START_SKIP_BYTES: usize = START_SKIP_PX * 2;
+const _: () = assert!(START_SKIP_BYTES < CHUNK);
+const MAX_RING: usize = DESCRIPTORS + 1;
+
 /// Descriptors must live in internal RAM.
-static mut DESCRIPTOR_RING: [DmaDescriptor; DESCRIPTORS] = [DmaDescriptor::EMPTY; DESCRIPTORS];
+static mut DESCRIPTOR_RING: [DmaDescriptor; MAX_RING] = [DmaDescriptor::EMPTY; MAX_RING];
 
 /// The framebuffer as a looping DMA source.
 struct FrameRing {
@@ -65,16 +81,31 @@ unsafe impl DmaTxBuffer for FrameRing {
     fn prepare(&mut self) -> Preparation {
         let ring = unsafe { &mut *addr_of_mut!(DESCRIPTOR_RING) };
         let base = ring.as_mut_ptr();
-        for (i, d) in ring.iter_mut().enumerate() {
+        // ring[0..DESCRIPTORS] loop over the frame; ring[DESCRIPTORS] is the
+        // entry point (rest of chunk 0), run once, then on to chunk 1.
+        for i in 0..DESCRIPTORS {
+            let d = &mut ring[i];
             d.buffer = unsafe { self.fb.add(i * CHUNK) };
             d.set_size(CHUNK);
             d.set_length(CHUNK);
             d.set_owner(Owner::Dma);
-            d.set_suc_eof(false); // pure circular stream: an EOF per lap loses ~60 px per frame
+            d.set_suc_eof(i == DESCRIPTORS - 1);
             d.next = unsafe { base.add((i + 1) % DESCRIPTORS) };
         }
+        let start = if START_SKIP_BYTES > 0 {
+            let d = &mut ring[DESCRIPTORS];
+            d.buffer = unsafe { self.fb.add(START_SKIP_BYTES) };
+            d.set_size(CHUNK - START_SKIP_BYTES);
+            d.set_length(CHUNK - START_SKIP_BYTES);
+            d.set_owner(Owner::Dma);
+            d.set_suc_eof(false);
+            d.next = unsafe { base.add(1) };
+            unsafe { base.add(DESCRIPTORS) }
+        } else {
+            base
+        };
         Preparation {
-            start: base,
+            start,
             direction: TransferDirection::Out,
             accesses_psram: true,
             burst_transfer: BurstConfig {
@@ -95,6 +126,31 @@ unsafe impl DmaTxBuffer for FrameRing {
     fn from_view(view: Self::View) -> Self::Final {
         view
     }
+}
+
+/// esp-hal's `Dpi::send` starts the DMA and only then resets the LCD FIFO, which
+/// throws away whatever the DMA already prefetched, so the picture ends up
+/// shifted by an arbitrary amount. ESP-IDF's `lcd_rgb_panel_start_transmission`
+/// (what Waveshare's demos run) does it in the other order: reset DMA and LCD
+/// FIFOs, start the DMA at the ring head, give it ~1 us to fill the FIFO, then
+/// start the LCD. Redo the start that way once `send` has configured it all.
+unsafe fn restart_in_idf_order() {
+    let lcd = esp_hal::peripherals::LCD_CAM::regs();
+    let ch = esp_hal::peripherals::DMA::regs().ch(0);
+    let ring = addr_of_mut!(DESCRIPTOR_RING) as *mut DmaDescriptor;
+    let head = (if START_SKIP_BYTES > 0 { unsafe { ring.add(DESCRIPTORS) } } else { ring }) as u32;
+
+    lcd.lcd_user().modify(|_, w| w.lcd_start().clear_bit());
+    ch.out_link().modify(|_, w| w.outlink_stop().set_bit());
+    ch.out_conf0().modify(|_, w| w.out_rst().set_bit());
+    ch.out_conf0().modify(|_, w| w.out_rst().clear_bit());
+    lcd.lcd_user().modify(|_, w| w.lcd_reset().set_bit());
+    lcd.lcd_misc().modify(|_, w| w.lcd_afifo_reset().set_bit());
+
+    ch.out_link().modify(|_, w| unsafe { w.outlink_addr().bits(head & 0xf_ffff) });
+    ch.out_link().modify(|_, w| w.outlink_stop().clear_bit().outlink_start().set_bit());
+    esp_hal::delay::Delay::new().delay_micros(2);
+    lcd.lcd_user().modify(|_, w| w.lcd_update().set_bit().lcd_start().set_bit());
 }
 
 pub struct Pins {
@@ -183,6 +239,7 @@ impl Display {
             Ok(t) => t,
             Err((e, _, _)) => panic!("DPI start: {e:?}"),
         };
+        unsafe { restart_in_idf_order() };
         Self {
             fb: fb.cast(),
             _transfer: transfer,
