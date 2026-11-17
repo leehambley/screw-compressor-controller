@@ -28,8 +28,10 @@ use esp_hal::peripherals::{
     DMA_CH0, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO17, GPIO18, GPIO21, GPIO3, GPIO38,
     GPIO39, GPIO40, GPIO41, GPIO45, GPIO46, GPIO47, GPIO48, GPIO5, GPIO8, GPIO9, LCD_CAM,
 };
+use esp_hal::interrupt::Priority;
 use esp_hal::time::Rate;
 use esp_hal::Blocking;
+use esp_hal::handler;
 
 pub const WIDTH: usize = 480;
 pub const HEIGHT: usize = 480;
@@ -127,6 +129,35 @@ unsafe fn restart_in_idf_order() {
     lcd.lcd_user().modify(|_, w| w.lcd_update().set_bit().lcd_start().set_bit());
 }
 
+/// Point the DMA back at the ring head and flush both FIFOs. Must run while the
+/// LCD is in the vertical blanking (after vsync, before the first active line).
+#[inline(always)]
+fn resync_dma() {
+    let lcd = esp_hal::peripherals::LCD_CAM::regs();
+    let ch = esp_hal::peripherals::DMA::regs().ch(0);
+    let head = addr_of_mut!(DESCRIPTOR_RING) as u32;
+    ch.out_link().modify(|_, w| w.outlink_stop().set_bit());
+    ch.out_conf0().modify(|_, w| w.out_rst().set_bit());
+    ch.out_conf0().modify(|_, w| w.out_rst().clear_bit());
+    lcd.lcd_misc().modify(|_, w| w.lcd_afifo_reset().set_bit());
+    ch.out_link().modify(|_, w| unsafe { w.outlink_addr().bits(head & 0xf_ffff) });
+    ch.out_link().modify(|_, w| w.outlink_stop().clear_bit().outlink_start().set_bit());
+}
+
+/// Once per frame, at the end of the vsync pulse. The picture is streamed
+/// straight from PSRAM with a tiny FIFO, so any bus stall (a cache write-back
+/// after rendering, say) starves the LCD and shifts the stream relative to the
+/// frame for good, wrapping rows into each other. Restarting the stream at the
+/// top of every frame turns that into a one-frame glitch.
+#[handler(priority = Priority::Priority3)]
+fn lcd_vsync() {
+    let lcd = esp_hal::peripherals::LCD_CAM::regs();
+    if lcd.lc_dma_int_st().read().lcd_vsync_int_st().bit_is_set() {
+        lcd.lc_dma_int_clr().write(|w| w.lcd_vsync_int_clr().set_bit());
+        resync_dma();
+    }
+}
+
 pub struct Pins {
     pub pclk: GPIO41<'static>,
     pub de: GPIO40<'static>,
@@ -157,7 +188,8 @@ impl Display {
         unsafe { core::ptr::write_bytes(fb, 0, FB_BYTES) };
         flush_range(fb, FB_BYTES);
 
-        let lcd_cam = LcdCam::new(lcd_cam);
+        let mut lcd_cam = LcdCam::new(lcd_cam);
+        lcd_cam.set_interrupt_handler(lcd_vsync);
         let config = Config::default()
             .with_frequency(Rate::from_mhz(PCLK_MHZ))
             // Data changes on the falling edge, panel samples on the rising one.
@@ -214,6 +246,12 @@ impl Display {
             Err((e, _, _)) => panic!("DPI start: {e:?}"),
         };
         unsafe { restart_in_idf_order() };
+        esp_hal::peripherals::LCD_CAM::regs()
+            .lc_dma_int_clr()
+            .write(|w| w.lcd_vsync_int_clr().set_bit());
+        esp_hal::peripherals::LCD_CAM::regs()
+            .lc_dma_int_ena()
+            .modify(|_, w| w.lcd_vsync_int_ena().set_bit());
         Self {
             fb: fb.cast(),
             _transfer: transfer,
