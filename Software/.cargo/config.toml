@@ -11,3 +11,9 @@ target = "xtensa-esp32s3-none-elf"
 
 [unstable]
 build-std = ["core", "alloc"]
+
+[env]
+# Slint pre-renders glyph bitmaps for the font sizes it finds in ui/main.slint,
+# but not for sizes set through properties (Btn.font, Readout.big). List them
+# here or the renderer stretches the nearest size, which looks blocky.
+SLINT_FONT_SIZES = "22,28,34,36,44,72,96"

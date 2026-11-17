@@ -3,6 +3,12 @@
 // bar, the RUN/STOP/RESET button and the two hold-to-act buttons.
 // All text and colours come from Rust (src/ui.rs); this file is layout only.
 
+// Fonts are bundled so the look doesn't depend on the build machine's system
+// fonts; Slint pre-renders glyphs at build time (see SLINT_FONT_SIZES in
+// .cargo/config.toml for sizes it can't find by itself).
+import "fonts/DejaVuSans.ttf";
+import "fonts/DejaVuSans-Bold.ttf";
+
 component Btn inherits Rectangle {
     in property <string> label;
     in property <color> bg: #3a3a3a;
@@ -49,6 +55,7 @@ component Readout inherits Rectangle {
 }
 
 export component MainWindow inherits Window {
+    default-font-family: "DejaVu Sans";
     width: 480px;
     height: 480px;
     background: #000000;
