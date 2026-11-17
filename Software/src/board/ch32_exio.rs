@@ -36,9 +36,12 @@ impl Ch32Exio {
         }
     }
 
-    /// Backlight brightness, 0-100 %.
+    /// Backlight brightness, 0-100 %. The PWM register is inverted on Rev 4.0
+    /// (0 = brightest, 255 = off): Waveshare's BSP v3.0.0 writes
+    /// `(100 - percent) * 255 / 100`. (Waveshare's ioexpander README says the
+    /// opposite; the BSP is what their demos run.)
     pub async fn backlight_pct(&mut self, pct: u8) {
-        let duty = (pct.min(100) as u16 * 255 / 100) as u8;
+        let duty = ((100 - pct.min(100)) as u16 * 255 / 100) as u8;
         if self.dev.write(ADDR, &[REG_PWM, duty]).await.is_err() {
             log::warn!("ch32 expander: backlight write failed");
         }

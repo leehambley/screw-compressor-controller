@@ -7,11 +7,12 @@
 //! involvement. Drawing goes through the data cache, so call `flush_rows`
 //! after each render to write the cache back to PSRAM, where the DMA reads it.
 //!
-//! Pins match ESPHome's `WAVESHARE-4-480X480` model and Waveshare's V4 demo.
-//! Porches are the V4 demo's (h: front 10, sync 8, back 50; v: front 10,
-//! sync 8, back 20; syncs idle high), at 12 MHz. UNVERIFIED with
-//! this driver (board not in hand, 2026-11-04). If the picture jitters or
-//! drifts, the PSRAM can't keep up: drop PCLK_MHZ first.
+//! Pins and porches are Waveshare's BSP v3.0.0 (h: sync 10, back 10, front 20;
+//! v: sync 10, back 10, front 10; syncs idle high). Verified on the Rev 4.0
+//! board 2026-11-17 with the PSRAM at 80 MHz (see `main.rs`). The pixel clock is
+//! limited by PSRAM bandwidth: 8 and 12 MHz are stable, 14 and 16 MHz make the
+//! DMA fall behind and the picture scroll left (and slowly up). Check by
+//! sampling the DMA ring position at each vsync: it must stay constant.
 
 use core::ptr::addr_of_mut;
 
@@ -35,11 +36,12 @@ pub const HEIGHT: usize = 480;
 pub const FB_BYTES: usize = WIDTH * HEIGHT * 2;
 
 const PCLK_MHZ: u32 = 12;
-const H_SYNC: usize = 8;
-const H_BACK: usize = 50;
-const H_FRONT: usize = 10;
-const V_SYNC: usize = 8;
-const V_BACK: usize = 20;
+// Waveshare's BSP (ST7701_480_480_PANEL_60HZ_RGB_TIMING): 16 MHz, h 10/10/20, v 10/10/10.
+const H_SYNC: usize = 10;
+const H_BACK: usize = 10;
+const H_FRONT: usize = 20;
+const V_SYNC: usize = 10;
+const V_BACK: usize = 10;
 const V_FRONT: usize = 10;
 
 /// Bytes per DMA descriptor: under the 4095 limit, a multiple of the 64-byte
@@ -68,7 +70,7 @@ unsafe impl DmaTxBuffer for FrameRing {
             d.set_size(CHUNK);
             d.set_length(CHUNK);
             d.set_owner(Owner::Dma);
-            d.set_suc_eof(i == DESCRIPTORS - 1);
+            d.set_suc_eof(false); // pure circular stream: an EOF per lap loses ~60 px per frame
             d.next = unsafe { base.add((i + 1) % DESCRIPTORS) };
         }
         Preparation {

@@ -91,11 +91,21 @@ async fn read_piggyback(pressure_adc: &mut Ads1115, ntc_adc: &mut Ads1115) -> Re
     }
 }
 
+
 #[esp_rtos::main]
 async fn main(spawner: Spawner) {
     esp_println::logger::init_logger_from_env();
 
-    let peripherals = esp_hal::init(esp_hal::Config::default());
+    // Octal PSRAM at 80 MHz as in Waveshare's demos (esp-hal defaults to
+    // 40 MHz, which can't feed the 16 MHz panel clock: the picture drifts).
+    let peripherals = esp_hal::init(
+        esp_hal::Config::default()
+            .with_cpu_clock(esp_hal::clock::CpuClock::max())
+            .with_psram(esp_hal::psram::PsramConfig {
+                ram_frequency: esp_hal::psram::SpiRamFreq::Freq80m,
+                ..Default::default()
+            }),
+    );
 
     log::info!("compressor-controller booting");
 
@@ -140,19 +150,20 @@ async fn main(spawner: Spawner) {
         None => log::error!("ch32 expander not found: no panel reset or backlight"),
         Some(x) => {
             x.backlight_pct(0).await;
-            Timer::after_millis(20).await;
+            // Hold the panel in reset (it has been since `new`) for 100 ms.
+            x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, false).await;
+            Timer::after_millis(100).await;
             x.set(board::EXIO_TP_RST | board::EXIO_LCD_RST, true).await;
         }
     }
     Timer::after_millis(200).await;
 
-    St7701 {
+    let mut lcd = St7701 {
         cs: Output::new(peripherals.GPIO42, Level::High, OutputConfig::default()),
         sck: Output::new(peripherals.GPIO2, Level::High, OutputConfig::default()),
         sda: Output::new(peripherals.GPIO1, Level::Low, OutputConfig::default()),
-    }
-    .init()
-    .await;
+    };
+    lcd.init().await;
 
     let display = unsafe {
         Display::start(
