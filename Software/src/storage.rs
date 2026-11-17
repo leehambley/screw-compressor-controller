@@ -111,7 +111,13 @@ impl CounterStore {
     /// running state.
     pub fn save(&mut self, counters: Counters) {
         let buf = counters.to_bytes();
-        let _ = self.flash.write(self.nvs_offset, &buf);
+        // A flash write switches the cache off, and the display's refill
+        // interrupt reads the framebuffer from PSRAM through that cache, which
+        // crashes the chip. Keep interrupts off for the write (tens of ms; the
+        // picture glitches for a few frames, then the vsync check re-syncs it).
+        critical_section::with(|_| {
+            let _ = self.flash.write(self.nvs_offset, &buf);
+        });
     }
 }
 

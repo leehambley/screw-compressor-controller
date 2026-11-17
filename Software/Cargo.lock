@@ -577,6 +577,7 @@ dependencies = [
 name = "compressor-controller"
 version = "0.1.0"
 dependencies = [
+ "critical-section",
  "embassy-embedded-hal",
  "embassy-executor",
  "embassy-futures",

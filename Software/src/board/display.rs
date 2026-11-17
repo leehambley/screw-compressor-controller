@@ -1,25 +1,26 @@
 //! 480x480 RGB panel (ST7701S, set up over SPI by `st7701`) on the S3's
-//! LCD_CAM in DPI (RGB) mode, scanning out a single RGB565 framebuffer in
-//! PSRAM forever.
+//! LCD_CAM in DPI (RGB) mode, scanning out an RGB565 framebuffer in PSRAM.
 //!
-//! The DMA walks a circular descriptor chain over the framebuffer and the LCD
-//! has `next_frame_en` set, so after `start` the panel refreshes with no CPU
-//! involvement. Drawing goes through the data cache, so call `flush_rows`
-//! after each render to write the cache back to PSRAM, where the DMA reads it.
+//! The LCD's FIFO holds only a few bytes, so reading the framebuffer straight
+//! from PSRAM with DMA means any bus stall (a cache write-back after a render,
+//! say) starves the panel and shifts the picture. So, like ESP-IDF's "bounce
+//! buffer" mode (what Waveshare's demos use), the DMA reads two small buffers in
+//! internal RAM, each `BB_LINES` lines tall, and an interrupt at the end of each
+//! one refills it from the framebuffer. The CPU reads the framebuffer through
+//! the data cache, so renders need no cache write-back and a stall of up to
+//! about one buffer time (`BB_LINES` lines, ~0.7 ms) is harmless.
+//!
+//! A vsync interrupt checks that the refill sequence is still in step with the
+//! frame and restarts it if not (a missed refill glitches one frame, no more).
 //!
 //! Pins and porches are Waveshare's BSP v3.0.0 (h: sync 10, back 10, front 20;
 //! v: sync 10, back 10, front 10; syncs idle high). Verified on the Rev 4.0
-//! board 2026-11-17 with the PSRAM at 80 MHz (see `main.rs`). The pixel clock is
-//! limited by PSRAM bandwidth: 8 and 12 MHz are stable, 14 and 16 MHz make the
-//! DMA fall behind and the picture scroll left (and slowly up). Check by
-//! sampling the DMA ring position at each vsync: it must stay constant.
+//! board 2026-11-17 with the PSRAM at 80 MHz (see `main.rs`).
 
-use core::ptr::addr_of_mut;
+use core::ptr::{addr_of_mut, read_volatile, write_volatile};
+use core::sync::atomic::{AtomicUsize, Ordering::Relaxed};
 
-use esp_hal::dma::{
-    BurstConfig, DmaDescriptor, DmaTxBuffer, ExternalBurstConfig, Owner, Preparation,
-    TransferDirection,
-};
+use esp_hal::dma::{BurstConfig, DmaDescriptor, DmaTxBuffer, Owner, Preparation, TransferDirection};
 use esp_hal::gpio::Level;
 use esp_hal::lcd_cam::LcdCam;
 use esp_hal::lcd_cam::lcd::dpi::{Config, Dpi, DpiTransfer, Format, FrameTiming};
@@ -29,6 +30,7 @@ use esp_hal::peripherals::{
     GPIO39, GPIO40, GPIO41, GPIO45, GPIO46, GPIO47, GPIO48, GPIO5, GPIO8, GPIO9, LCD_CAM,
 };
 use esp_hal::interrupt::Priority;
+use esp_hal::peripherals::Interrupt;
 use esp_hal::time::Rate;
 use esp_hal::Blocking;
 use esp_hal::handler;
@@ -46,45 +48,80 @@ const V_SYNC: usize = 10;
 const V_BACK: usize = 10;
 const V_FRONT: usize = 10;
 
-/// Bytes per DMA descriptor: under the 4095 limit, a multiple of the 64-byte
-/// PSRAM burst, and an exact divisor of the frame (460800 / 3840 = 120).
-const CHUNK: usize = 3840;
-const DESCRIPTORS: usize = FB_BYTES / CHUNK;
-const _: () = assert!(FB_BYTES % CHUNK == 0 && CHUNK % 64 == 0);
+/// Bounce buffers: two, `BB_LINES` lines each, in internal RAM. A descriptor holds
+/// at most 4095 bytes, so each buffer is `DESC_PER_BUF` descriptors of 4 lines.
+const BB_LINES: usize = 16;
+const BB_BYTES: usize = BB_LINES * WIDTH * 2;
+const BB_WORDS: usize = BB_BYTES / 4;
+const DESC_BYTES: usize = 4 * WIDTH * 2;
+const DESC_PER_BUF: usize = BB_BYTES / DESC_BYTES;
+/// Chunks per frame. Must be even so buffer 0 always holds the even chunks.
+const CHUNKS: usize = HEIGHT / BB_LINES;
+const _: () = assert!(HEIGHT % BB_LINES == 0 && CHUNKS % 2 == 0);
+const _: () = assert!(BB_BYTES % DESC_BYTES == 0 && DESC_BYTES <= 4095);
 
-const MAX_RING: usize = DESCRIPTORS;
+#[repr(align(64))]
+struct Bounce([[u8; BB_BYTES]; 2]);
 
-/// Descriptors must live in internal RAM.
-static mut DESCRIPTOR_RING: [DmaDescriptor; MAX_RING] = [DmaDescriptor::EMPTY; MAX_RING];
+static mut BOUNCE: Bounce = Bounce([[0; BB_BYTES]; 2]);
+/// Descriptors must live in internal RAM too. A0..A3, B0..B3, looping.
+static mut RING: [DmaDescriptor; 2 * DESC_PER_BUF] = [DmaDescriptor::EMPTY; 2 * DESC_PER_BUF];
 
-/// The framebuffer as a looping DMA source.
-struct FrameRing {
-    fb: *mut u8,
+/// Framebuffer address (for the interrupt handlers).
+static FB: AtomicUsize = AtomicUsize::new(0);
+/// Which bounce buffer finishes next, and which chunk of the frame goes into it.
+static NEXT_BUF: AtomicUsize = AtomicUsize::new(0);
+static NEXT_FILL: AtomicUsize = AtomicUsize::new(2);
+
+/// Copy chunk `chunk` of the framebuffer into bounce buffer `buf`. Runs in the
+/// interrupt handlers, so: inlined (no calls into flash) and a plain volatile
+/// loop (the compiler must not turn it into a `memcpy` call).
+#[inline(always)]
+fn fill(buf: usize, chunk: usize) {
+    let src = unsafe { (FB.load(Relaxed) as *const u32).add(chunk * BB_WORDS) };
+    let dst = unsafe { (addr_of_mut!(BOUNCE) as *mut u8).add(buf * BB_BYTES) } as *mut u32;
+    let mut i = 0;
+    while i < BB_WORDS {
+        unsafe { write_volatile(dst.add(i), read_volatile(src.add(i))) };
+        i += 1;
+    }
 }
+
+/// Start state: buffers hold chunks 0 and 1, the next to finish is buffer 0 and
+/// it gets chunk 2.
+#[inline(always)]
+fn reset_fill_state() {
+    fill(0, 0);
+    fill(1, 1);
+    NEXT_BUF.store(0, Relaxed);
+    NEXT_FILL.store(2, Relaxed);
+}
+
+/// The bounce ring as a looping DMA source.
+struct FrameRing;
 
 unsafe impl DmaTxBuffer for FrameRing {
     type View = FrameRing;
     type Final = FrameRing;
 
     fn prepare(&mut self) -> Preparation {
-        let ring = unsafe { &mut *addr_of_mut!(DESCRIPTOR_RING) };
+        let ring = unsafe { &mut *addr_of_mut!(RING) };
         let base = ring.as_mut_ptr();
+        let bounce = addr_of_mut!(BOUNCE) as *mut u8;
         for (i, d) in ring.iter_mut().enumerate() {
-            d.buffer = unsafe { self.fb.add(i * CHUNK) };
-            d.set_size(CHUNK);
-            d.set_length(CHUNK);
+            d.buffer = unsafe { bounce.add(i * DESC_BYTES) };
+            d.set_size(DESC_BYTES);
+            d.set_length(DESC_BYTES);
             d.set_owner(Owner::Dma);
-            d.set_suc_eof(i == DESCRIPTORS - 1);
-            d.next = unsafe { base.add((i + 1) % DESCRIPTORS) };
+            // EOF at the end of each bounce buffer: that's the refill interrupt.
+            d.set_suc_eof(i % DESC_PER_BUF == DESC_PER_BUF - 1);
+            d.next = unsafe { base.add((i + 1) % (2 * DESC_PER_BUF)) };
         }
         Preparation {
             start: base,
             direction: TransferDirection::Out,
-            accesses_psram: true,
-            burst_transfer: BurstConfig {
-                external_memory: ExternalBurstConfig::Size64,
-                ..BurstConfig::DEFAULT
-            },
+            accesses_psram: false,
+            burst_transfer: BurstConfig::DEFAULT,
             // The DMA never hands descriptors back (owner bit stays Dma), so
             // it must not stop on them the second time round.
             check_owner: Some(false),
@@ -105,12 +142,12 @@ unsafe impl DmaTxBuffer for FrameRing {
 /// throws away whatever the DMA already prefetched, so the picture ends up
 /// shifted by an arbitrary amount. ESP-IDF's `lcd_rgb_panel_start_transmission`
 /// (what Waveshare's demos run) does it in the other order: reset DMA and LCD
-/// FIFOs, start the DMA at the ring head, give it ~1 us to fill the FIFO, then
+/// FIFOs, start the DMA at the ring head, give it time to fill the FIFO, then
 /// start the LCD. Redo the start that way once `send` has configured it all.
 unsafe fn restart_in_idf_order() {
     let lcd = esp_hal::peripherals::LCD_CAM::regs();
     let ch = esp_hal::peripherals::DMA::regs().ch(0);
-    let head = addr_of_mut!(DESCRIPTOR_RING) as u32;
+    let head = addr_of_mut!(RING) as u32;
 
     lcd.lcd_user().modify(|_, w| w.lcd_start().clear_bit());
     ch.out_link().modify(|_, w| w.outlink_stop().set_bit());
@@ -119,42 +156,55 @@ unsafe fn restart_in_idf_order() {
     lcd.lcd_user().modify(|_, w| w.lcd_reset().set_bit());
     lcd.lcd_misc().modify(|_, w| w.lcd_afifo_reset().set_bit());
 
+    reset_fill_state();
+    ch.out_int().clr().write(|w| w.out_eof().clear_bit_by_one());
+    ch.out_int().ena().modify(|_, w| w.out_eof().set_bit());
+
     ch.out_link().modify(|_, w| unsafe { w.outlink_addr().bits(head & 0xf_ffff) });
     ch.out_link().modify(|_, w| w.outlink_stop().clear_bit().outlink_start().set_bit());
-    // IDF waits 1 us, but from cold PSRAM the first burst can take longer, and a
-    // LCD that starts before data is in the FIFO clocks out junk pixels first (a
-    // different picture offset each boot). The FIFO just fills and stalls, so
+    // IDF waits 1 us, but from cold memory the first burst can take longer, and
+    // an LCD that starts before data is in the FIFO clocks out junk pixels first
+    // (a different picture offset each boot). The FIFO just fills and stalls, so
     // waiting is free.
     esp_hal::delay::Delay::new().delay_micros(2000);
     lcd.lcd_user().modify(|_, w| w.lcd_update().set_bit().lcd_start().set_bit());
 }
 
-/// Point the DMA back at the ring head and flush both FIFOs. Must run while the
-/// LCD is in the vertical blanking (after vsync, before the first active line).
-#[inline(always)]
-fn resync_dma() {
-    let lcd = esp_hal::peripherals::LCD_CAM::regs();
+/// A bounce buffer has been fully read by the DMA: refill it with the chunk two
+/// ahead of the one that just finished (the other buffer is being read now).
+#[handler(priority = Priority::Priority3)]
+fn dma_eof() {
     let ch = esp_hal::peripherals::DMA::regs().ch(0);
-    let head = addr_of_mut!(DESCRIPTOR_RING) as u32;
-    ch.out_link().modify(|_, w| w.outlink_stop().set_bit());
-    ch.out_conf0().modify(|_, w| w.out_rst().set_bit());
-    ch.out_conf0().modify(|_, w| w.out_rst().clear_bit());
-    lcd.lcd_misc().modify(|_, w| w.lcd_afifo_reset().set_bit());
-    ch.out_link().modify(|_, w| unsafe { w.outlink_addr().bits(head & 0xf_ffff) });
-    ch.out_link().modify(|_, w| w.outlink_stop().clear_bit().outlink_start().set_bit());
+    if ch.out_int().st().read().out_eof().bit_is_set() {
+        ch.out_int().clr().write(|w| w.out_eof().clear_bit_by_one());
+        let buf = NEXT_BUF.load(Relaxed);
+        let chunk = NEXT_FILL.load(Relaxed);
+        fill(buf, chunk);
+        NEXT_BUF.store(buf ^ 1, Relaxed);
+        NEXT_FILL.store(if chunk + 1 == CHUNKS { 0 } else { chunk + 1 }, Relaxed);
+    }
 }
 
-/// Once per frame, at the end of the vsync pulse. The picture is streamed
-/// straight from PSRAM with a tiny FIFO, so any bus stall (a cache write-back
-/// after rendering, say) starves the LCD and shifts the stream relative to the
-/// frame for good, wrapping rows into each other. Restarting the stream at the
-/// top of every frame turns that into a one-frame glitch.
+/// End of the vsync pulse, ~0.4 ms before the first active line. A whole number
+/// of chunks was sent since the last one, so the refill state must be back at its
+/// start; if not (a refill was missed), restart the stream from the top.
 #[handler(priority = Priority::Priority3)]
 fn lcd_vsync() {
     let lcd = esp_hal::peripherals::LCD_CAM::regs();
     if lcd.lc_dma_int_st().read().lcd_vsync_int_st().bit_is_set() {
         lcd.lc_dma_int_clr().write(|w| w.lcd_vsync_int_clr().set_bit());
-        resync_dma();
+        if NEXT_BUF.load(Relaxed) != 0 || NEXT_FILL.load(Relaxed) != 2 {
+            let ch = esp_hal::peripherals::DMA::regs().ch(0);
+            let head = addr_of_mut!(RING) as u32;
+            ch.out_link().modify(|_, w| w.outlink_stop().set_bit());
+            ch.out_conf0().modify(|_, w| w.out_rst().set_bit());
+            ch.out_conf0().modify(|_, w| w.out_rst().clear_bit());
+            lcd.lcd_misc().modify(|_, w| w.lcd_afifo_reset().set_bit());
+            ch.out_int().clr().write(|w| w.out_eof().clear_bit_by_one());
+            reset_fill_state();
+            ch.out_link().modify(|_, w| unsafe { w.outlink_addr().bits(head & 0xf_ffff) });
+            ch.out_link().modify(|_, w| w.outlink_stop().clear_bit().outlink_start().set_bit());
+        }
     }
 }
 
@@ -186,7 +236,7 @@ impl Display {
     /// else uses. Starts the panel scanning out immediately.
     pub unsafe fn start(lcd_cam: LCD_CAM<'static>, dma: DMA_CH0<'static>, pins: Pins, fb: *mut u8) -> Self {
         unsafe { core::ptr::write_bytes(fb, 0, FB_BYTES) };
-        flush_range(fb, FB_BYTES);
+        FB.store(fb as usize, Relaxed);
 
         let mut lcd_cam = LcdCam::new(lcd_cam);
         lcd_cam.set_interrupt_handler(lcd_vsync);
@@ -241,10 +291,14 @@ impl Display {
             .with_data14(p.r.3)
             .with_data15(p.r.4);
 
-        let transfer = match dpi.send(true, FrameRing { fb }) {
+        let transfer = match dpi.send(true, FrameRing) {
             Ok(t) => t,
             Err((e, _, _)) => panic!("DPI start: {e:?}"),
         };
+        unsafe {
+            esp_hal::interrupt::bind_interrupt(Interrupt::DMA_OUT_CH0, dma_eof.handler());
+        }
+        esp_hal::interrupt::enable(Interrupt::DMA_OUT_CH0, dma_eof.priority()).unwrap();
         unsafe { restart_in_idf_order() };
         esp_hal::peripherals::LCD_CAM::regs()
             .lc_dma_int_clr()
@@ -262,22 +316,7 @@ impl Display {
         unsafe { core::slice::from_raw_parts_mut(self.fb, WIDTH * HEIGHT) }
     }
 
-    /// Write rows `y0..y1` back from the cache so the DMA sees them.
-    pub fn flush_rows(&self, y0: usize, y1: usize) {
-        let start = unsafe { self.fb.add(y0 * WIDTH) }.cast::<u8>();
-        flush_range(start, (y1.min(HEIGHT) - y0) * WIDTH * 2);
-    }
-}
-
-fn flush_range(ptr: *mut u8, len: usize) {
-    unsafe extern "C" {
-        fn rom_Cache_WriteBack_Addr(addr: u32, size: u32);
-        fn Cache_Suspend_DCache_Autoload() -> u32;
-        fn Cache_Resume_DCache_Autoload(value: u32);
-    }
-    unsafe {
-        let autoload = Cache_Suspend_DCache_Autoload();
-        rom_Cache_WriteBack_Addr(ptr as u32, len as u32);
-        Cache_Resume_DCache_Autoload(autoload);
-    }
+    /// Nothing to do: the refill interrupt reads the framebuffer through the same
+    /// data cache the renderer writes through. Kept so callers don't change.
+    pub fn flush_rows(&self, _y0: usize, _y1: usize) {}
 }

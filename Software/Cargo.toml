@@ -53,6 +53,8 @@ embedded-storage = "0.3.1"
 esp-bootloader-esp-idf = { version = "0.4", features = ["esp32s3"] }
 
 log = "0.4"
+# Interrupts must be off during flash writes (cache off: see storage.rs).
+critical-section = "1"
 esp-println = { version = "0.16", features = ["esp32s3", "log-04"] }
 esp-backtrace = { version = "0.18", features = [
     "esp32s3",
