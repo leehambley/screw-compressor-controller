@@ -195,7 +195,33 @@ async fn main(spawner: Spawner) {
     if let Some(x) = exio.as_mut() {
         x.backlight_pct(config::BACKLIGHT_PCT).await;
     }
-    spawner.spawn(ui::task(display, Gt911::new(dev()).await)).unwrap();
+    // The GT911 picks its address from INT at the end of reset and, in the wrong
+    // state, comes up with an empty config and never reports a touch. Check it
+    // and reset it again (INT low through the reset) until it's right.
+    let mut touch = None;
+    for attempt in 0..20 {
+        touch = Gt911::probe(dev()).await;
+        if touch.is_some() {
+            break;
+        }
+        log::warn!("gt911 not configured (attempt {attempt}), resetting it");
+        let Some(x) = exio.as_mut() else { break };
+        x.set_inputs(board::EXIO_RTC_INT).await; // TP_INT becomes an output...
+        x.set(board::EXIO_TP_INT | board::EXIO_TP_RST, false).await; // ...driven low
+        Timer::after_millis(20).await;
+        x.set(board::EXIO_TP_RST, true).await;
+        Timer::after_millis(60).await;
+        x.set_inputs(board::EXIO_INPUTS).await;
+        Timer::after_millis(150).await;
+    }
+    let touch = match touch {
+        Some(t) => t,
+        None => {
+            log::error!("gt911: no working touch controller, touch disabled");
+            Gt911::new(dev()).await
+        }
+    };
+    spawner.spawn(ui::task(display, touch)).unwrap();
 
     // Piggyback. A missing piggyback is logged and shows on the status bar
     // (interlock unreadable); the controller won't run without pressure.

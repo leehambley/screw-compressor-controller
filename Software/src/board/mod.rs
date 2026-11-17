@@ -40,3 +40,4 @@ pub const EXIO_BUZZER: u8 = 1 << 6;
 /// TP_INT (bit 2) and RTC_INT (bit 7) are driven by the GT911 and RTC.
 pub const EXIO_INPUTS: u8 = (1 << 2) | (1 << 7);
 pub const EXIO_RTC_INT: u8 = 1 << 7;
+pub const EXIO_TP_INT: u8 = 1 << 2;

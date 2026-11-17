@@ -28,6 +28,30 @@ impl Gt911 {
         Self { dev, addr }
     }
 
+    /// Like `new`, but only succeeds if the chip answers *and* has loaded its
+    /// config (480x480, touch points set). A GT911 that comes up in the wrong
+    /// state (address 0x14, config block all zeros) answers but never reports a
+    /// touch; the caller should reset it and try again.
+    pub async fn probe(mut dev: Dev) -> Option<Self> {
+        for addr in [super::ADDR_GT911, super::ADDR_GT911_ALT] {
+            let mut id = [0u8; 4];
+            if dev.write_read(addr, &0x8140u16.to_be_bytes(), &mut id).await.is_err() {
+                continue;
+            }
+            let mut cfg = [0u8; 5]; // x max, y max, touch points
+            if dev.write_read(addr, &0x8048u16.to_be_bytes(), &mut cfg).await.is_err() {
+                continue;
+            }
+            let x_max = u16::from_le_bytes([cfg[0], cfg[1]]);
+            log::info!("gt911 at {addr:#04x}, id {:?}, x max {x_max}, {} points", &id[..3], cfg[4]);
+            if &id[..3] == b"911" && x_max != 0 && cfg[4] != 0 {
+                return Some(Self { dev, addr });
+            }
+            return None;
+        }
+        None
+    }
+
     /// `Ok(None)`: no new frame since the last read. `Ok(Some(Some((x, y))))`:
     /// touched there. `Ok(Some(None))`: not touched.
     pub async fn read(&mut self) -> Result<Option<Option<(u16, u16)>>, ()> {
