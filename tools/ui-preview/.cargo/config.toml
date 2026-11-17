@@ -1,0 +1,3 @@
+[env]
+# Same list as Software/.cargo/config.toml: sizes Slint can't see as literals.
+SLINT_FONT_SIZES = "22,28,34,36,44,72,96"
