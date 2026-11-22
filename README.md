@@ -91,6 +91,12 @@ The piggyback screws to the back of the Waveshare on four 20 mm M2.5 standoffs:
            [ piggyback 100 x 80, parts facing away from the display ]
 ```
 
+### Wiring
+
+![Field wiring: sensors, valves, supply, VFD and display to the piggyback terminals](docs/images/wiring.svg)
+
+Only the pressure transmitter colours are fixed (brown = +24 V, green = signal). Every other colour marked "suggested" is a convention for this harness. Pick your own if you like, but use them consistently. The diagram is generated from the board's pad positions, so terminal order matches the silkscreen.
+
 ## The screen
 
 The UI is written in [Slint](https://slint.dev) and drawn by its software
