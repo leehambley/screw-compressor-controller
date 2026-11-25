@@ -3,6 +3,8 @@
 
 extern crate alloc;
 
+mod alarm;
+mod alarm_pattern;
 mod board;
 mod config;
 mod modbus;
@@ -222,6 +224,10 @@ async fn main(spawner: Spawner) {
         }
     };
     spawner.spawn(ui::task(display, touch)).unwrap();
+    // From here the alarm task is the expander's only user.
+    if let Some(x) = exio {
+        spawner.spawn(alarm::task(x)).unwrap();
+    }
 
     // Piggyback. A missing piggyback is logged and shows on the status bar
     // (interlock unreadable); the controller won't run without pressure.
@@ -348,7 +354,7 @@ async fn main(spawner: Spawner) {
         let faulted = controller.fault.is_some();
         outputs::set_duty(outputs::CH_LED_OK, if faulted { 0 } else { 10 });
         outputs::set_duty(outputs::CH_LED_FAULT, if faulted { 50 } else { 0 });
-        ui::STATE.signal(UiState {
+        let ui_state = UiState {
             pressure_bar,
             temp_c,
             setpoint_bar: controller.setpoint_bar(),
@@ -367,6 +373,8 @@ async fn main(spawner: Spawner) {
             idle_stop_in_s: controller.idle_stop_in_s(),
             interlock_ok,
             hw_temp_ok,
-        });
+        };
+        alarm::LEVEL.signal(alarm::level(&ui_state, Instant::now().as_millis()));
+        ui::STATE.signal(ui_state);
     }
 }

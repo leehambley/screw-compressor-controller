@@ -1,6 +1,8 @@
 # Audible alerts: what the beeper is for and what the beeps mean
 
-**Status: a plan. Nothing in the firmware drives the buzzer yet.**
+**Status: built.** `src/alarm.rs` (levels, the task) and `src/alarm_pattern.rs`
+(timing, checked on a computer by `tools/alarm_check.rs`). Timings are in
+`src/config.rs` (`ALARM_*`).
 
 The beeper is for errors only. **Touching the screen never beeps.**
 
@@ -102,7 +104,8 @@ unload buttons, and a fault being cleared.
 
 ## How it would be built
 
-This is the plan; none of it exists yet.
+As built. One difference from the plan: `main` hands the expander to the alarm
+task once start-up is done, so there is one owner and no mutex is needed.
 
 - **`src/alarm.rs`**, new, with three parts:
   - `level(&UiState) -> Level`: a pure function, `None / Warning / Fault / Trip`,

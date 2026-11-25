@@ -386,6 +386,7 @@ fn pointer(window: &MinimalSoftwareWindow, touching: &mut Option<LogicalPosition
             };
             let position = LogicalPosition::new(x as f32, y as f32);
             let event = if was.is_none() {
+                crate::alarm::TOUCHED.signal(()); // acknowledges; never beeps
                 WindowEvent::PointerPressed { position, button }
             } else {
                 WindowEvent::PointerMoved { position }

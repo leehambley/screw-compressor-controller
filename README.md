@@ -232,3 +232,10 @@ The panel's init sequence is held to a golden test that needs no hardware:
 cd Software/tools
 rustc --edition 2024 -o /tmp/st7701_golden st7701_golden.rs && /tmp/st7701_golden
 ```
+
+The beeper timing (docs/alerts.md) has one too:
+
+```sh
+cd Software/tools
+rustc --edition 2024 -o /tmp/alarm_check alarm_check.rs && /tmp/alarm_check
+```

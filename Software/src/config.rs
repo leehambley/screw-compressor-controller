@@ -250,3 +250,20 @@ pub const DISPLAY_ROTATE_180: bool = true;
 
 /// Backlight brightness through the CH32 expander's PWM, 0-100 %.
 pub const BACKLIGHT_PCT: u8 = 100;
+
+// Audible alerts (docs/alerts.md). The beeper sounds for errors only.
+// Times in ms. A warning must be present this long before it beeps.
+pub const ALARM_WARNING_DEBOUNCE_MS: u64 = 10_000;
+// SAFE is low until the firmware's heartbeat has run for a moment, so an open
+// interlock is ignored this long after boot.
+pub const ALARM_BOOT_GRACE_MS: u64 = 10_000;
+// TRIP: 4 fast beeps every 5 s for 2 min, then every 30 s.
+pub const ALARM_TRIP_FAST_MS: u64 = 5_000;
+pub const ALARM_TRIP_FAST_FOR_MS: u64 = 120_000;
+pub const ALARM_TRIP_SLOW_MS: u64 = 30_000;
+// FAULT: 2 long beeps every 30 s for 10 min, then every 5 min.
+pub const ALARM_FAULT_FAST_MS: u64 = 30_000;
+pub const ALARM_FAULT_FAST_FOR_MS: u64 = 600_000;
+pub const ALARM_FAULT_SLOW_MS: u64 = 300_000;
+// WARNING: 1 short beep, again every 10 min while it lasts.
+pub const ALARM_WARNING_REPEAT_MS: u64 = 600_000;
