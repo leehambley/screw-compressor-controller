@@ -60,6 +60,65 @@ def bbox_world(objs):
     return lo, hi
 
 
+def volume_centroid(o):
+    """Volume-weighted centroid of a closed mesh, in world space."""
+    me = o.data
+    me.calc_loop_triangles()
+    mw = o.matrix_world
+    vol, acc = 0.0, Vector((0, 0, 0))
+    for t in me.loop_triangles:
+        p0, p1, p2 = (mw @ me.vertices[i].co for i in t.vertices)
+        v = p0.dot(p1.cross(p2)) / 6.0
+        vol += v
+        acc += v * (p0 + p1 + p2) / 4.0
+    if abs(vol) < 1e-12:
+        lo, hi = bbox_world([o])
+        return (lo + hi) / 2, 0.0
+    return acc / vol, abs(vol)
+
+
+def explode(objs, k):
+    """Catalog-style explosion: each part slides along its own insertion axis.
+
+    Axis: the long axis of a rod-like part (bolts), else the thin axis of a flat one
+    (washers, gaskets). Direction: toward the heavy end of the part (a bolt's head),
+    else away from the biggest part. Distance scales with k.
+    """
+    info = []
+    for o in objs:
+        lo, hi = bbox_world([o])
+        cen, vol = volume_centroid(o)
+        info.append((o, lo, hi, (lo + hi) / 2, cen, vol))
+    ref = max(info, key=lambda t: t[5])[3]
+    for o, lo, hi, bc, cen, vol in info:
+        d = [hi[i] - lo[i] for i in range(3)]
+        order = sorted(range(3), key=lambda i: d[i])
+        if d[order[2]] >= 1.4 * d[order[1]]:
+            axis = order[2]
+        elif d[order[0]] <= 0.6 * d[order[1]]:
+            axis = order[0]
+        else:
+            axis = max(range(3), key=lambda i: abs(bc[i] - ref[i]) / max(d[i], 1e-6))
+        own = cen[axis] - bc[axis]
+        if abs(own) > 0.08 * d[axis]:
+            sign = math.copysign(1, own)
+        else:
+            off = bc[axis] - ref[axis]
+            if abs(off) < 1e-6:
+                continue
+            sign = math.copysign(1, off)
+        dist = k * (abs(bc[axis] - ref[axis]) + 0.25)
+        move = Vector((0, 0, 0))
+        move[axis] = sign * dist
+        o.location += move
+    bpy.context.view_layer.update()
+    lo, hi = bbox_world(objs)
+    centre = (lo + hi) / 2
+    for o in objs:
+        o.location -= centre
+    bpy.context.view_layer.update()
+
+
 def make_toon_material(shade: float):
     shade = shade ** 2.2
     mat = bpy.data.materials.new("toon")
@@ -160,23 +219,7 @@ def main():
     bpy.context.view_layer.update()
 
     if a.explode > 0 and len(objs) > 1:
-        # Push parts radially from the centre, snapped to the dominant world axis so
-        # fasteners line up along their insertion direction like a catalog drawing.
-        for o in objs:
-            lo_o, hi_o = bbox_world([o])
-            c = (lo_o + hi_o) / 2
-            if c.length < 1e-6:
-                continue
-            axis = max(range(3), key=lambda i: abs(c[i]))
-            d = Vector((0, 0, 0))
-            d[axis] = math.copysign(1, c[axis])
-            o.location += d * a.explode * (abs(c[axis]) + 0.15)
-        bpy.context.view_layer.update()
-        lo, hi = bbox_world(objs)
-        centre = (lo + hi) / 2
-        for o in objs:
-            o.location -= centre
-        bpy.context.view_layer.update()
+        explode(objs, a.explode)
 
     mat = make_toon_material(a.shade)
     for o in objs:

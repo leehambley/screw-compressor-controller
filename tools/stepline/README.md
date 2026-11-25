@@ -29,6 +29,20 @@ Mesh inputs (`.stl .obj .glb .gltf .ply`) work too and skip the STEP stage.
 | `--crease` | 134 | faces meeting at less than this angle get an edge line |
 | `--tol` | 0.05 | STEP tessellation tolerance in model units |
 
+## Browser demo
+
+`web/index.html` is a self-contained WebGL port: OpenCascade compiled to wasm
+([occt-import-js](https://github.com/kovacsv/occt-import-js)) parses the STEP in the
+page, three.js draws it with the same two-tone shading, and a post-process pass inks
+the outlines. Drag to rotate, or drop your own `.step` file on the page; it never
+leaves the browser. Serve the `tools/stepline` folder (the page fetches `../examples/`):
+
+```sh
+python3 -m http.server 8765 --directory tools/stepline   # then open /web/
+```
+
+Three.js and occt-import-js load from jsDelivr at pinned versions.
+
 ## How it works
 
 `stepline.py` tessellates each solid to STL with cadquery/OpenCASCADE, then runs

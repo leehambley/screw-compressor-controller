@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>stepline: STEP to catalog line art, in the browser</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #fff; font: 13px/1.4 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #111; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+  canvas.drag { cursor: grabbing; }
+  #panel { position: fixed; left: 16px; bottom: 16px; width: 250px; padding: 12px 14px; background: rgba(255,255,255,.92);
+           border: 2px solid #111; border-radius: 4px; }
+  #panel h1 { font-size: 13px; margin: 0 0 8px; letter-spacing: .02em; }
+  #panel label { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 8px; margin: 4px 0; }
+  #panel label.chk { display: flex; gap: 6px; }
+  #panel select, #panel button { font: inherit; width: 100%; padding: 4px 6px; border: 1.5px solid #111; background: #fff; border-radius: 3px; }
+  #panel button { cursor: pointer; margin-top: 6px; }
+  #panel button:hover { background: #eee; }
+  input[type=range] { width: 100%; accent-color: #111; }
+  #status { position: fixed; right: 16px; top: 12px; color: #555; }
+  #drop { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; font-size: 22px;
+          background: rgba(255,255,255,.85); border: 4px dashed #111; margin: 8px; z-index: 5; }
+  #drop.on { display: flex; }
+  small { color: #666; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="drop">Drop a .step / .stp file</div>
+<div id="status">Loading OpenCascade (wasm)…</div>
+<div id="panel">
+  <h1>stepline</h1>
+  <label>Model
+    <select id="model">
+      <option value="../examples/bracket.step">Bracket</option>
+      <option value="../examples/flange.step">Flange</option>
+      <option value="../examples/gear.step">Gear</option>
+      <option value="" disabled>Your own: drop a file</option>
+    </select>
+  </label>
+  <label>Explode <input id="explode" type="range" min="0" max="1.5" step="0.01" value="0.5"></label>
+  <label>Outline <input id="outline" type="range" min="1" max="10" step="0.1" value="4.5"></label>
+  <label>Detail <input id="detail" type="range" min="0.5" max="3" step="0.1" value="1.3"></label>
+  <label>Shade <input id="shade" type="range" min="0.5" max="1" step="0.01" value="0.78"></label>
+  <label>Spin <input id="speed" type="range" min="0" max="2" step="0.05" value="0.5"></label>
+  <label class="chk"><input id="breathe" type="checkbox" checked> Breathe (animate explode)</label>
+  <button id="png">Download PNG</button>
+  <small>Drag to rotate. STEP is parsed locally in your browser; nothing is uploaded.</small>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+
+const $ = id => document.getElementById(id);
+const canvas = $('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+renderer.setClearColor(0xffffff, 1);
+
+// ---- scene graph: spin (turntable, world-Y) > content (Z-up model, recentred) > parts ----
+const scene = new THREE.Scene();
+const spin = new THREE.Group();
+const zup = new THREE.Group();            // Z-up CAD space -> Y-up three space
+zup.rotation.x = -Math.PI / 2;
+const content = new THREE.Group();
+scene.add(spin); spin.add(zup); zup.add(content);
+
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
+const AZ = THREE.MathUtils.degToRad(45), EL = Math.atan(1 / Math.SQRT2);
+camera.position.set(Math.sin(AZ) * Math.cos(EL), Math.sin(EL), Math.cos(AZ) * Math.cos(EL)).multiplyScalar(10);
+camera.lookAt(0, 0, 0);
+camera.layers.enable(0);
+
+// ---- materials ----
+const toonUniforms = { shade: { value: 0.78 }, L: { value: new THREE.Vector3(-0.8, 0.75, 0.3).normalize() } };
+const toonMat = new THREE.ShaderMaterial({
+  uniforms: toonUniforms,
+  polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+  vertexShader: `varying vec3 vN; void main(){ vN = normalMatrix * normal; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+  fragmentShader: `uniform float shade; uniform vec3 L; varying vec3 vN;
+    void main(){ float d = dot(normalize(vN), L); float w = fwidth(d) * 0.75;
+      float lit = smoothstep(0.18 - w, 0.18 + w, d); gl_FragColor = vec4(vec3(mix(shade, 1.0, lit)), 1.0); }`,
+  side: THREE.DoubleSide,
+});
+function idMaterial(id) {
+  return new THREE.ShaderMaterial({
+    vertexShader: `void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+    fragmentShader: `void main(){ gl_FragColor = vec4(${(id / 255).toFixed(6)}, 0.0, 0.0, 1.0); }`,
+    side: THREE.DoubleSide,
+  });
+}
+const lineMats = [];
+
+// ---- post: ID-boundary outline + depth-step detail lines ----
+let targetScene, targetId;
+const quadScene = new THREE.Scene();
+const quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+const post = new THREE.ShaderMaterial({
+  uniforms: { tColor: { value: null }, tId: { value: null }, tDepth: { value: null },
+              texel: { value: new THREE.Vector2() }, R: { value: 3 }, D: { value: 1 }, dthr: { value: 0.004 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
+  fragmentShader: `
+    uniform sampler2D tColor, tId, tDepth; uniform vec2 texel; uniform float R, D, dthr; varying vec2 vUv;
+    float idAt(vec2 uv){ return floor(texture2D(tId, uv).r * 255.0 + 0.5); }
+    void main(){
+      vec3 col = texture2D(tColor, vUv).rgb;
+      float id = idAt(vUv);
+      float diff = 0.0;
+      for (int i = 0; i < 16; i++) {
+        float a = 6.2831853 * float(i) / 16.0;
+        vec2 dir = vec2(cos(a), sin(a)) * texel;
+        diff += idAt(vUv + dir * R)       != id ? 1.0 : 0.0;
+        diff += idAt(vUv + dir * R * 0.5) != id ? 1.0 : 0.0;
+      }
+      float heavy = smoothstep(0.0, 0.18, diff / 32.0);
+      // thin lines where depth steps inside one part (hole rims, inner silhouettes)
+      float d0 = texture2D(tDepth, vUv).r, thin = 0.0;
+      vec2 ox = vec2(D * texel.x, 0.0), oy = vec2(0.0, D * texel.y);
+      if (idAt(vUv + ox) == id && idAt(vUv - ox) == id && idAt(vUv + oy) == id && idAt(vUv - oy) == id) {
+        float lx = abs(texture2D(tDepth, vUv + ox).r + texture2D(tDepth, vUv - ox).r - 2.0 * d0);
+        float ly = abs(texture2D(tDepth, vUv + oy).r + texture2D(tDepth, vUv - oy).r - 2.0 * d0);
+        thin = smoothstep(dthr, dthr * 2.0, max(lx, ly));
+      }
+      gl_FragColor = vec4(mix(col, vec3(0.0), max(heavy, thin)), 1.0);
+    }`,
+  depthTest: false,
+});
+quadScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), post));
+
+let pr = 2, cssW = 1, cssH = 1;
+function resize() {
+  pr = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+  cssW = window.innerWidth; cssH = window.innerHeight;
+  const w = Math.round(cssW * pr), h = Math.round(cssH * pr);
+  if (w < 1 || h < 1) return;   // pane not laid out yet
+  renderer.setPixelRatio(1);
+  renderer.setSize(w, h, false);
+  targetScene?.dispose(); targetId?.dispose();
+  targetScene = new THREE.WebGLRenderTarget(w, h, { samples: 4, depthBuffer: true });
+  targetId = new THREE.WebGLRenderTarget(w, h, { magFilter: THREE.NearestFilter, minFilter: THREE.NearestFilter });
+  targetId.depthTexture = new THREE.DepthTexture(w, h, THREE.FloatType);
+  post.uniforms.tColor.value = targetScene.texture;
+  post.uniforms.tId.value = targetId.texture;
+  post.uniforms.tDepth.value = targetId.depthTexture;
+  post.uniforms.texel.value.set(1 / w, 1 / h);
+  for (const m of lineMats) m.resolution.set(w, h);
+  fitCamera();
+}
+window.addEventListener('resize', resize);
+
+// ---- model loading ----
+let parts = [];          // {mesh, idMesh, lines, bbox, centroid, vol, move: Vector3 (unit explode offset @k=1 along axis)}
+let fitRadius = 1.5;
+const occtReady = occtimportjs({ locateFile: f => 'https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/' + f });
+
+function clearModel() {
+  for (const p of parts) { p.mesh.geometry.dispose(); p.lines.geometry.dispose(); content.remove(p.mesh, p.idMesh, p.lines); }
+  lineMats.length = 0; parts = [];
+}
+
+function volumeCentroid(pos, idx) {
+  let vol = 0; const c = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), d = new THREE.Vector3();
+  for (let i = 0; i < idx.length; i += 3) {
+    a.fromArray(pos, idx[i] * 3); b.fromArray(pos, idx[i + 1] * 3); d.fromArray(pos, idx[i + 2] * 3);
+    const v = a.dot(b.clone().cross(d)) / 6;
+    vol += v; c.addScaledVector(a.clone().add(b).add(d), v / 4);
+  }
+  return { vol: Math.abs(vol), c: Math.abs(vol) < 1e-12 ? null : c.multiplyScalar(1 / vol) };
+}
+
+async function loadStep(buffer) {
+  const occt = await occtReady;
+  const res = occt.ReadStepFile(new Uint8Array(buffer), { linearUnit: 'millimeter',
+    linearDeflectionType: 'bounding_box_ratio', linearDeflection: 0.0008, angularDeflection: 0.25 });
+  if (!res.success || !res.meshes.length) throw new Error('could not read STEP');
+  clearModel();
+
+  // normalise: centre and scale so the longest side is 2 units (CAD Z-up space)
+  const box = new THREE.Box3();
+  const raw = res.meshes.map(m => ({ pos: Float32Array.from(m.attributes.position.array), idx: Uint32Array.from(m.index.array),
+                                      nor: m.attributes.normal ? Float32Array.from(m.attributes.normal.array) : null }));
+  for (const r of raw) for (let i = 0; i < r.pos.length; i += 3) box.expandByPoint(new THREE.Vector3().fromArray(r.pos, i));
+  const centre = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3());
+  const s = 2 / Math.max(size.x, size.y, size.z);
+  raw.forEach((r, i) => {
+    for (let k = 0; k < r.pos.length; k += 3) { r.pos[k] = (r.pos[k] - centre.x) * s; r.pos[k + 1] = (r.pos[k + 1] - centre.y) * s; r.pos[k + 2] = (r.pos[k + 2] - centre.z) * s; }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(r.pos, 3));
+    if (r.nor) g.setAttribute('normal', new THREE.BufferAttribute(r.nor, 3));
+    g.setIndex(new THREE.BufferAttribute(r.idx, 1));
+    if (!r.nor) g.computeVertexNormals();
+    g.computeBoundingBox(); g.computeBoundingSphere();
+
+    const mesh = new THREE.Mesh(g, toonMat);
+    const idMesh = new THREE.Mesh(g, idMaterial(i + 1)); idMesh.layers.set(1);
+    const eg = new THREE.EdgesGeometry(g, 46);        // 46 deg off flat == 134 deg interior crease angle
+    const lg = new LineSegmentsGeometry().setPositions(eg.attributes.position.array);
+    const lm = new LineMaterial({ color: 0x000000, linewidth: 1, worldUnits: false });
+    lineMats.push(lm);
+    const lines = new LineSegments2(lg, lm);
+    content.add(mesh, idMesh, lines);
+    const { vol, c } = volumeCentroid(r.pos, r.idx);
+    const bb = g.boundingBox;
+    parts.push({ mesh, idMesh, lines, bb, bc: bb.getCenter(new THREE.Vector3()), cen: c ?? bb.getCenter(new THREE.Vector3()), vol, offset: new THREE.Vector3() });
+  });
+  planExplode();
+  resize();
+}
+
+// Same heuristic as blender_style.py: rod-like parts slide along their long axis, flat ones along
+// their thin axis, toward the heavy end (a bolt's head) or away from the biggest part.
+function planExplode() {
+  if (parts.length < 2) { for (const p of parts) p.offset.set(0, 0, 0); return; }
+  const ref = parts.reduce((a, b) => (b.vol > a.vol ? b : a)).bc;
+  for (const p of parts) {
+    const d = p.bb.getSize(new THREE.Vector3()).toArray();
+    const order = [0, 1, 2].sort((i, j) => d[i] - d[j]);
+    let axis;
+    if (d[order[2]] >= 1.4 * d[order[1]]) axis = order[2];
+    else if (d[order[0]] <= 0.6 * d[order[1]]) axis = order[0];
+    else axis = [0, 1, 2].reduce((a, b) => Math.abs(p.bc.getComponent(b) - ref.getComponent(b)) / Math.max(d[b], 1e-6) >
+                                           Math.abs(p.bc.getComponent(a) - ref.getComponent(a)) / Math.max(d[a], 1e-6) ? b : a);
+    const own = p.cen.getComponent(axis) - p.bc.getComponent(axis);
+    let sign;
+    if (Math.abs(own) > 0.08 * d[axis]) sign = Math.sign(own);
+    else { const off = p.bc.getComponent(axis) - ref.getComponent(axis); if (Math.abs(off) < 1e-6) { p.offset.set(0, 0, 0); continue; } sign = Math.sign(off); }
+    const dist = Math.abs(p.bc.getComponent(axis) - ref.getComponent(axis)) + 0.25;
+    p.offset.set(0, 0, 0); p.offset.setComponent(axis, sign * dist);
+  }
+}
+
+let appliedK = -1;
+function applyExplode(k) {
+  if (Math.abs(k - appliedK) < 1e-4) return;
+  appliedK = k;
+  const box = new THREE.Box3(), tmp = new THREE.Box3();
+  for (const p of parts) {
+    const pos = p.offset.clone().multiplyScalar(k);
+    for (const o of [p.mesh, p.idMesh, p.lines]) o.position.copy(pos);
+    box.union(tmp.copy(p.bb).translate(pos));
+  }
+  const c = box.getCenter(new THREE.Vector3());
+  content.position.copy(c).negate();
+  let r = 0;
+  for (const p of parts) {
+    const sph = p.mesh.geometry.boundingSphere;
+    r = Math.max(r, sph.center.clone().add(p.offset.clone().multiplyScalar(k)).sub(c).length() + sph.radius);
+  }
+  fitRadius = Math.max(r, 0.2);
+  fitCamera();
+}
+
+function fitCamera() {
+  const aspect = cssW / cssH, h = fitRadius * 1.1;
+  const halfH = aspect >= 1 ? h : h / aspect, halfW = halfH * aspect;
+  camera.left = -halfW; camera.right = halfW; camera.top = halfH; camera.bottom = -halfH;
+  camera.near = 10 - fitRadius * 1.2; camera.far = 10 + fitRadius * 1.2;
+  camera.updateProjectionMatrix();
+  post.uniforms.dthr.value = 0.012 / (2.4 * fitRadius);   // ~0.012 world units of depth step
+}
+
+// ---- ui + loop ----
+const ui = { explode: $('explode'), outline: $('outline'), detail: $('detail'), shade: $('shade'), speed: $('speed'), breathe: $('breathe') };
+let angle = 0.6, dragging = false, lastX = 0, kShown = 0.5, t0 = performance.now(), last = t0;
+
+canvas.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; canvas.setPointerCapture(e.pointerId); canvas.classList.add('drag'); });
+canvas.addEventListener('pointermove', e => { if (dragging) { angle += (e.clientX - lastX) * 0.01; lastX = e.clientX; } });
+canvas.addEventListener('pointerup', () => { dragging = false; canvas.classList.remove('drag'); });
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!dragging) angle += dt * parseFloat(ui.speed.value);
+  spin.rotation.y = angle;
+
+  const base = parseFloat(ui.explode.value);
+  const target = ui.breathe.checked ? base * (0.5 - 0.5 * Math.cos((now - t0) / 1000 * 0.9)) * 1.6 : base;
+  kShown += (target - kShown) * Math.min(1, dt * 8);
+  applyExplode(kShown);
+
+  const unit = Math.min(cssW, cssH) / 700 * pr;
+  post.uniforms.R.value = Math.max(1, parseFloat(ui.outline.value) * unit / 2);
+  post.uniforms.D.value = Math.max(1, parseFloat(ui.detail.value) * unit * 0.6);
+  toonUniforms.shade.value = parseFloat(ui.shade.value);
+  for (const m of lineMats) m.linewidth = parseFloat(ui.detail.value) * unit;
+
+  if (parts.length) {
+    renderer.setRenderTarget(targetScene); renderer.clear(); camera.layers.set(0); renderer.render(scene, camera);
+    renderer.setRenderTarget(targetId); renderer.setClearColor(0x000000, 1); renderer.clear(); camera.layers.set(1); renderer.render(scene, camera);
+    renderer.setClearColor(0xffffff, 1);
+    renderer.setRenderTarget(null); renderer.render(quadScene, quadCam);
+  }
+  requestAnimationFrame(frame);
+}
+
+async function loadUrl(url) {
+  $('status').textContent = 'Loading…';
+  try { await loadStep(await (await fetch(url)).arrayBuffer()); $('status').textContent = ''; }
+  catch (e) { $('status').textContent = 'Error: ' + e.message; }
+}
+$('model').addEventListener('change', e => loadUrl(e.target.value));
+
+// drag and drop / paste a STEP file
+let depth = 0;
+addEventListener('dragenter', e => { e.preventDefault(); depth++; $('drop').classList.add('on'); });
+addEventListener('dragleave', () => { if (--depth <= 0) { depth = 0; $('drop').classList.remove('on'); } });
+addEventListener('dragover', e => e.preventDefault());
+addEventListener('drop', async e => {
+  e.preventDefault(); depth = 0; $('drop').classList.remove('on');
+  const f = e.dataTransfer.files[0]; if (!f) return;
+  $('status').textContent = 'Reading ' + f.name + '…';
+  try { await loadStep(await f.arrayBuffer()); $('status').textContent = f.name; } catch (err) { $('status').textContent = 'Error: ' + err.message; }
+});
+
+$('png').addEventListener('click', () => {
+  canvas.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'stepline.png'; a.click(); });
+});
+
+resize();
+await loadUrl($('model').value);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
