@@ -97,6 +97,36 @@ The piggyback screws to the back of the Waveshare on four 20 mm M2.5 standoffs:
 
 Only the pressure transmitter colours are fixed (brown = +24 V, green = signal). Every other colour marked "suggested" is a convention for this harness. Pick your own if you like, but use them consistently. The diagram is generated from the board's pad positions, so terminal order matches the silkscreen.
 
+### VFD settings (SAKO SKI-70)
+
+Set these on the drive's keypad before connecting the controller. Typically: PRG, arrows to the parameter, ENTER to edit, ENTER to store (check the manual for the exact keys).
+
+| Parameter | Value | What it does |
+|---|---|---|
+| P0-02 | 2 | Run/stop commands come from comms (Modbus). |
+| P0-03 | 9 | The speed setpoint comes from comms. |
+| P0-12 | 35 Hz | Minimum frequency. The firmware reads it at start-up and keeps to the tighter of this and its own 35 Hz. |
+| P0-14 | 50 Hz | Maximum frequency, also read at start-up. |
+| Pd-00 | 5 | 9600 baud. |
+| Pd-01 | 3 | 8N1 (8 data bits, no parity, 1 stop bit). |
+| Pd-02 | 1 | Modbus address 1. |
+| Accel / decel time | ≤ 5.5 s | The firmware assumes the motor is up to speed 5.5 s after a run command (`VFD_ACCEL_MS`). Parameter numbers are in the manual's P0 group. |
+| Comms timeout | 2–3 s, stop or fault | If the manual's Pd group has one, set it. The controller talks to the drive every 0.5 s, so silence longer than this means the controller or the cable has failed. |
+
+- **Recheck Pd-00..02 after a power cut.** They have been seen to reset. "VFD comms error" after an outage usually means this.
+- Enter the motor nameplate data (and auto-tune, if offered) as the manual describes.
+
+**Hardware stop on X1 (optional).** The piggyback can also stop the motor without the firmware: J10 (DI, COM) is an optocoupler that conducts only while SAFE is high. SAFE needs the watchdog heartbeat and the over-temperature comparator to be OK. Only set these if J10 DI is wired to X1 and COM to the drive's GND:
+
+| Parameter | Value | What it does |
+|---|---|---|
+| P4-00 | 8 | X1 = coast to stop ("freely park"). Replaces the factory default 1 = FWD. |
+| P4-35 | 00001 | X1 is active when low, so an open opto (SAFE low, controller dead, cable cut) coasts the motor. Modbus still controls run, stop and speed; X1 can only stop it. |
+
+- **Without the X1 wire, leave both at their defaults.** P4-00 = 0 (no function) if the manual lists it, P4-35 = 00000. If you set them with X1 unwired, the open input means "stop" all the time and the motor never runs.
+- When wired, test it: with the motor running over Modbus, unplug J10. The motor must coast to a stop.
+- Don't use P4-00 = 32 ("outer failure normally close"). It latches Err15 at every power-up, before the heartbeat starts, and needs a manual reset each time.
+
 ## The screen
 
 The UI is written in [Slint](https://slint.dev) and drawn by its software
