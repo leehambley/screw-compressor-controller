@@ -1,0 +1,41 @@
+name: Deploy stepline demo to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/stepline/web/**"
+      - "tools/stepline/examples/*.step"
+      - ".github/workflows/stepline-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble site
+        run: |
+          mkdir -p _site/web _site/examples
+          cp tools/stepline/web/index.html _site/web/
+          cp tools/stepline/examples/*.step _site/examples/
+          # The page fetches ../examples/, so /web/ and /examples/ must be siblings.
+          printf '<!DOCTYPE html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=web/"><a href="web/">stepline demo</a>\n' > _site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
